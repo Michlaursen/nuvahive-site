@@ -1,6 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
-import logo from "./assets/nuvahive Logo inverted 80x80.svg";
+import logo from "<div className="nuvahive-logo.svg" />
+<assets />
+<nuvahive-logo></nuvahive-logo>.svg";
 import {
   ArrowRight,
   Brain,
