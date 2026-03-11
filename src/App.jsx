@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import logo from "./assets/nuvahive-logo.svg";
 import {
@@ -335,6 +335,57 @@ function GlobalNeuralBackground() {
 }
 
 export default function NuvaHiveHomepage() {
+  const [form, setForm] = useState({
+  name: "",
+  email: "",
+  company: "",
+  interest: "",
+  message: "",
+  website: "",
+});
+
+const [submitting, setSubmitting] = useState(false);
+const [status, setStatus] = useState("");
+
+function handleChange(e) {
+  setForm({ ...form, [e.target.name]: e.target.value });
+}
+
+async function handleSubmit(e) {
+  e.preventDefault();
+  setSubmitting(true);
+  setStatus("");
+
+  try {
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "Something went wrong.");
+    }
+
+    setStatus("Thanks. We received your request and will get back to you shortly.");
+    setForm({
+      name: "",
+      email: "",
+      company: "",
+      interest: "",
+      message: "",
+      website: "",
+    });
+  } catch (err) {
+    setStatus(err.message || "Something went wrong. Please try again.");
+  } finally {
+    setSubmitting(false);
+  }
+}
   return (
     <div className="relative min-h-screen bg-[#07111f] text-white">
 
@@ -1226,6 +1277,85 @@ export default function NuvaHiveHomepage() {
                 <p className="mt-4 text-base leading-7 text-slate-300">
                   Let’s talk about the systems you want to understand better, automate safely, and turn into operational intelligence.
                 </p>
+                <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Full name"
+                  value={form.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full rounded-xl border border-white/10 bg-[#0a1526]/85 px-4 py-3 text-white outline-none placeholder:text-slate-500"
+                />
+
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Work email"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full rounded-xl border border-white/10 bg-[#0a1526]/85 px-4 py-3 text-white outline-none placeholder:text-slate-500"
+                />
+
+                <input
+                  type="text"
+                  name="company"
+                  placeholder="Company"
+                  value={form.company}
+                  onChange={handleChange}
+                  className="w-full rounded-xl border border-white/10 bg-[#0a1526]/85 px-4 py-3 text-white outline-none placeholder:text-slate-500"
+                />
+
+                <select
+                  name="interest"
+                  value={form.interest}
+                  onChange={handleChange}
+                  className="w-full rounded-xl border border-white/10 bg-[#0a1526]/85 px-4 py-3 text-white outline-none"
+                >
+                  <option value="">What are you exploring?</option>
+                  <option value="Angie">Angie</option>
+                  <option value="NuvaSignal">NuvaSignal</option>
+                  <option value="Private AI deployment">Private AI deployment</option>
+                  <option value="Enterprise demo">Enterprise demo</option>
+                </select>
+
+                <textarea
+                  name="message"
+                  placeholder="Tell us what you're looking to solve"
+                  value={form.message}
+                  onChange={handleChange}
+                  rows={5}
+                  required
+                  className="w-full rounded-xl border border-white/10 bg-[#0a1526]/85 px-4 py-3 text-white outline-none placeholder:text-slate-500"
+                />
+
+                <input
+                  type="text"
+                  name="website"
+                  value={form.website}
+                  onChange={handleChange}
+                  className="hidden"
+                  tabIndex="-1"
+                  autoComplete="off"
+                />
+
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="rounded-full bg-gradient-to-r from-cyan-400 to-sky-400 px-7 py-3 text-[0.98rem] font-semibold text-slate-950 transition hover:brightness-110 disabled:opacity-60"
+                  >
+                    {submitting ? "Sending..." : "Request a Demo"}
+                  </button>
+
+                  {status && (
+                    <p className="text-sm text-slate-300">
+                      {status}
+                    </p>
+                  )}
+                </div>
+              </form>
                 <div className="mt-8 space-y-4">
                   <div className="rounded-2xl border border-white/10 bg-[#0a1526]/80 px-4 py-3 text-sm text-slate-300">Enterprise demos</div>
                   <div className="rounded-2xl border border-white/10 bg-[#0a1526]/80 px-4 py-3 text-sm text-slate-300">Platform discovery calls</div>
