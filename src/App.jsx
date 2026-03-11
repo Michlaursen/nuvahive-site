@@ -1356,22 +1356,6 @@ async function handleSubmit(e) {
                   )}
                 </div>
               </form>
-                <div className="mt-8 space-y-4">
-                  <div className="rounded-2xl border border-white/10 bg-[#0a1526]/80 px-4 py-3 text-sm text-slate-300">Enterprise demos</div>
-                  <div className="rounded-2xl border border-white/10 bg-[#0a1526]/80 px-4 py-3 text-sm text-slate-300">Platform discovery calls</div>
-                  <div className="rounded-2xl border border-white/10 bg-[#0a1526]/80 px-4 py-3 text-sm text-slate-300">Architecture and deployment discussions</div>
-                </div>
-                <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                  <Button className="rounded-full bg-gradient-to-r from-cyan-400 to-sky-400 px-7 text-[0.98rem] font-semibold text-slate-950 hover:brightness-110 transition">
-                    Request Demo
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="rounded-full border border-white/15 bg-white/[0.06] px-6 text-white hover:border-cyan-400/30 hover:bg-white/[0.08] transition-all duration-300"
-                  >
-                    Contact Us
-                  </Button>
-                </div>
               </div>
             </div>
           </div>
@@ -1395,7 +1379,7 @@ async function handleSubmit(e) {
       </footer>
     </div>
   );
+  <a href="/privacy" className="text-slate-400 hover:text-white">
+    Privacy Policy
+  </a>
 }
-<a href="/privacy" className="text-slate-400 hover:text-white">
-  Privacy Policy
-</a>

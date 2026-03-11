@@ -20,20 +20,30 @@ export default async function handler(req, res) {
     }
 
     await resend.emails.send({
-      from: "NuvaHive Contact <contact@nuvahive.ai>",
-      to: ["miguel@nuvahive.ai"],
-      subject: "New NuvaHive Contact Request",
-      html: `
-        <h2>New Contact Request</h2>
+    from: "NuvaHive (Angie) <angie@nuvahive.ai>",
+    to: ["miguel@nuvahive.ai"],
+    reply_to: email,
+    subject: "New NuvaHive Contact Request",
+    html: `
+    <h2>NuvaHive Contact Request</h2>
+    <p>A new request was submitted through nuvahive.ai.</p>
 
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Company:</strong> ${company || "-"}</p>
-        <p><strong>Interest:</strong> ${interest || "-"}</p>
+    <hr/>
 
-        <p><strong>Message:</strong></p>
-        <p>${message}</p>
-      `,
+    <p><strong>Name:</strong> ${name}</p>
+    <p><strong>Email:</strong> ${email}</p>
+    <p><strong>Company:</strong> ${company || "-"}</p>
+    <p><strong>Interest:</strong> ${interest || "-"}</p>
+
+    <p><strong>Message:</strong></p>
+    <p>${message}</p>
+
+    <hr/>
+
+    <p style="font-size:12px;color:#888">
+    Sent from the NuvaHive website contact form.
+    </p>
+    `
     });
 
     return res.status(200).json({ ok: true });
