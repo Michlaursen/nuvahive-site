@@ -1266,3 +1266,6 @@ export default function NuvaHiveHomepage() {
     </div>
   );
 }
+<a href="/privacy" className="text-slate-400 hover:text-white">
+  Privacy Policy
+</a>
