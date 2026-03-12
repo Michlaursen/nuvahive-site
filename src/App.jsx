@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import logo from "./assets/nuvahive-logo.svg";
+import { Routes, Route, Link } from "react-router-dom";
+import Privacy from "./Privacy.jsx";
 import {
   ArrowRight,
   Brain,
@@ -334,7 +336,7 @@ function GlobalNeuralBackground() {
   )
 }
 
-export default function NuvaHiveHomepage() {
+function NuvaHiveHomepage() {
   const [form, setForm] = useState({
   name: "",
   email: "",
@@ -371,7 +373,7 @@ async function handleSubmit(e) {
       throw new Error(data.error || "Something went wrong.");
     }
 
-    setStatus("Thanks. We received your request and will get back to you shortly.");
+    setStatus("Thanks. Angie received your request and will get back to you shortly.");
     setForm({
       name: "",
       email: "",
@@ -408,10 +410,11 @@ async function handleSubmit(e) {
                 </a>
               ))}
             </nav>
-
-            <Button className="rounded-full bg-cyan-400 px-7 text-[0.98rem] font-semibold text-slate-950 hover:bg-cyan-300">
-              Request Demo
-            </Button>
+            <a href="#contact">
+              <Button className="rounded-full bg-cyan-400 px-7 text-[0.98rem] font-semibold text-slate-950 hover:bg-cyan-300">
+                Request Demo
+              </Button>
+            </a>
           </div>
         </header>
 
@@ -444,12 +447,16 @@ async function handleSubmit(e) {
             </p>
 
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-              <Button size="lg" className="rounded-full bg-cyan-400 px-7 text-[0.98rem] font-semibold text-slate-950 hover:bg-cyan-300">
-                Explore Platform <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-              <Button size="lg" variant="outline" className="rounded-full border-white/15 bg-white/[0.06] hover:bg-white/[0.08] transition-colors duration-300 px-7 text-[0.98rem] font-medium text-white hover:bg-white/10">
-                Contact Enterprise Sales
-              </Button>
+              <a href="#platform">
+                <Button size="lg" className="rounded-full bg-cyan-400 px-7 text-[0.98rem] font-semibold text-slate-950 hover:bg-cyan-300">
+                  Explore Platform <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </a>
+              <a href="#contact">
+                <Button size="lg" variant="outline" className="rounded-full border-white/15 bg-white/[0.06] hover:bg-white/[0.08] transition-colors duration-300 px-7 text-[0.98rem] font-medium text-white hover:bg-white/10">
+                  Contact Enterprise Sales
+                </Button>
+              </a>
             </div>
 
             <div className="mt-10 grid gap-4 sm:grid-cols-3">
@@ -1350,7 +1357,7 @@ async function handleSubmit(e) {
                   </button>
 
                   {status && (
-                    <p className="text-sm text-slate-300">
+                    <p className="text-sm text-cyan-300 sm:ml-2">
                       {status}
                     </p>
                   )}
@@ -1363,23 +1370,38 @@ async function handleSubmit(e) {
       </main>
 
       <footer className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-10 text-sm text-slate-400 md:flex-row md:items-center md:justify-between lg:px-8">
+
         <div className="flex items-center gap-3">
           <LogoMark />
           <div>
             <div className="font-medium text-white">NuvaHive</div>
-            <div>Private AI infrastructure for enterprise intelligence</div>
+            <div>Operational intelligence platform</div>
           </div>
         </div>
+
         <div className="flex flex-wrap items-center gap-5">
           <a href="#platform" className="transition hover:text-white">Platform</a>
           <a href="#architecture" className="transition hover:text-white">Architecture</a>
           <a href="#security" className="transition hover:text-white">Security</a>
           <a href="#contact" className="transition hover:text-white">Contact</a>
+          <Link to="/privacy" className="transition hover:text-white">
+            Privacy Policy
+          </Link>
         </div>
+
+        <div className="text-slate-500">
+          © {new Date().getFullYear()} NuvaHive
+        </div>
+
       </footer>
-    </div>
+      </div>
+      );
+    }
+    export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<NuvaHiveHomepage />} />
+      <Route path="/privacy" element={<Privacy />} />
+    </Routes>
   );
-  <a href="/privacy" className="text-slate-400 hover:text-white">
-    Privacy Policy
-  </a>
 }

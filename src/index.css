@@ -33,3 +33,7 @@ body {
 .animate-grid-drift {
   animation: gridDrift 90s linear infinite;
 }
+
+html {
+  scroll-behavior: smooth;
+}

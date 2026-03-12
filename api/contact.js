@@ -3,6 +3,7 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function handler(req, res) {
+    const submittedAt = Date.now();
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed." });
   }
@@ -21,9 +22,9 @@ export default async function handler(req, res) {
 
     await resend.emails.send({
     from: "NuvaHive (Angie) <angie@nuvahive.ai>",
-    to: ["miguel@nuvahive.ai"],
+    to: ["angie@nuvahive.ai, miguel@nuvahive.ai"],
     reply_to: email,
-    subject: "New NuvaHive Contact Request",
+    subject: `NuvaHive Inquiry — ${company || name}`,
     html: `
     <h2>NuvaHive Contact Request</h2>
     <p>A new request was submitted through nuvahive.ai.</p>
@@ -43,6 +44,24 @@ export default async function handler(req, res) {
     <p style="font-size:12px;color:#888">
     Sent from the NuvaHive website contact form.
     </p>
+    `
+    });
+
+    await resend.emails.send({
+    from: "NuvaHive (Angie) <angie@nuvahive.ai>",
+    to: [email],
+    reply_to: "angie@nuvahive.ai",
+    subject: "We received your NuvaHive request",
+    html: `
+        <p>Hi ${name},</p>
+
+        <p>Thanks for reaching out to <strong>NuvaHive</strong>.</p>
+
+        <p>Your request has been received and our team will review it shortly.</p>
+
+        <p>We'll follow up with you soon.</p>
+
+        <p>— NuvaHive</p>
     `
     });
 
