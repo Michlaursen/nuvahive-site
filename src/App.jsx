@@ -409,7 +409,7 @@ async function handleSubmit(e) {
               <LogoMark />
             </a>
 
-            <nav className="hidden items-center gap-7 md:flex">
+            <nav className="hidden items-center gap-7 lg:flex">
               {nav.map((item) => (
                 <a key={item.label} href={item.href} className="text-[0.95rem] font-medium text-slate-300 transition hover:text-white">
                   {item.label}
@@ -424,7 +424,7 @@ async function handleSubmit(e) {
           </div>
         </header>
 
-        <section className="relative mx-auto grid max-w-7xl items-start gap-12 px-5 pb-16 pt-14 sm:gap-14 sm:px-6 sm:pb-20 sm:pt-16 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16 lg:px-8 lg:pb-32 lg:pt-24">
+        <section className="relative mx-auto grid max-w-7xl items-start gap-12 px-5 pb-16 pt-14 sm:gap-14 sm:px-6 sm:pb-20 sm:pt-16 xl:grid-cols-[1.08fr_0.92fr] xl:gap-16 xl:px-8 xl:pb-32 xl:pt-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
