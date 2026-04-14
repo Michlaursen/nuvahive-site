@@ -15,6 +15,8 @@ import {
   MessageSquareText,
   Radar,
   ChevronRight,
+  Menu,
+  X,
 } from "lucide-react";
 const Button = ({ children, className = "", ...props }) => (
   <button className={`px-4 py-2 rounded ${className}`} {...props}>
@@ -343,6 +345,7 @@ function GlobalNeuralBackground() {
 }
 
 function NuvaHiveHomepage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [form, setForm] = useState({
   name: "",
   email: "",
@@ -416,12 +419,55 @@ async function handleSubmit(e) {
                 </a>
               ))}
             </nav>
-            <a href="#contact">
-              <Button className="rounded-full bg-cyan-400 px-4 text-[0.9rem] font-semibold text-slate-950 hover:bg-cyan-300 sm:px-5 sm:text-[0.95rem] md:px-7 md:text-[0.98rem]">
-                Request Demo
-              </Button>
-            </a>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <button
+                type="button"
+                aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+                aria-expanded={mobileMenuOpen}
+                onClick={() => setMobileMenuOpen((open) => !open)}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-slate-200 transition hover:bg-white/[0.1] lg:hidden"
+              >
+                {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </button>
+
+              <a href="#contact" className="hidden sm:block">
+                <Button className="rounded-full bg-cyan-400 px-4 text-[0.9rem] font-semibold text-slate-950 hover:bg-cyan-300 sm:px-5 sm:text-[0.95rem] md:px-7 md:text-[0.98rem]">
+                  Request Demo
+                </Button>
+              </a>
+            </div>
           </div>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="border-t border-white/10 bg-[#07111f]/95 px-5 py-4 backdrop-blur-xl sm:px-6 lg:hidden"
+            >
+              <nav className="flex flex-col gap-2">
+                {nav.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="rounded-2xl border border-white/8 bg-white/[0.04] px-4 py-3 text-[0.98rem] font-medium text-slate-200 transition hover:bg-white/[0.08] hover:text-white"
+                  >
+                    {item.label}
+                  </a>
+                ))}
+
+                <a
+                  href="#contact"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="sm:hidden"
+                >
+                  <Button className="mt-2 w-full rounded-full bg-cyan-400 px-6 text-[0.95rem] font-semibold text-slate-950 hover:bg-cyan-300">
+                    Request Demo
+                  </Button>
+                </a>
+              </nav>
+            </motion.div>
+          )}
         </header>
 
         <section className="relative mx-auto grid max-w-7xl items-start gap-12 px-5 pb-16 pt-14 sm:gap-14 sm:px-6 sm:pb-20 sm:pt-16 xl:grid-cols-[1.08fr_0.92fr] xl:gap-16 xl:px-8 xl:pb-32 xl:pt-24">
