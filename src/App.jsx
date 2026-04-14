@@ -946,7 +946,7 @@ async function handleSubmit(e) {
 
               <div>
                 <div className="mb-3 inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-[0.68rem] font-medium uppercase tracking-[0.22em] text-cyan-300 sm:mb-4 sm:text-xs sm:tracking-[0.24em]">
-                  The NuvaHive intelligence piepline
+                  The NuvaHive intelligence pipeline
                 </div>
 
                 <h2 className="max-w-[11ch] text-[2.3rem] font-semibold leading-[0.98] tracking-[-0.04em] text-white sm:max-w-2xl sm:text-4xl md:text-6xl">
