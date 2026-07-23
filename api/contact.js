@@ -3,7 +3,6 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function handler(req, res) {
-    const submittedAt = Date.now();
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed." });
   }
@@ -21,8 +20,8 @@ export default async function handler(req, res) {
     }
 
     await resend.emails.send({
-    from: "NuvaHive (Angie) <angie@nuvahive.ai>",
-    to: ["angie@nuvahive.ai, miguel@nuvahive.ai"],
+    from: "NuvaHive <angie@nuvahive.ai>",
+    to: ["angie@nuvahive.ai", "miguel@nuvahive.ai"],
     reply_to: email,
     subject: `NuvaHive Inquiry — ${company || name}`,
     html: `
@@ -48,7 +47,7 @@ export default async function handler(req, res) {
     });
 
     await resend.emails.send({
-    from: "NuvaHive (Angie) <angie@nuvahive.ai>",
+    from: "NuvaHive <angie@nuvahive.ai>",
     to: [email],
     reply_to: "angie@nuvahive.ai",
     subject: "We received your NuvaHive request",
