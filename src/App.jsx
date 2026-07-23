@@ -380,7 +380,7 @@ function NuvaHiveHomepage() {
 
       <main>
         <section className="mx-auto grid max-w-7xl gap-12 px-5 py-20 sm:px-6 md:py-24 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:px-8 lg:py-32">
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+          <div>
             <p className="inline-flex rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200">
               Built for controlled AI operations
             </p>
@@ -415,11 +415,11 @@ function NuvaHiveHomepage() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.08 }}>
+          <div>
             <ArchitectureDiagram />
-          </motion.div>
+          </div>
         </section>
 
         <section className="border-y border-white/10 bg-[#08111d]">
