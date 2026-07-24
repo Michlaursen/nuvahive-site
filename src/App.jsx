@@ -5,14 +5,21 @@ import {
   ArrowRight,
   CheckCircle2,
   ChevronRight,
+  ClipboardCheck,
+  Code2,
   Database,
   FileCheck2,
   GitBranch,
+  GitPullRequest,
+  LockKeyhole,
   Linkedin,
   Menu,
-  Network,
+  PackageCheck,
   Route as RouteIcon,
   ShieldCheck,
+  SlidersHorizontal,
+  TestTube2,
+  UserCheck,
   X,
 } from "lucide-react";
 import logo from "./assets/nuvahive-logo.svg";
@@ -124,34 +131,42 @@ const useCases = [
   {
     title: "AI coding agent review",
     trigger: "Before agents get merge rights on production code",
+    icon: Code2,
   },
   {
     title: "Agent-generated pull request evidence",
     trigger: "When a customer security review asks how agent PRs get accepted",
+    icon: GitPullRequest,
   },
   {
     title: "CI and test evidence capture",
     trigger: "When test output needs to survive past the CI run",
+    icon: TestTube2,
   },
   {
     title: "Human approval before publication",
     trigger: "Before an agent can publish or deploy without a human in the loop",
+    icon: UserCheck,
   },
   {
     title: "Private or hybrid agent governance",
     trigger: "When agents touch data that can't leave your infrastructure",
+    icon: LockKeyhole,
   },
   {
     title: "Audit-ready activity records",
     trigger: "Ahead of a SOC 2 or ISO audit",
+    icon: ClipboardCheck,
   },
   {
     title: "Provider and model boundary review",
     trigger: "When switching or restricting model providers",
+    icon: SlidersHorizontal,
   },
   {
     title: "Controlled release evidence",
     trigger: "Before a release needs a defensible paper trail",
+    icon: PackageCheck,
   },
 ];
 
@@ -188,15 +203,15 @@ const evidenceLadder = [
 ];
 
 const sampleEvidenceRecord = {
-  action: "Merge pull request #482",
+  action: "Review agent-generated change",
   fields: [
-    { label: "Model", value: "claude-sonnet-5" },
-    { label: "Repository", value: "billing-service @ 7e78b61" },
-    { label: "Authorized by", value: "M. Laursen (approval token, single-use)" },
-    { label: "Verification", value: "42 tests passed, 0 skipped" },
-    { label: "Review outcome", value: "Accepted, no policy exceptions" },
+    { label: "Model", value: "Captured model identity" },
+    { label: "Repository", value: "Repository and revision captured" },
+    { label: "Authorized by", value: "Reviewer and approval boundary captured" },
+    { label: "Verification", value: "Test and policy evidence preserved" },
+    { label: "Review outcome", value: "Disposition recorded before acceptance" },
   ],
-  hash: "sha256:9f3224d0…397e20c4",
+  hash: "sha256:example-evidence-record",
 };
 
 const relayStates = [
@@ -253,7 +268,7 @@ function LogoMark() {
           NuvaHive
         </span>
         <span className="mt-1 text-[0.65rem] font-medium uppercase tracking-[0.28em] text-slate-400">
-          AI Infrastructure
+          Agent Evidence
         </span>
       </div>
     </div>
@@ -384,7 +399,7 @@ function PlatformPreview() {
 function EvidenceRecordPreview() {
   return (
     <div className="rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6">
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-2.5">
             <FileCheck2 className="h-4 w-4 text-cyan-200" />
@@ -393,8 +408,8 @@ function EvidenceRecordPreview() {
             Sample evidence record
           </p>
         </div>
-        <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-xs font-semibold text-emerald-200">
-          Accepted
+        <span className="w-fit rounded-full border border-amber-200/20 bg-amber-200/10 px-3 py-1 text-xs font-semibold text-amber-100">
+          Illustrative structure
         </span>
       </div>
       <p className="mt-4 text-sm font-semibold text-white">
@@ -411,8 +426,8 @@ function EvidenceRecordPreview() {
       <p className="mt-4 truncate font-mono text-xs text-slate-500">
         {sampleEvidenceRecord.hash}
       </p>
-      <p className="mt-4 text-xs leading-5 text-slate-500">
-        Illustrative example. Field structure, not live output.
+      <p className="mt-4 rounded-2xl border border-white/10 bg-[#07111f]/60 px-3 py-2 text-xs leading-5 text-slate-400">
+        Illustrative example only. This shows the kind of record the platform direction is designed around, not live product output.
       </p>
     </div>
   );
@@ -765,13 +780,18 @@ function NuvaHiveHomepage() {
             description="NuvaHive tends to matter the moment agent work meets a real deadline or a real reviewer, not as a general-purpose adoption exercise."
           />
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {useCases.map((item) => (
-              <div key={item.title} className="rounded-2xl border border-white/10 bg-white/[0.045] p-5">
-                <Network className="h-5 w-5 text-cyan-200" />
-                <p className="mt-4 text-sm font-medium leading-6 text-slate-200">{item.title}</p>
-                <p className="mt-2 text-xs leading-5 text-slate-400">{item.trigger}</p>
-              </div>
-            ))}
+            {useCases.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div key={item.title} className="rounded-2xl border border-white/10 bg-white/[0.045] p-5">
+                  <div className="inline-flex rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-2.5">
+                    <Icon className="h-5 w-5 text-cyan-200" />
+                  </div>
+                  <p className="mt-4 text-sm font-medium leading-6 text-slate-200">{item.title}</p>
+                  <p className="mt-2 text-xs leading-5 text-slate-400">{item.trigger}</p>
+                </div>
+              );
+            })}
           </div>
         </section>
 
