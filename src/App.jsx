@@ -259,6 +259,19 @@ const engagementOptions = [
   },
 ];
 
+const fitSignals = [
+  "AI agents are already creating pull requests, code changes, or operational artifacts.",
+  "Security, audit, or customer review now requires evidence of how agent work is accepted.",
+  "Engineering or operations leaders need approval boundaries before giving agents more autonomy.",
+  "The team wants a low-friction post-hoc pilot before changing runtime behavior.",
+];
+
+const notFitSignals = [
+  "The team is still casually exploring AI with no agent-generated work to review.",
+  "There is no meaningful need for evidence, approval, auditability, or controlled publication.",
+  "The immediate goal is a general chatbot, broad RAG search, or AI strategy deck.",
+];
+
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
@@ -927,6 +940,34 @@ function NuvaHiveHomepage() {
                     <p className="mt-2 text-sm leading-6 text-slate-300">{item.text}</p>
                   </div>
                 ))}
+              </div>
+              <div className="mt-6 grid gap-4 md:grid-cols-2">
+                <div className="rounded-3xl border border-cyan-300/15 bg-cyan-300/[0.045] p-5">
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
+                    Good fit
+                  </p>
+                  <div className="mt-4 grid gap-3">
+                    {fitSignals.map((item) => (
+                      <div key={item} className="flex items-start gap-3">
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-cyan-200" />
+                        <p className="text-sm leading-6 text-slate-300">{item}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-5">
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
+                    Not a fit yet
+                  </p>
+                  <div className="mt-4 grid gap-3">
+                    {notFitSignals.map((item) => (
+                      <div key={item} className="flex items-start gap-3">
+                        <X className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" />
+                        <p className="text-sm leading-6 text-slate-400">{item}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
             <div className="rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6 lg:p-8">
