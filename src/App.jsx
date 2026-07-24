@@ -101,14 +101,38 @@ const operatingModel = [
 ];
 
 const useCases = [
-  "AI coding agent review",
-  "Agent-generated pull request evidence",
-  "CI and test evidence capture",
-  "Human approval before publication",
-  "Private or hybrid agent governance",
-  "Audit-ready activity records",
-  "Provider and model boundary review",
-  "Controlled release evidence",
+  {
+    title: "AI coding agent review",
+    trigger: "Before agents get merge rights on production code",
+  },
+  {
+    title: "Agent-generated pull request evidence",
+    trigger: "When a customer security review asks how agent PRs get accepted",
+  },
+  {
+    title: "CI and test evidence capture",
+    trigger: "When test output needs to survive past the CI run",
+  },
+  {
+    title: "Human approval before publication",
+    trigger: "Before an agent can publish or deploy without a human in the loop",
+  },
+  {
+    title: "Private or hybrid agent governance",
+    trigger: "When agents touch data that can't leave your infrastructure",
+  },
+  {
+    title: "Audit-ready activity records",
+    trigger: "Ahead of a SOC 2 or ISO audit",
+  },
+  {
+    title: "Provider and model boundary review",
+    trigger: "When switching or restricting model providers",
+  },
+  {
+    title: "Controlled release evidence",
+    trigger: "Before a release needs a defensible paper trail",
+  },
 ];
 
 const businessOutcomes = [
@@ -705,14 +729,15 @@ function NuvaHiveHomepage() {
         <section id="use-cases" className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
           <SectionHeading
             eyebrow="Use cases"
-            title="For teams putting agents near real work."
-            description="NuvaHive is aimed at organizations that need visibility, review, evidence, and approval boundaries around agent-generated work."
+            title="For teams that hit a specific trigger."
+            description="NuvaHive tends to matter the moment agent work meets a real deadline or a real reviewer, not as a general-purpose adoption exercise."
           />
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {useCases.map((item) => (
-              <div key={item} className="rounded-2xl border border-white/10 bg-white/[0.045] p-5">
+              <div key={item.title} className="rounded-2xl border border-white/10 bg-white/[0.045] p-5">
                 <Network className="h-5 w-5 text-cyan-200" />
-                <p className="mt-4 text-sm font-medium leading-6 text-slate-200">{item}</p>
+                <p className="mt-4 text-sm font-medium leading-6 text-slate-200">{item.title}</p>
+                <p className="mt-2 text-xs leading-5 text-slate-400">{item.trigger}</p>
               </div>
             ))}
           </div>
