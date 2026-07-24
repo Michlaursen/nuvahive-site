@@ -941,34 +941,6 @@ function NuvaHiveHomepage() {
                   </div>
                 ))}
               </div>
-              <div className="mt-6 grid gap-4 md:grid-cols-2">
-                <div className="glow-card rounded-3xl border border-cyan-300/15 bg-cyan-300/[0.045] p-5">
-                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
-                    Good fit
-                  </p>
-                  <div className="mt-4 grid gap-3">
-                    {fitSignals.map((item) => (
-                      <div key={item} className="flex items-start gap-3">
-                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-cyan-200" />
-                        <p className="text-sm leading-6 text-slate-300">{item}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="glow-card rounded-3xl border border-white/10 bg-white/[0.035] p-5">
-                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
-                    Not a fit yet
-                  </p>
-                  <div className="mt-4 grid gap-3">
-                    {notFitSignals.map((item) => (
-                      <div key={item} className="flex items-start gap-3">
-                        <X className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" />
-                        <p className="text-sm leading-6 text-slate-400">{item}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
             </div>
             <div className="glow-card rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6 lg:p-8">
               <div className="mb-6 flex items-center gap-3">
@@ -981,6 +953,49 @@ function NuvaHiveHomepage() {
                 </div>
               </div>
               <ContactForm />
+            </div>
+          </div>
+          <div className="mt-12">
+            <div className="mb-6 grid gap-3 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
+                  Fit filter
+                </p>
+                <h3 className="mt-3 text-2xl font-semibold text-white">
+                  Best when agent work already needs review.
+                </h3>
+              </div>
+              <p className="max-w-3xl text-sm leading-7 text-slate-400 lg:justify-self-end">
+                The strongest starting point is an existing workflow with real artifacts, real reviewers, and a clear reason to preserve evidence.
+              </p>
+            </div>
+            <div className="grid gap-5 lg:grid-cols-[1.08fr_0.92fr]">
+              <div className="glow-card rounded-3xl border border-cyan-300/15 bg-cyan-300/[0.045] p-5 sm:p-6">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
+                  Good fit
+                </p>
+                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                  {fitSignals.map((item) => (
+                    <div key={item} className="flex items-start gap-3 rounded-2xl border border-cyan-300/10 bg-[#07111f]/50 p-3">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-cyan-200" />
+                      <p className="text-sm leading-6 text-slate-300">{item}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="glow-card rounded-3xl border border-white/10 bg-white/[0.035] p-5 sm:p-6">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
+                  Not a fit yet
+                </p>
+                <div className="mt-5 grid gap-3">
+                  {notFitSignals.map((item) => (
+                    <div key={item} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-[#07111f]/45 p-3">
+                      <X className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" />
+                      <p className="text-sm leading-6 text-slate-400">{item}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </section>
