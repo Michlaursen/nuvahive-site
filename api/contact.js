@@ -2,6 +2,20 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (char) => (
+    {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+    }[char]
+  ));
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed." });
@@ -19,24 +33,34 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Missing required fields." });
     }
 
+    if (!EMAIL_PATTERN.test(email)) {
+      return res.status(400).json({ error: "Invalid email address." });
+    }
+
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safeCompany = escapeHtml(company || "-");
+    const safeInterest = escapeHtml(interest || "-");
+    const safeMessage = escapeHtml(message);
+
     await resend.emails.send({
     from: "NuvaHive <angie@nuvahive.ai>",
     to: ["angie@nuvahive.ai", "miguel@nuvahive.ai"],
     reply_to: email,
-    subject: `NuvaHive Inquiry — ${company || name}`,
+    subject: `NuvaHive Inquiry — ${escapeHtml(company || name)}`,
     html: `
     <h2>NuvaHive Contact Request</h2>
     <p>A new request was submitted through nuvahive.ai.</p>
 
     <hr/>
 
-    <p><strong>Name:</strong> ${name}</p>
-    <p><strong>Email:</strong> ${email}</p>
-    <p><strong>Company:</strong> ${company || "-"}</p>
-    <p><strong>Interest:</strong> ${interest || "-"}</p>
+    <p><strong>Name:</strong> ${safeName}</p>
+    <p><strong>Email:</strong> ${safeEmail}</p>
+    <p><strong>Company:</strong> ${safeCompany}</p>
+    <p><strong>Interest:</strong> ${safeInterest}</p>
 
     <p><strong>Message:</strong></p>
-    <p>${message}</p>
+    <p>${safeMessage}</p>
 
     <hr/>
 
@@ -52,7 +76,7 @@ export default async function handler(req, res) {
     reply_to: "angie@nuvahive.ai",
     subject: "We received your NuvaHive request",
     html: `
-        <p>Hi ${name},</p>
+        <p>Hi ${safeName},</p>
 
         <p>Thanks for reaching out to <strong>NuvaHive</strong>.</p>
 
