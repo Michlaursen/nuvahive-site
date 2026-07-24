@@ -25,6 +25,8 @@ import {
 import logo from "./assets/nuvahive-logo.svg";
 import Privacy from "./Privacy.jsx";
 
+const TURNSTILE_SITE_KEY = "0x4AAAAAAD9CgEk98di1_ztN";
+
 const nav = [
   { label: "Evidence", href: "#evidence" },
   { label: "Platform", href: "#platform" },
@@ -486,10 +488,16 @@ function ContactForm() {
     setStatus("");
 
     try {
+      const formData = new FormData(event.currentTarget);
+      const turnstileToken = formData.get("cf-turnstile-response") || "";
+
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          "cf-turnstile-response": turnstileToken,
+        }),
       });
       const data = await response.json();
 
@@ -509,6 +517,7 @@ function ContactForm() {
     } catch (error) {
       setStatus(error.message || "Something went wrong. Please try again.");
     } finally {
+      window.turnstile?.reset();
       setSubmitting(false);
     }
   }
@@ -547,6 +556,11 @@ function ContactForm() {
         required
         rows="5"
         className={inputClass}
+      />
+      <div
+        className="cf-turnstile"
+        data-sitekey={TURNSTILE_SITE_KEY}
+        data-action="turnstile-spin-v2"
       />
       <Button
         type="submit"

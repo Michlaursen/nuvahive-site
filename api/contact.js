@@ -3,6 +3,7 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (char) => (
@@ -16,17 +17,67 @@ function escapeHtml(value) {
   ));
 }
 
+function getClientIp(req) {
+  const forwardedFor = req.headers["x-forwarded-for"];
+
+  if (Array.isArray(forwardedFor)) {
+    return forwardedFor[0]?.split(",")[0]?.trim() || "";
+  }
+
+  if (typeof forwardedFor === "string") {
+    return forwardedFor.split(",")[0]?.trim() || "";
+  }
+
+  return req.socket?.remoteAddress || "";
+}
+
+async function verifyTurnstileToken(token, clientIp) {
+  if (!process.env.TURNSTILE_SECRET) {
+    throw new Error("TURNSTILE_SECRET is not configured.");
+  }
+
+  const verificationResponse = await fetch(TURNSTILE_VERIFY_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      secret: process.env.TURNSTILE_SECRET,
+      response: token,
+      remoteip: clientIp,
+    }),
+  });
+
+  const result = await verificationResponse.json();
+  return result.success === true;
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed." });
   }
 
   try {
-    const { name, email, company, interest, message, website } = req.body || {};
+    const {
+      name,
+      email,
+      company,
+      interest,
+      message,
+      website,
+      "cf-turnstile-response": turnstileToken,
+    } = req.body || {};
 
     // honeypot spam trap
     if (website) {
       return res.status(200).json({ ok: true });
+    }
+
+    const turnstileVerified = await verifyTurnstileToken(
+      turnstileToken || "",
+      getClientIp(req)
+    );
+
+    if (!turnstileVerified) {
+      return res.status(403).json({ error: "Turnstile verification failed." });
     }
 
     if (!name || !email || !message) {
