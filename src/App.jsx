@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Routes, Route, Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   CheckCircle2,
@@ -15,10 +16,10 @@ import logo from "./assets/nuvahive-logo.svg";
 import Privacy from "./Privacy.jsx";
 
 const nav = [
+  { label: "Evidence", href: "#evidence" },
   { label: "Platform", href: "#platform" },
   { label: "How it works", href: "#how-it-works" },
   { label: "Use cases", href: "#use-cases" },
-  { label: "Company", href: "#company" },
   { label: "Work with us", href: "#contact" },
 ];
 
@@ -30,6 +31,8 @@ const architecture = [
     icon: Database,
     description:
       "Designed to collect operational context, preserve source evidence, and maintain memory that AI systems can use without losing grounding.",
+    flowLabel: "Knows",
+    heroText: "Context, memory, and source evidence enter the system.",
     capabilities: [
       "Operational knowledge",
       "Context and memory",
@@ -43,6 +46,8 @@ const architecture = [
     icon: RouteIcon,
     description:
       "Designed to build plans, apply policy boundaries, route approvals, and execute workflows with explicit control over what AI systems can do.",
+    flowLabel: "Decides and executes",
+    heroText: "Plans are bounded by policy, approvals, and execution rules.",
     capabilities: [
       "Planning and orchestration",
       "Approval boundaries",
@@ -56,6 +61,8 @@ const architecture = [
     icon: ShieldCheck,
     description:
       "Reserved for verification, integrity checks, audit trails, and assurance evidence that can show what happened and why.",
+    flowLabel: "Proves",
+    heroText: "Actions, approvals, and outcomes become reviewable evidence.",
     capabilities: [
       "Execution evidence",
       "Integrity checks",
@@ -67,69 +74,107 @@ const architecture = [
 const operatingModel = [
   {
     step: "01",
-    title: "Understand context and evidence",
-    text: "Connect knowledge, records, policies, and operational signals before any workflow is planned.",
+    title: "Reconstruct agent activity",
+    text: "Start with Git history, pull requests, CI logs, agent logs, telemetry, tests, and review comments.",
   },
   {
     step: "02",
-    title: "Build a controlled plan",
-    text: "Translate the goal into bounded steps with known dependencies, inputs, and decision points.",
+    title: "Capture execution context",
+    text: "Record model identity, repository state, commands, tools, process boundaries, and file changes.",
   },
   {
     step: "03",
-    title: "Apply policy and approvals",
-    text: "Keep consequential actions inside explicit rules, human checkpoints, and role-aware boundaries.",
+    title: "Preserve evidence",
+    text: "Bind artifacts to hashes, source identity, review state, verification output, and release evidence.",
   },
   {
     step: "04",
-    title: "Execute governed workflows",
-    text: "Coordinate models, tools, and systems without surrendering operational control.",
+    title: "Review acceptance",
+    text: "Show what happened, what changed, which controls applied, and whether the evidence supports acceptance.",
   },
   {
     step: "05",
-    title: "Verify and preserve evidence",
-    text: "Record actions, outcomes, approvals, and supporting context for review and audit.",
+    title: "Enforce boundaries",
+    text: "Move toward approvals, provider restrictions, policy gates, single-use authority, and fail-closed publication.",
   },
 ];
 
 const useCases = [
-  "Controlled AI agent workflows",
-  "Operational intelligence",
-  "Human-in-the-loop automation",
-  "Private or local AI deployment",
-  "Governed engineering workflows",
-  "Auditable AI-assisted operations",
-  "Workflow orchestration across models and tools",
-  "AI adoption inside controlled business processes",
+  "AI coding agent review",
+  "Agent-generated pull request evidence",
+  "CI and test evidence capture",
+  "Human approval before publication",
+  "Private or hybrid agent governance",
+  "Audit-ready activity records",
+  "Provider and model boundary review",
+  "Controlled release evidence",
 ];
 
 const businessOutcomes = [
-  "Fewer uncontrolled AI actions",
-  "Clearer approval boundaries",
-  "Better operational visibility",
-  "Evidence for review and audit",
-  "Safer automation of consequential workflows",
-  "Reduced dependence on opaque black-box systems",
+  "See what agents were allowed to do",
+  "See what agents actually changed",
+  "Connect reviews to evidence",
+  "Separate raw, sanitized, and approved artifacts",
+  "Create a path from observation to enforcement",
+  "Reduce blind trust in agent output",
+];
+
+const evidenceLadder = [
+  {
+    title: "Post-hoc Observe",
+    status: "Lowest-friction start",
+    text: "Reconstruct agent activity after the fact from Git, pull requests, CI logs, agent logs, telemetry, test output, and review comments.",
+  },
+  {
+    title: "Real-time Observe",
+    status: "Stronger capture",
+    text: "Capture model identity, context references, commands, tools, file changes, process boundaries, tests, and runtime evidence while work occurs.",
+  },
+  {
+    title: "Attest",
+    status: "Portable evidence",
+    text: "Produce tamper-evident records showing who authorized work, what executed, what changed, what verification ran, and what review concluded.",
+  },
+  {
+    title: "Enforce",
+    status: "Controlled action",
+    text: "Apply required approvals, provider restrictions, policy gates, single-use execution authority, and fail-closed publication where justified.",
+  },
+];
+
+const relayStates = [
+  "Raw",
+  "Sanitized",
+  "Approved",
+  "Quarantined",
+  "Externally transferable",
 ];
 
 const engagementOptions = [
   {
     title: "Design partnerships",
-    text: "Work with teams deploying AI systems where control, evidence, and governance are required from the start.",
+    text: "Work with teams that need evidence boundaries around AI agents before deeper automation is trusted.",
   },
   {
-    title: "Pilot deployments",
-    text: "Implement a narrow workflow with local evidence capture, approval paths, and a measurable operating model.",
+    title: "Post-hoc observation pilots",
+    text: "Start by reconstructing agent activity from existing engineering and review artifacts before adding real-time capture.",
   },
   {
-    title: "Trustworthy AI architecture",
-    text: "Help technical and operational leaders design private, hybrid, or controlled AI infrastructure.",
+    title: "Attestation architecture",
+    text: "Define the evidence, review, and release records needed before an organization can accept agent output.",
   },
   {
-    title: "Controlled workflow implementation",
-    text: "Use implementation work to deploy, test, and learn with customers without making consulting the company identity.",
+    title: "Enforcement roadmap",
+    text: "Map where approvals, policy gates, provider restrictions, and fail-closed boundaries should enter the workflow.",
   },
 ];
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const MotionDiv = motion.div;
 
 function Button({ children, className = "", ...props }) {
   return (
@@ -160,10 +205,13 @@ function LogoMark() {
 
 function PageShell({ children }) {
   return (
-    <div className="min-h-screen bg-[#07111f] text-white">
-      <div className="fixed inset-0 -z-10 bg-[linear-gradient(rgba(148,163,184,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.035)_1px,transparent_1px)] bg-[size:72px_72px]" />
-      <div className="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.08),transparent_32%),linear-gradient(180deg,#07111f_0%,#08111d_52%,#050b14_100%)]" />
-      {children}
+    <div className="relative isolate min-h-screen overflow-hidden bg-[#07111f] text-white">
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[linear-gradient(180deg,#07111f_0%,#08111d_52%,#050b14_100%)]" />
+      <div className="pointer-events-none fixed inset-0 -z-10 animate-grid-drift bg-[linear-gradient(rgba(148,163,184,0.055)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.04)_1px,transparent_1px)] bg-[size:72px_72px]" />
+      <div className="pointer-events-none fixed -left-32 top-[-12rem] -z-10 h-[34rem] w-[34rem] rounded-full bg-cyan-300/15 blur-3xl animate-breathe-glow" />
+      <div className="pointer-events-none fixed right-[-16rem] top-40 -z-10 h-[38rem] w-[38rem] rounded-full bg-blue-500/10 blur-3xl animate-breathe-glow" />
+      <div className="pointer-events-none fixed bottom-[-18rem] left-1/3 -z-10 h-[32rem] w-[32rem] rounded-full bg-emerald-300/8 blur-3xl animate-breathe-glow" />
+      <div className="relative z-10">{children}</div>
     </div>
   );
 }
@@ -188,41 +236,80 @@ function SectionHeading({ eyebrow, title, description }) {
 
 function ArchitectureDiagram() {
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/[0.045] p-4 shadow-2xl shadow-black/25 backdrop-blur sm:p-5">
-      <div className="rounded-2xl border border-cyan-300/15 bg-[#081523] p-4 sm:p-5">
+    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.045] p-4 shadow-2xl shadow-black/25 backdrop-blur sm:p-5">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_26%_18%,rgba(34,211,238,0.13),transparent_30%),radial-gradient(circle_at_78%_78%,rgba(59,130,246,0.12),transparent_34%)]" />
+      <div className="relative rounded-2xl border border-cyan-300/15 bg-[#081523]/90 p-4 sm:p-5">
+        <div className="mb-5 flex flex-col gap-3 border-b border-white/10 pb-5 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
+              Trust architecture
+            </p>
+            <p className="mt-2 text-sm leading-6 text-slate-300">
+              Knowledge flows into governed action, then into evidence.
+            </p>
+          </div>
+          <div className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100">
+            Kvasir → Odin → Heimdall
+          </div>
+        </div>
         <div className="grid gap-4 lg:grid-cols-3">
           {architecture.map((component, index) => {
             const Icon = component.icon;
             return (
               <div key={component.name} className="relative">
-                <div className="h-full rounded-2xl border border-white/10 bg-white/[0.055] p-5">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-3">
+                <div className="h-full rounded-2xl border border-white/10 bg-white/[0.055] p-5 transition hover:border-cyan-300/30 hover:bg-white/[0.075]">
+                  <div className="flex items-center gap-3">
+                    <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-3 shadow-lg shadow-cyan-950/30">
                       <Icon className="h-5 w-5 text-cyan-200" />
                     </div>
-                    <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-slate-300">
+                    <div>
+                      <h3 className="text-2xl font-semibold tracking-tight text-white">
+                        {component.name}
+                      </h3>
+                      <p className="text-sm font-semibold text-cyan-200">
+                        {component.flowLabel}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="mt-5 text-sm font-semibold text-white">
+                    {component.role}
+                  </p>
+                  <p className="mt-3 text-sm leading-6 text-slate-300">
+                    {component.heroText}
+                  </p>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {component.capabilities.slice(0, 2).map((capability) => (
+                      <span
+                        key={capability}
+                        className="rounded-full border border-white/10 bg-[#07111f]/70 px-3 py-1 text-xs font-medium text-slate-300"
+                      >
+                        {capability}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="mt-5 border-t border-white/10 pt-4">
+                    <span className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
                       {component.status}
                     </span>
                   </div>
-                  <h3 className="mt-5 text-2xl font-semibold tracking-tight text-white">
-                    {component.name}
-                  </h3>
-                  <p className="mt-1 text-sm font-medium text-cyan-200">
-                    {component.role}
-                  </p>
-                  <p className="mt-4 text-sm leading-6 text-slate-300">
-                    {component.description}
-                  </p>
                 </div>
                 {index < architecture.length - 1 ? (
-                  <div className="hidden lg:absolute lg:-right-5 lg:top-1/2 lg:block lg:h-px lg:w-6 lg:bg-cyan-300/45" />
+                  <>
+                    <div className="hidden lg:absolute lg:-right-5 lg:top-1/2 lg:block lg:h-px lg:w-6 lg:bg-cyan-300/45" />
+                    <div className="mx-auto h-5 w-px bg-cyan-300/35 lg:hidden" />
+                  </>
                 ) : null}
               </div>
             );
           })}
         </div>
-        <div className="mt-5 rounded-2xl border border-cyan-300/15 bg-cyan-300/5 px-4 py-4 text-center text-sm font-semibold tracking-tight text-cyan-100">
-          Kvasir knows. Odin decides and executes. Heimdall proves.
+        <div className="mt-5 grid gap-3 rounded-2xl border border-cyan-300/15 bg-cyan-300/5 px-4 py-4 text-sm sm:grid-cols-[1fr_auto] sm:items-center">
+          <p className="font-semibold tracking-tight text-cyan-100">
+            Kvasir knows. Odin decides and executes. Heimdall proves.
+          </p>
+          <p className="text-slate-300">
+            Context → Control → Evidence
+          </p>
         </div>
       </div>
     </div>
@@ -296,10 +383,10 @@ function ContactForm() {
         <label className="sr-only" htmlFor="interest">Interest</label>
         <select id="interest" name="interest" value={form.interest} onChange={handleChange} className={inputClass}>
           <option value="">What are you exploring?</option>
-          <option value="design-partnership">Design partnership</option>
-          <option value="pilot-deployment">Pilot deployment</option>
-          <option value="private-ai-infrastructure">Private AI infrastructure</option>
-          <option value="controlled-workflows">Controlled AI workflows</option>
+          <option value="post-hoc-observe">Post-hoc agent observation</option>
+          <option value="real-time-observe">Real-time agent observation</option>
+          <option value="attestation">Agent evidence attestation</option>
+          <option value="enforcement">Policy gates and enforcement</option>
         </select>
       </div>
       <label className="sr-only" htmlFor="message">Message</label>
@@ -308,7 +395,7 @@ function ContactForm() {
         name="message"
         value={form.message}
         onChange={handleChange}
-        placeholder="Tell us what you are trying to control, automate, or verify."
+        placeholder="Tell us what your agents touch, change, review, or publish."
         required
         rows="5"
         className={inputClass}
@@ -380,7 +467,12 @@ function NuvaHiveHomepage() {
 
       <main>
         <section className="mx-auto grid max-w-7xl gap-12 px-5 py-20 sm:px-6 md:py-24 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:px-8 lg:py-32">
-          <div>
+          <MotionDiv
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.65, ease: "easeOut" }}
+          >
             <p className="inline-flex rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200">
               Built for controlled AI operations
             </p>
@@ -388,26 +480,26 @@ function NuvaHiveHomepage() {
               Infrastructure for trustworthy AI systems.
             </h1>
             <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300 md:text-xl md:leading-9">
-              NuvaHive is building the knowledge, orchestration, and verification infrastructure needed to deploy AI systems that can reason, act, and remain accountable.
+              NuvaHive helps teams see what AI agents were allowed to do, what they actually did, what changed, and whether the resulting evidence supports acceptance.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href="#platform">
+              <a href="#evidence">
                 <Button className="w-full bg-cyan-300 text-slate-950 hover:bg-cyan-200 sm:w-auto">
-                  Explore the architecture
+                  Explore agent evidence
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </a>
               <a href="#contact">
                 <Button className="w-full border border-white/15 bg-white/[0.06] text-white hover:bg-white/[0.1] sm:w-auto">
-                  Discuss a pilot
+                  Map a workflow
                 </Button>
               </a>
             </div>
             <div className="mt-10 grid gap-3 sm:grid-cols-3">
               {[
-                ["Context", "Systems understand the operating environment before acting."],
-                ["Control", "Policies and approval boundaries govern execution."],
-                ["Evidence", "Actions and outcomes are preserved for review."],
+                ["Observe", "Reconstruct or capture what happened across agent work."],
+                ["Attest", "Turn activity, changes, reviews, and tests into portable evidence."],
+                ["Enforce", "Move controlled workflows toward approvals and policy gates."],
               ].map(([title, text]) => (
                 <div key={title} className="rounded-2xl border border-white/10 bg-white/[0.045] p-4">
                   <p className="font-semibold text-white">{title}</p>
@@ -415,11 +507,16 @@ function NuvaHiveHomepage() {
                 </div>
               ))}
             </div>
-          </div>
+          </MotionDiv>
 
-          <div>
+          <MotionDiv
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.75, delay: 0.12, ease: "easeOut" }}
+          >
             <ArchitectureDiagram />
-          </div>
+          </MotionDiv>
         </section>
 
         <section className="border-y border-white/10 bg-[#08111d]">
@@ -435,11 +532,47 @@ function NuvaHiveHomepage() {
           </div>
         </section>
 
+        <section id="evidence" className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
+          <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+            <SectionHeading
+              eyebrow="Governed agent evidence"
+              title="Start by observing. Grow toward attestation and enforcement."
+              description="The initial commercial product is intentionally narrower than the full platform: help teams understand agent activity, preserve evidence, and decide whether output should be accepted."
+            />
+            <div className="grid gap-4">
+              {evidenceLadder.map((item, index) => (
+                <div
+                  key={item.title}
+                  className="grid gap-4 rounded-3xl border border-white/10 bg-white/[0.045] p-5 md:grid-cols-[88px_0.7fr_1.3fr] md:items-start"
+                >
+                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cyan-200">
+                    {String(index + 1).padStart(2, "0")}
+                  </p>
+                  <div>
+                    <h3 className="text-xl font-semibold text-white">
+                      {item.title}
+                    </h3>
+                    <p className="mt-1 text-sm font-medium text-cyan-200">
+                      {item.status}
+                    </p>
+                  </div>
+                  <p className="text-sm leading-7 text-slate-300">
+                    {item.text}
+                  </p>
+                </div>
+              ))}
+              <div className="rounded-3xl border border-amber-200/20 bg-amber-200/[0.06] p-5 text-sm leading-7 text-amber-50/85">
+                Post-hoc observation is reconstructed evidence. It is useful because it is low-friction, but it should not be presented as equivalent to real-time capture.
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section id="platform" className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
           <SectionHeading
             eyebrow="Platform"
             title="One architecture for knowledge, decisions, execution, and proof."
-            description="Kvasir, Odin, and Heimdall are presented as a coherent platform direction: knowledge and evidence flow into governed planning and execution, then into verification and assurance."
+            description="The initial product is presented as one coherent platform. Internally, Kvasir, Odin, and Heimdall remain distinct systems with narrow versioned interfaces."
           />
           <div className="mt-12 grid gap-5 lg:grid-cols-3">
             {architecture.map((component) => {
@@ -468,14 +601,39 @@ function NuvaHiveHomepage() {
               );
             })}
           </div>
+          <div className="mt-6 rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6">
+            <div className="grid gap-5 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
+                  Relay boundary
+                </p>
+                <h3 className="mt-3 text-2xl font-semibold text-white">
+                  Controlled movement of evidence artifacts.
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-slate-300">
+                  Relay is the boundary for artifacts as they move from raw capture toward approved, transferable evidence.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                {relayStates.map((state) => (
+                  <span
+                    key={state}
+                    className="rounded-full border border-cyan-300/15 bg-[#081523] px-4 py-2 text-sm font-medium text-slate-200"
+                  >
+                    {state}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
         </section>
 
         <section id="how-it-works" className="border-y border-white/10 bg-[#08111d]">
           <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
             <SectionHeading
               eyebrow="How it works"
-              title="A controlled operating model for AI-enabled workflows."
-              description="The architecture is designed for teams that need AI systems to act inside clear boundaries, with evidence preserved at each step."
+              title="A practical operating model for agent evidence."
+              description="The path starts with reconstructed evidence from existing systems, then moves toward real-time capture, attestation, and enforcement where the workflow requires it."
             />
             <div className="mt-12 grid gap-4">
               {operatingModel.map((item) => (
@@ -492,8 +650,8 @@ function NuvaHiveHomepage() {
         <section id="use-cases" className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
           <SectionHeading
             eyebrow="Use cases"
-            title="For teams moving AI into real operations."
-            description="NuvaHive is aimed at organizations that need AI capability without opaque execution, uncontrolled actions, or weak evidence trails."
+            title="For teams putting agents near real work."
+            description="NuvaHive is aimed at organizations that need visibility, review, evidence, and approval boundaries around agent-generated work."
           />
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {useCases.map((item) => (
@@ -507,14 +665,14 @@ function NuvaHiveHomepage() {
 
         <section id="company" className="border-y border-white/10 bg-[#08111d]">
           <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:px-8 lg:py-28">
-            <SectionHeading
-              eyebrow="Company"
-              title="An independent deep technology company."
-              description="NuvaHive is focused on practical system design for trustworthy AI operations."
-            />
-            <div className="space-y-5 text-base leading-8 text-slate-300">
-              <p>
-                The company direction is to build infrastructure that combines AI capability with policy, human oversight, and verifiable execution. Consulting remains a deployment and learning capability, not the public identity of the company.
+              <SectionHeading
+                eyebrow="Company"
+                title="An independent deep technology company."
+                description="NuvaHive is focused on governed evidence infrastructure for AI agents and controlled automation."
+              />
+              <div className="space-y-5 text-base leading-8 text-slate-300">
+                <p>
+                The company direction is to build infrastructure that combines AI capability with policy, human oversight, evidence, and verifiable execution. Consulting remains a deployment and learning capability, not the public identity of the company.
               </p>
               <p>
                 We are building for organizations that want private, local, sovereign, or hybrid AI infrastructure and need clear control over what AI systems can know, decide, execute, and prove.
@@ -540,8 +698,8 @@ function NuvaHiveHomepage() {
             <div>
               <SectionHeading
                 eyebrow="Work with us"
-                title="Design partnerships, pilots, and controlled workflow implementation."
-                description="We work with teams that are deploying AI into consequential workflows and need the architecture to remain understandable, governed, and reviewable."
+                title="Start with a governed agent evidence workflow."
+                description="We work with teams that need to reconstruct, review, attest, or eventually enforce AI agent activity without treating agent output as automatically acceptable."
               />
               <div className="mt-10 grid gap-4">
                 {engagementOptions.map((item) => (
@@ -558,8 +716,8 @@ function NuvaHiveHomepage() {
                   <GitBranch className="h-5 w-5 text-cyan-200" />
                 </div>
                 <div>
-                  <p className="font-semibold text-white">Start with the workflow.</p>
-                  <p className="text-sm text-slate-400">Tell us what must remain controlled and verifiable.</p>
+                  <p className="font-semibold text-white">Map an evidence workflow.</p>
+                  <p className="text-sm text-slate-400">Tell us what your agents touch, change, and publish.</p>
                 </div>
               </div>
               <ContactForm />
