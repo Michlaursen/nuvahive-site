@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import {
   ArrowRight,
   CheckCircle2,
+  ChevronRight,
   Database,
   FileCheck2,
   GitBranch,
@@ -34,7 +35,6 @@ const architecture = [
     description:
       "Designed to collect operational context, preserve source evidence, and maintain memory that AI systems can use without losing grounding.",
     flowLabel: "Knows",
-    heroText: "Context, memory, and source evidence enter the system.",
     capabilities: [
       "Operational knowledge",
       "Context and memory",
@@ -49,7 +49,6 @@ const architecture = [
     description:
       "Designed to build plans, apply policy boundaries, route approvals, and execute workflows with explicit control over what AI systems can do.",
     flowLabel: "Decides and executes",
-    heroText: "Plans are bounded by policy, approvals, and execution rules.",
     capabilities: [
       "Planning and orchestration",
       "Approval boundaries",
@@ -64,13 +63,33 @@ const architecture = [
     description:
       "Reserved for verification, integrity checks, audit trails, and assurance evidence that can show what happened and why.",
     flowLabel: "Proves",
-    heroText: "Actions, approvals, and outcomes become reviewable evidence.",
     capabilities: [
       "Execution evidence",
       "Integrity checks",
       "Audit-ready records",
     ],
   },
+];
+
+const platformPreviewInputs = [
+  "Git history",
+  "Pull requests",
+  "CI and test logs",
+  "Agent activity",
+];
+
+const platformPreviewLayers = [
+  "Kvasir",
+  "Odin",
+  "Heimdall (reserved)",
+  "Approval and policy rules",
+];
+
+const platformPreviewOutputs = [
+  "Evidence records",
+  "Disposition outcomes",
+  "Audit-ready trail",
+  "Approval history",
 ];
 
 const operatingModel = [
@@ -272,7 +291,7 @@ function SectionHeading({ eyebrow, title, description }) {
   );
 }
 
-function ArchitectureDiagram() {
+function PlatformPreview() {
   return (
     <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.045] p-4 shadow-2xl shadow-black/25 backdrop-blur sm:p-5">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_26%_18%,rgba(34,211,238,0.13),transparent_30%),radial-gradient(circle_at_78%_78%,rgba(59,130,246,0.12),transparent_34%)]" />
@@ -280,67 +299,75 @@ function ArchitectureDiagram() {
         <div className="mb-5 flex flex-col gap-3 border-b border-white/10 pb-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
-              Trust architecture
+              Platform
             </p>
-            <p className="mt-2 text-sm leading-6 text-slate-300">
-              Knowledge flows into governed action, then into evidence.
+            <p className="mt-2 text-lg font-semibold text-white">
+              NuvaHive evidence layer
             </p>
           </div>
           <div className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100">
-            Kvasir → Odin → Heimdall
+            Platform direction
           </div>
         </div>
-        <div className="grid gap-4 lg:grid-cols-3">
-          {architecture.map((component, index) => {
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          {architecture.slice(0, 2).map((component) => {
             const Icon = component.icon;
             return (
-              <div key={component.name} className="relative">
-                <div className="h-full rounded-2xl border border-white/10 bg-white/[0.055] p-5 transition hover:border-cyan-300/30 hover:bg-white/[0.075]">
-                  <div className="flex items-center gap-3">
-                    <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-3 shadow-lg shadow-cyan-950/30">
-                      <Icon className="h-5 w-5 text-cyan-200" />
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-semibold tracking-tight text-white">
-                        {component.name}
-                      </h3>
-                      <p className="text-sm font-semibold text-cyan-200">
-                        {component.flowLabel}
-                      </p>
-                    </div>
+              <div key={component.name} className="rounded-2xl border border-white/10 bg-white/[0.055] p-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="rounded-xl border border-cyan-300/20 bg-cyan-300/10 p-2">
+                    <Icon className="h-4 w-4 text-cyan-200" />
                   </div>
-                  <p className="mt-5 text-sm font-semibold text-white">
-                    {component.role}
-                  </p>
-                  <p className="mt-3 text-sm leading-6 text-slate-300">
-                    {component.heroText}
-                  </p>
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {component.capabilities.slice(0, 2).map((capability) => (
-                      <span
-                        key={capability}
-                        className="rounded-full border border-white/10 bg-[#07111f]/70 px-3 py-1 text-xs font-medium text-slate-300"
-                      >
-                        {capability}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="mt-5 border-t border-white/10 pt-4">
-                    <span className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-                      {component.status}
-                    </span>
+                  <div>
+                    <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-slate-400">
+                      {component.flowLabel}
+                    </p>
+                    <h3 className="text-lg font-semibold text-white">{component.name}</h3>
                   </div>
                 </div>
-                {index < architecture.length - 1 ? (
-                  <>
-                    <div className="hidden lg:absolute lg:-right-5 lg:top-1/2 lg:block lg:h-px lg:w-6 lg:bg-cyan-300/45" />
-                    <div className="mx-auto h-5 w-px bg-cyan-300/35 lg:hidden" />
-                  </>
-                ) : null}
+                <ul className="mt-3 space-y-1.5">
+                  {component.capabilities.map((capability) => (
+                    <li key={capability} className="flex items-start gap-1.5 text-xs leading-5 text-slate-300">
+                      <ChevronRight className="mt-0.5 h-3 w-3 shrink-0 text-cyan-300" />
+                      {capability}
+                    </li>
+                  ))}
+                </ul>
               </div>
             );
           })}
         </div>
+
+        <div className="mt-3 grid gap-3 sm:grid-cols-[1fr_auto_1fr_auto_1fr] sm:items-center">
+          <div className="rounded-2xl border border-white/10 bg-[#07111f]/70 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Inputs</p>
+            <ul className="mt-3 space-y-1.5 text-xs leading-5 text-slate-300">
+              {platformPreviewInputs.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="mx-auto hidden h-6 w-px bg-cyan-300/40 sm:block" />
+          <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.06] p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200">Evidence layer</p>
+            <ul className="mt-3 space-y-1.5 text-xs leading-5 text-slate-200">
+              {platformPreviewLayers.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="mx-auto hidden h-6 w-px bg-cyan-300/40 sm:block" />
+          <div className="rounded-2xl border border-white/10 bg-[#07111f]/70 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Outputs</p>
+            <ul className="mt-3 space-y-1.5 text-xs leading-5 text-slate-300">
+              {platformPreviewOutputs.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
         <div className="mt-5 grid gap-3 rounded-2xl border border-cyan-300/15 bg-cyan-300/5 px-4 py-4 text-sm sm:grid-cols-[1fr_auto] sm:items-center">
           <p className="font-semibold tracking-tight text-cyan-100">
             Kvasir knows. Odin decides and executes. Heimdall proves.
@@ -552,7 +579,11 @@ function NuvaHiveHomepage() {
               Built for controlled AI operations
             </p>
             <h1 className="mt-7 max-w-4xl text-4xl font-semibold leading-[1.02] tracking-tight text-white sm:text-6xl lg:text-7xl">
-              Infrastructure for trustworthy AI systems.
+              Infrastructure for{" "}
+              <span className="bg-gradient-to-r from-cyan-300 via-sky-300 to-blue-400 bg-clip-text text-transparent">
+                trustworthy AI systems
+              </span>
+              .
             </h1>
             <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300 md:text-xl md:leading-9">
               NuvaHive helps teams see what AI agents were allowed to do, what they actually did, what changed, and whether the resulting evidence supports acceptance.
@@ -590,7 +621,7 @@ function NuvaHiveHomepage() {
             animate="visible"
             transition={{ duration: 0.75, delay: 0.12, ease: "easeOut" }}
           >
-            <ArchitectureDiagram />
+            <PlatformPreview />
           </MotionDiv>
         </section>
 
