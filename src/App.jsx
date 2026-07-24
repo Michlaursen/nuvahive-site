@@ -5,6 +5,7 @@ import {
   ArrowRight,
   CheckCircle2,
   Database,
+  FileCheck2,
   GitBranch,
   Menu,
   Network,
@@ -141,6 +142,18 @@ const evidenceLadder = [
     text: "Apply required approvals, provider restrictions, policy gates, single-use execution authority, and fail-closed publication where justified.",
   },
 ];
+
+const sampleEvidenceRecord = {
+  action: "Merge pull request #482",
+  fields: [
+    { label: "Model", value: "claude-sonnet-5" },
+    { label: "Repository", value: "billing-service @ 7e78b61" },
+    { label: "Authorized by", value: "M. Laursen (approval token, single-use)" },
+    { label: "Verification", value: "42 tests passed, 0 skipped" },
+    { label: "Review outcome", value: "Accepted, no policy exceptions" },
+  ],
+  hash: "sha256:9f3224d0…397e20c4",
+};
 
 const relayStates = [
   "Raw",
@@ -312,6 +325,43 @@ function ArchitectureDiagram() {
           </p>
         </div>
       </div>
+    </div>
+  );
+}
+
+function EvidenceRecordPreview() {
+  return (
+    <div className="rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-2.5">
+            <FileCheck2 className="h-4 w-4 text-cyan-200" />
+          </div>
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
+            Sample evidence record
+          </p>
+        </div>
+        <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-xs font-semibold text-emerald-200">
+          Accepted
+        </span>
+      </div>
+      <p className="mt-4 text-sm font-semibold text-white">
+        {sampleEvidenceRecord.action}
+      </p>
+      <dl className="mt-4 divide-y divide-white/10 border-t border-white/10">
+        {sampleEvidenceRecord.fields.map((field) => (
+          <div key={field.label} className="grid grid-cols-[0.8fr_1.2fr] gap-3 py-2.5 text-sm">
+            <dt className="text-slate-400">{field.label}</dt>
+            <dd className="text-slate-200">{field.value}</dd>
+          </div>
+        ))}
+      </dl>
+      <p className="mt-4 truncate font-mono text-xs text-slate-500">
+        {sampleEvidenceRecord.hash}
+      </p>
+      <p className="mt-4 text-xs leading-5 text-slate-500">
+        Illustrative example. Field structure, not live output.
+      </p>
     </div>
   );
 }
@@ -534,11 +584,16 @@ function NuvaHiveHomepage() {
 
         <section id="evidence" className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
           <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
-            <SectionHeading
-              eyebrow="Governed agent evidence"
-              title="Start by observing. Grow toward attestation and enforcement."
-              description="The initial commercial product is intentionally narrower than the full platform: help teams understand agent activity, preserve evidence, and decide whether output should be accepted."
-            />
+            <div>
+              <SectionHeading
+                eyebrow="Governed agent evidence"
+                title="Start by observing. Grow toward attestation and enforcement."
+                description="The initial commercial product is intentionally narrower than the full platform: help teams understand agent activity, preserve evidence, and decide whether output should be accepted."
+              />
+              <div className="mt-8">
+                <EvidenceRecordPreview />
+              </div>
+            </div>
             <div className="grid gap-4">
               {evidenceLadder.map((item, index) => (
                 <div
