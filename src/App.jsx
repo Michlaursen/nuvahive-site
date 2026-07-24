@@ -215,6 +215,23 @@ const sampleEvidenceRecord = {
   hash: "sha256:example-evidence-record",
 };
 
+const pilotInputs = [
+  "Git history",
+  "Pull requests",
+  "CI and test logs",
+  "Agent logs or transcripts",
+  "Review comments",
+  "Release notes or deployment records",
+];
+
+const pilotDeliverables = [
+  "One reconstructed agent workflow timeline",
+  "Evidence inventory with source references",
+  "Acceptance and review gaps",
+  "Recommended real-time capture points",
+  "Attestation and enforcement roadmap",
+];
+
 const relayStates = [
   "Raw",
   "Sanitized",
@@ -690,6 +707,75 @@ function NuvaHiveHomepage() {
               ))}
               <div className="rounded-3xl border border-amber-200/20 bg-amber-200/[0.06] p-5 text-sm leading-7 text-amber-50/85">
                 Post-hoc observation is reconstructed evidence. It is useful because it is low-friction, but it should not be presented as equivalent to real-time capture.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="pilot" className="border-y border-white/10 bg-[#08111d]">
+          <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-6 lg:grid-cols-[0.86fr_1.14fr] lg:items-start lg:px-8 lg:py-28">
+            <div>
+              <SectionHeading
+                eyebrow="First pilot"
+                title="Start with one post-hoc Observe workflow."
+                description="The first pilot should not require agents to change how they work. Reconstruct one completed workflow from the systems your team already uses, then decide where stronger capture or enforcement belongs."
+              />
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a href="#contact">
+                  <Button className="w-full bg-cyan-300 text-slate-950 hover:bg-cyan-200 sm:w-auto">
+                    Discuss a post-hoc pilot
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </a>
+              </div>
+            </div>
+
+            <div className="grid gap-5">
+              <div className="rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6">
+                <div className="flex items-center gap-3">
+                  <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-3">
+                    <Database className="h-5 w-5 text-cyan-200" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
+                      Inputs
+                    </p>
+                    <h3 className="text-xl font-semibold text-white">
+                      Existing evidence sources
+                    </h3>
+                  </div>
+                </div>
+                <div className="mt-5 grid gap-2 sm:grid-cols-2">
+                  {pilotInputs.map((item) => (
+                    <div key={item} className="rounded-xl border border-white/10 bg-[#07111f]/70 px-3 py-2 text-sm text-slate-300">
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6">
+                <div className="flex items-center gap-3">
+                  <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-3">
+                    <FileCheck2 className="h-5 w-5 text-cyan-200" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
+                      Outputs
+                    </p>
+                    <h3 className="text-xl font-semibold text-white">
+                      What the pilot produces
+                    </h3>
+                  </div>
+                </div>
+                <div className="mt-5 grid gap-3">
+                  {pilotDeliverables.map((item) => (
+                    <div key={item} className="flex items-start gap-3 rounded-xl border border-white/10 bg-[#07111f]/70 px-3 py-2.5">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-cyan-200" />
+                      <p className="text-sm leading-6 text-slate-300">{item}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
