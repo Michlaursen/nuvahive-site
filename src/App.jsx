@@ -7,6 +7,7 @@ import {
   Database,
   FileCheck2,
   GitBranch,
+  Linkedin,
   Menu,
   Network,
   Route as RouteIcon,
@@ -809,9 +810,18 @@ function NuvaHiveHomepage() {
       <footer className="border-t border-white/10 bg-[#050b14]">
         <div className="mx-auto flex max-w-7xl flex-col gap-5 px-5 py-8 text-sm text-slate-400 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
           <LogoMark />
-          <div className="flex flex-wrap gap-5">
+          <div className="flex flex-wrap items-center gap-5">
             <Link to="/privacy" className="transition hover:text-white">Privacy</Link>
             <a href="#contact" className="transition hover:text-white">Work with us</a>
+            <a
+              href="https://www.linkedin.com/company/nuvahive"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="NuvaHive on LinkedIn"
+              className="text-slate-400 transition hover:text-white"
+            >
+              <Linkedin className="h-4 w-4" />
+            </a>
             <span>© {new Date().getFullYear()} NuvaHive</span>
           </div>
         </div>
