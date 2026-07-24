@@ -34,6 +34,46 @@ body {
   animation: gridDrift 90s linear infinite;
 }
 
+.glow-card {
+  position: relative;
+  overflow: hidden;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.glow-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 180ms ease;
+  background:
+    radial-gradient(circle at 22% 18%, rgba(34, 211, 238, 0.18), transparent 34%),
+    radial-gradient(circle at 84% 76%, rgba(59, 130, 246, 0.14), transparent 36%);
+}
+
+.glow-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(103, 232, 249, 0.34);
+  box-shadow:
+    0 0 0 1px rgba(103, 232, 249, 0.08),
+    0 18px 48px rgba(8, 145, 178, 0.16);
+}
+
+.glow-card:hover::before {
+  opacity: 1;
+}
+
+.glow-card > * {
+  position: relative;
+  z-index: 1;
+}
+
 html {
   scroll-behavior: smooth;
 }

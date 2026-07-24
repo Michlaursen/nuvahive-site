@@ -1,326 +1,337 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
-import logo from "./assets/nuvahive-logo.svg";
 import { Routes, Route, Link } from "react-router-dom";
-import Privacy from "./Privacy.jsx";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
-  Brain,
-  Building2,
-  Lock,
-  Mic,
-  Network,
-  ShieldCheck,
-  Database,
-  MessageSquareText,
-  Radar,
+  CheckCircle2,
   ChevronRight,
+  ClipboardCheck,
+  Code2,
+  Database,
+  FileCheck2,
+  GitBranch,
+  GitPullRequest,
+  LockKeyhole,
+  Linkedin,
   Menu,
+  PackageCheck,
+  Route as RouteIcon,
+  ShieldCheck,
+  SlidersHorizontal,
+  TestTube2,
+  UserCheck,
   X,
 } from "lucide-react";
-const Button = ({ children, className = "", ...props }) => (
-  <button className={`px-4 py-2 rounded ${className}`} {...props}>
-    {children}
-  </button>
-);
+import logo from "./assets/nuvahive-logo.svg";
+import Privacy from "./Privacy.jsx";
 
-const Card = ({ children, className = "" }) => (
-  <div className={className}>{children}</div>
-);
-
-const CardContent = ({ children, className = "" }) => (
-  <div className={className}>{children}</div>
-);
+const TURNSTILE_SITE_KEY = "0x4AAAAAAD9CgEk98di1_ztN";
 
 const nav = [
+  { label: "Evidence", href: "#evidence" },
   { label: "Platform", href: "#platform" },
-  { label: "Angie", href: "#angie" },
-  { label: "NuvaSignal", href: "#nuvasignal" },
-  { label: "Architecture", href: "#architecture" },
-  { label: "Security", href: "#security" },
-  { label: "Contact", href: "#contact" },
+  { label: "How it works", href: "#how-it-works" },
+  { label: "Use cases", href: "#use-cases" },
+  { label: "Company", href: "#company" },
+  { label: "Work with us", href: "#contact" },
 ];
 
-const platformCards = [
+const architecture = [
   {
-    id: "angie",
-    eyebrow: "Knowledge intelligence",
-    title: "Angie",
-    icon: Brain,
+    name: "Kvasir",
+    role: "Knowledge and evidence",
+    status: "Platform direction",
+    icon: Database,
     description:
-      "A private knowledge engine that turns enterprise documents, records, and operational content into searchable, structured intelligence.",
-    bullets: [
-      "Enterprise RAG architecture",
-      "Document intelligence and extraction",
-      "Structured knowledge retrieval",
-      "Internal AI assistants with source-aware answers",
+      "Designed to collect operational context, preserve source evidence, and maintain memory that AI systems can use without losing grounding.",
+    flowLabel: "Knows",
+    capabilities: [
+      "Operational knowledge",
+      "Context and memory",
+      "Evidence-aware retrieval",
     ],
   },
   {
-    id: "nuvasignal",
-    eyebrow: "Conversation intelligence",
-    title: "NuvaSignal",
-    icon: Mic,
+    name: "Odin",
+    role: "Governed decisions and execution",
+    status: "In development",
+    icon: RouteIcon,
     description:
-      "A real-time assistant layer for meetings, calls, and live operational conversations, built to surface insight when it matters most.",
-    bullets: [
-      "Live meeting assistance",
-      "Sales and call intelligence",
-      "Decision support in real time",
-      "Multilingual capture and guidance",
+      "Designed to build plans, apply policy boundaries, route approvals, and execute workflows with explicit control over what AI systems can do.",
+    flowLabel: "Decides and executes",
+    capabilities: [
+      "Planning and orchestration",
+      "Approval boundaries",
+      "Governed workflow execution",
     ],
+  },
+  {
+    name: "Heimdall",
+    role: "Verification and assurance",
+    status: "Reserved trust subsystem",
+    icon: ShieldCheck,
+    description:
+      "Reserved for verification, integrity checks, audit trails, and assurance evidence that can show what happened and why.",
+    flowLabel: "Proves",
+    capabilities: [
+      "Execution evidence",
+      "Integrity checks",
+      "Audit-ready records",
+    ],
+  },
+];
+
+const platformPreviewInputs = [
+  "Git history",
+  "Pull requests",
+  "CI and test logs",
+  "Agent activity",
+];
+
+const platformPreviewLayers = [
+  "Kvasir",
+  "Odin",
+  "Heimdall (reserved)",
+  "Approval and policy rules",
+];
+
+const platformPreviewOutputs = [
+  "Evidence records",
+  "Disposition outcomes",
+  "Audit-ready trail",
+  "Approval history",
+];
+
+const operatingModel = [
+  {
+    step: "01",
+    title: "Reconstruct agent activity",
+    text: "Pull together commit history, pull requests, CI runs, and review threads into one timeline.",
+  },
+  {
+    step: "02",
+    title: "Capture execution context",
+    text: "Record the model in use, the repository state, and the exact commands and files touched.",
+  },
+  {
+    step: "03",
+    title: "Preserve evidence",
+    text: "Hash every artifact and bind it to its source, so nothing can be edited after the fact without detection.",
+  },
+  {
+    step: "04",
+    title: "Review acceptance",
+    text: "A human reviewer checks the record against policy and decides whether the output is accepted.",
+  },
+  {
+    step: "05",
+    title: "Enforce boundaries",
+    text: "Once trust is established, move consequential actions behind required approval and provider restrictions.",
   },
 ];
 
 const useCases = [
   {
-    title: "Enterprise Knowledge",
-    text: "Transform scattered documents into usable intelligence teams can actually work with.",
-    icon: Database,
+    title: "AI coding agent review",
+    trigger: "Before agents get merge rights on production code",
+    icon: Code2,
   },
   {
-    title: "Sales Intelligence",
-    text: "Give teams better context before, during, and after important customer conversations.",
-    icon: MessageSquareText,
+    title: "Agent-generated pull request evidence",
+    trigger: "When a customer security review asks how agent PRs get accepted",
+    icon: GitPullRequest,
   },
   {
-    title: "Executive Decision Support",
-    text: "Bring operational signals, documentation, and conversations into one intelligence layer.",
-    icon: Radar,
+    title: "CI and test evidence capture",
+    trigger: "When test output needs to survive past the CI run",
+    icon: TestTube2,
   },
   {
-    title: "Private AI Operations",
-    text: "Deploy AI where security, governance, and infrastructure control actually matter.",
-    icon: ShieldCheck,
+    title: "Human approval before publication",
+    trigger: "Before an agent can publish or deploy without a human in the loop",
+    icon: UserCheck,
+  },
+  {
+    title: "Private or hybrid agent governance",
+    trigger: "When agents touch data that can't leave your infrastructure",
+    icon: LockKeyhole,
+  },
+  {
+    title: "Audit-ready activity records",
+    trigger: "Ahead of a SOC 2 or ISO audit",
+    icon: ClipboardCheck,
+  },
+  {
+    title: "Provider and model boundary review",
+    trigger: "When switching or restricting model providers",
+    icon: SlidersHorizontal,
+  },
+  {
+    title: "Controlled release evidence",
+    trigger: "Before a release needs a defensible paper trail",
+    icon: PackageCheck,
   },
 ];
 
-const architecture = [
+const businessOutcomes = [
+  "See what agents were allowed to do",
+  "See what agents actually changed",
+  "Connect reviews to evidence",
+  "Separate raw, sanitized, and approved artifacts",
+  "Create a path from observation to enforcement",
+  "Reduce blind trust in agent output",
+];
+
+const evidenceLadder = [
   {
-    title: "Inputs",
-    items: ["Documents", "Meetings", "Internal systems", "Operational records"],
+    title: "Post-hoc Observe",
+    status: "Lowest-friction start",
+    text: "Reconstruct agent activity after the fact from Git, pull requests, CI logs, agent logs, telemetry, test output, and review comments.",
   },
   {
-    title: "NuvaHive intelligence layer",
-    items: ["Angie", "NuvaSignal", "Secure orchestration", "Retrieval and reasoning"],
+    title: "Real-time Observe",
+    status: "Stronger capture",
+    text: "Capture model identity, context references, commands, tools, file changes, process boundaries, tests, and runtime evidence while work occurs.",
   },
   {
-    title: "Outputs",
-    items: ["AI assistants", "Actionable insights", "Automation triggers", "Team intelligence"],
+    title: "Attest",
+    status: "Portable evidence",
+    text: "Produce tamper-evident records showing who authorized work, what executed, what changed, what verification ran, and what review concluded.",
+  },
+  {
+    title: "Enforce",
+    status: "Controlled action",
+    text: "Apply required approvals, provider restrictions, policy gates, single-use execution authority, and fail-closed publication where justified.",
   },
 ];
 
-const securityPoints = [
-  "Private infrastructure options",
-  "On-premise or private cloud deployment",
-  "No forced dependency on public AI APIs",
-  "Controlled data boundaries and governance",
-  "Enterprise-ready architecture and reproducibility",
+const sampleEvidenceRecord = {
+  action: "Review agent-generated change",
+  fields: [
+    { label: "Model", value: "Captured model identity" },
+    { label: "Repository", value: "Repository and revision captured" },
+    { label: "Authorized by", value: "Reviewer and approval boundary captured" },
+    { label: "Verification", value: "Test and policy evidence preserved" },
+    { label: "Review outcome", value: "Disposition recorded before acceptance" },
+  ],
+  hash: "sha256:example-evidence-record",
+};
+
+const pilotInputs = [
+  "Git history",
+  "Pull requests",
+  "CI and test logs",
+  "Agent logs or transcripts",
+  "Review comments",
+  "Release notes or deployment records",
 ];
+
+const pilotDeliverables = [
+  "One reconstructed agent workflow timeline",
+  "Evidence inventory with source references",
+  "Acceptance and review gaps",
+  "Recommended real-time capture points",
+  "Attestation and enforcement roadmap",
+];
+
+const relayStates = [
+  "Raw",
+  "Sanitized",
+  "Approved",
+  "Quarantined",
+  "Externally transferable",
+];
+
+const engagementOptions = [
+  {
+    title: "Design partnerships",
+    text: "Work with teams that need evidence boundaries around AI agents before deeper automation is trusted.",
+  },
+  {
+    title: "Post-hoc observation pilots",
+    text: "Start by reconstructing agent activity from existing engineering and review artifacts before adding real-time capture.",
+  },
+  {
+    title: "Attestation architecture",
+    text: "Define the evidence, review, and release records needed before an organization can accept agent output.",
+  },
+  {
+    title: "Enforcement roadmap",
+    text: "Map where approvals, policy gates, provider restrictions, and fail-closed boundaries should enter the workflow.",
+  },
+];
+
+const fitSignals = [
+  "AI agents are already creating pull requests, code changes, or operational artifacts.",
+  "Security, audit, or customer review now requires evidence of how agent work is accepted.",
+  "Engineering or operations leaders need approval boundaries before giving agents more autonomy.",
+  "The team wants a low-friction post-hoc pilot before changing runtime behavior.",
+];
+
+const notFitSignals = [
+  "The team is still casually exploring AI with no agent-generated work to review.",
+  "There is no meaningful need for evidence, approval, auditability, or controlled publication.",
+  "The immediate goal is a general chatbot, broad RAG search, or AI strategy deck.",
+];
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const MotionDiv = motion.div;
+
+function Button({ children, className = "", ...props }) {
+  return (
+    <button
+      className={`inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:ring-offset-2 focus:ring-offset-[#07111f] ${className}`}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
 
 function LogoMark() {
   return (
-    <div className="flex items-center gap-2.5 sm:gap-3">
-      <img
-        src={logo}
-        alt="NuvaHive"
-        className="h-8 w-8 drop-shadow-[0_0_12px_rgba(34,211,238,0.35)] sm:h-9 sm:w-9"
-      />
-
-      <div className="flex flex-col leading-[1.02]">
-        <span className="text-[1.1rem] font-semibold tracking-[-0.03em] text-white sm:text-[1.34rem]">
+    <div className="flex items-center gap-3">
+      <img src={logo} alt="NuvaHive" className="h-9 w-9" />
+      <div className="flex flex-col leading-none">
+        <span className="text-lg font-semibold tracking-tight text-white">
           NuvaHive
         </span>
-        <span className="text-[0.58rem] font-medium tracking-[0.28em] text-slate-400 sm:text-[0.68rem] sm:tracking-[0.34em]">
-          AI PLATFORM
+        <span className="mt-1 text-[0.65rem] font-medium uppercase tracking-[0.28em] text-slate-400">
+          Agent Evidence
         </span>
       </div>
     </div>
   );
 }
 
-function GridGlow() {
+function PageShell({ children }) {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      <div className="absolute inset-0 animate-grid-drift bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px]" />
-      <div className="absolute left-[-10%] top-[20%] h-[30rem] w-[30rem] rounded-full bg-cyan-500/20 blur-[120px]" />
-      <div className="absolute left-[-10%] top-[-20%] h-[30rem] w-[30rem] rounded-full bg-cyan-500/15 blur-3xl" />
-      <div className="absolute bottom-[-15%] right-[-5%] h-[26rem] w-[26rem] rounded-full bg-blue-600/20 blur-3xl" />
-      <svg
-        className="absolute inset-0 h-full w-full opacity-40"
-        viewBox="0 0 1200 800"
-        preserveAspectRatio="none"
-      >
-        <motion.path
-          d="M70 500 C 220 390, 280 390, 410 450 S 650 570, 770 470 S 950 280, 1130 330"
-          stroke="rgba(56,189,248,0.65)"
-          strokeWidth="2"
-          fill="none"
-          strokeDasharray="6 18"
-          animate={{ strokeDashoffset: [0, -48] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.path
-        d="M110 240 C 260 300, 360 120, 520 180 S 780 340, 930 260 S 1030 160, 1150 200"
-        stroke="rgba(96,165,250,0.6)"
-        strokeWidth="2"
-        fill="none"
-        strokeDasharray="8 12"
-        animate={{ strokeDashoffset: [0, -40] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-      />
-        <motion.circle
-          cx="70"
-          cy="500"
-          r="6"
-          fill="rgba(34,211,238,0.95)"
-          animate={{ scale: [1, 1.3, 1], opacity: [0.6, 1, 0.6] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-        />
-
-        <motion.circle
-          cx="410"
-          cy="450"
-          r="6"
-          fill="rgba(34,211,238,0.95)"
-          animate={{ scale: [1, 1.25, 1], opacity: [0.6, 1, 0.6] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
-        />
-
-        <motion.circle
-          cx="770"
-          cy="470"
-          r="6"
-          fill="rgba(34,211,238,0.95)"
-          animate={{ scale: [1, 1.3, 1], opacity: [0.6, 1, 0.6] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        />
-
-        <motion.circle
-          cx="1130"
-          cy="330"
-          r="6"
-          fill="rgba(34,211,238,0.95)"
-          animate={{ scale: [1, 1.3, 1], opacity: [0.6, 1, 0.6] }}
-          transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <circle cx="110" cy="240" r="6" fill="rgba(59,130,246,0.85)" />
-        <circle cx="520" cy="180" r="6" fill="rgba(59,130,246,0.85)" />
-        <circle cx="930" cy="260" r="6" fill="rgba(59,130,246,0.85)" />
-      </svg>
+    <div className="relative isolate min-h-screen overflow-hidden bg-[#07111f] text-white">
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[linear-gradient(180deg,#07111f_0%,#08111d_52%,#050b14_100%)]" />
+      <div className="pointer-events-none fixed inset-0 -z-10 animate-grid-drift bg-[linear-gradient(rgba(148,163,184,0.055)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.04)_1px,transparent_1px)] bg-[size:72px_72px]" />
+      <div className="pointer-events-none fixed -left-32 top-[-12rem] -z-10 h-[34rem] w-[34rem] rounded-full bg-cyan-300/15 blur-3xl animate-breathe-glow" />
+      <div className="pointer-events-none fixed right-[-16rem] top-40 -z-10 h-[38rem] w-[38rem] rounded-full bg-blue-500/10 blur-3xl animate-breathe-glow" />
+      <div className="pointer-events-none fixed bottom-[-18rem] left-1/3 -z-10 h-[32rem] w-[32rem] rounded-full bg-emerald-300/8 blur-3xl animate-breathe-glow" />
+      <div className="relative z-10">{children}</div>
     </div>
   );
 }
 
-function NeuralBackground() {
+function SectionHeading({ eyebrow, title, description }) {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      <svg
-        className="absolute inset-0 h-full w-full opacity-70"
-        viewBox="0 0 1440 900"
-        preserveAspectRatio="none"
-      >
-        <defs>
-          <linearGradient id="lineA" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgba(34,211,238,0.15)" />
-            <stop offset="50%" stopColor="rgba(34,211,238,0.7)" />
-            <stop offset="100%" stopColor="rgba(59,130,246,0.2)" />
-          </linearGradient>
-
-          <linearGradient id="lineB" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgba(59,130,246,0.1)" />
-            <stop offset="50%" stopColor="rgba(96,165,250,0.65)" />
-            <stop offset="100%" stopColor="rgba(34,211,238,0.2)" />
-          </linearGradient>
-
-          <filter id="softGlow">
-            <feGaussianBlur stdDeviation="4" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-
-        <motion.path
-          d="M90 220 C 250 110, 380 130, 540 230 S 860 350, 1010 250 S 1220 120, 1360 180"
-          stroke="url(#lineA)"
-          strokeWidth="3"
-          fill="none"
-          filter="url(#softGlow)"
-          initial={{ pathLength: 0.2, opacity: 0.2 }}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 2.5, ease: "easeInOut" }}
-        />
-
-        <motion.path
-          d="M60 470 C 220 370, 360 360, 520 470 S 810 630, 980 520 S 1210 330, 1380 410"
-          stroke="url(#lineB)"
-          strokeWidth="2.5"
-          fill="none"
-          filter="url(#softGlow)"
-          initial={{ pathLength: 0.2, opacity: 0.15 }}
-          animate={{ pathLength: 1, opacity: 0.9 }}
-          transition={{ duration: 3, ease: "easeInOut", delay: 0.15 }}
-        />
-
-        <motion.path
-          d="M180 760 C 350 650, 500 690, 650 760 S 930 860, 1130 730"
-          stroke="url(#lineA)"
-          strokeWidth="2.5"
-          fill="none"
-          filter="url(#softGlow)"
-          initial={{ pathLength: 0.15, opacity: 0.1 }}
-          animate={{ pathLength: 1, opacity: 0.85 }}
-          transition={{ duration: 2.8, ease: "easeInOut", delay: 0.25 }}
-        />
-
-        {[
-          { cx: 90, cy: 220, r: 7 },
-          { cx: 540, cy: 230, r: 7 },
-          { cx: 1010, cy: 250, r: 7 },
-          { cx: 1360, cy: 180, r: 7 },
-          { cx: 60, cy: 470, r: 6 },
-          { cx: 520, cy: 470, r: 6 },
-          { cx: 980, cy: 520, r: 6 },
-          { cx: 1380, cy: 410, r: 6 },
-          { cx: 180, cy: 760, r: 6 },
-          { cx: 650, cy: 760, r: 6 },
-          { cx: 1130, cy: 730, r: 6 },
-        ].map((node, i) => (
-          <motion.circle
-            key={i}
-            cx={node.cx}
-            cy={node.cy}
-            r={node.r}
-            fill={i % 2 === 0 ? "rgba(34,211,238,0.95)" : "rgba(96,165,250,0.95)"}
-            filter="url(#softGlow)"
-            initial={{ scale: 0.7, opacity: 0.35 }}
-            animate={{ scale: [1, 1.22, 1], opacity: [0.45, 1, 0.45] }}
-            transition={{
-              duration: 3 + (i % 3),
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: i * 0.12,
-            }}
-          />
-        ))}
-      </svg>
-    </div>
-  );
-}
-
-function SectionHeading({ eyebrow, title, description, className = "" }) {
-  return (
-    <div className={`max-w-3xl ${className}`}>
-      <div className="mb-3 inline-flex rounded-full border border-cyan-400/25 bg-cyan-400/10 px-3 py-1 text-[0.68rem] font-medium uppercase tracking-[0.22em] text-cyan-300 sm:mb-4 sm:text-xs sm:tracking-[0.24em]">
+    <div className="max-w-3xl">
+      <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
         {eyebrow}
-      </div>
-      <h2 className="max-w-[11ch] text-[2.3rem] font-semibold leading-[0.98] tracking-tight text-white sm:max-w-3xl sm:text-4xl md:text-5xl">
+      </p>
+      <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
         {title}
       </h2>
       {description ? (
-        <p className="mt-5 max-w-xl text-[0.98rem] leading-7 text-slate-300 sm:mt-6 sm:max-w-2xl sm:text-base sm:leading-8 md:text-lg">
+        <p className="mt-5 max-w-2xl text-base leading-8 text-slate-300 md:text-lg">
           {description}
         </p>
       ) : null}
@@ -328,1128 +339,706 @@ function SectionHeading({ eyebrow, title, description, className = "" }) {
   );
 }
 
-function GlobalNeuralBackground() {
+function PlatformPreview() {
   return (
-    <div className="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
+    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.045] p-4 shadow-2xl shadow-black/25 backdrop-blur sm:p-5">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_26%_18%,rgba(34,211,238,0.13),transparent_30%),radial-gradient(circle_at_78%_78%,rgba(59,130,246,0.12),transparent_34%)]" />
+      <div className="relative rounded-2xl border border-cyan-300/15 bg-[#081523]/90 p-4 sm:p-5">
+        <div className="mb-5 flex flex-col gap-3 border-b border-white/10 pb-5 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
+              Platform
+            </p>
+            <p className="mt-2 text-lg font-semibold text-white">
+              NuvaHive evidence layer
+            </p>
+          </div>
+          <div className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100">
+            Platform direction
+          </div>
+        </div>
 
-      {/* drifting grid */}
-      <div className="absolute inset-0 animate-grid-drift bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:64px_64px]" />
+        <div className="grid gap-3 sm:grid-cols-2">
+          {architecture.slice(0, 2).map((component) => {
+            const Icon = component.icon;
+            return (
+              <div key={component.name} className="rounded-2xl border border-white/10 bg-white/[0.055] p-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="rounded-xl border border-cyan-300/20 bg-cyan-300/10 p-2">
+                    <Icon className="h-4 w-4 text-cyan-200" />
+                  </div>
+                  <div>
+                    <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-slate-400">
+                      {component.flowLabel}
+                    </p>
+                    <h3 className="text-lg font-semibold text-white">{component.name}</h3>
+                  </div>
+                </div>
+                <ul className="mt-3 space-y-1.5">
+                  {component.capabilities.map((capability) => (
+                    <li key={capability} className="flex items-start gap-1.5 text-xs leading-5 text-slate-300">
+                      <ChevronRight className="mt-0.5 h-3 w-3 shrink-0 text-cyan-300" />
+                      {capability}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
 
-      {/* large ambient glow */}
-      <div className="absolute left-[10%] top-[20%] h-[600px] w-[600px] rounded-full bg-cyan-500/10 blur-[220px]" />
+        <div className="mt-3 grid gap-3 sm:grid-cols-[1fr_auto_1fr_auto_1fr] sm:items-center">
+          <div className="rounded-2xl border border-white/10 bg-[#07111f]/70 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Inputs</p>
+            <ul className="mt-3 space-y-1.5 text-xs leading-5 text-slate-300">
+              {platformPreviewInputs.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="mx-auto hidden h-6 w-px bg-cyan-300/40 sm:block" />
+          <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.06] p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200">Evidence layer</p>
+            <ul className="mt-3 space-y-1.5 text-xs leading-5 text-slate-200">
+              {platformPreviewLayers.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="mx-auto hidden h-6 w-px bg-cyan-300/40 sm:block" />
+          <div className="rounded-2xl border border-white/10 bg-[#07111f]/70 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Outputs</p>
+            <ul className="mt-3 space-y-1.5 text-xs leading-5 text-slate-300">
+              {platformPreviewOutputs.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
 
-      <div className="absolute right-[15%] top-[60%] h-[500px] w-[500px] rounded-full bg-blue-500/10 blur-[220px]" />
-
+        <div className="mt-5 grid gap-3 rounded-2xl border border-cyan-300/15 bg-cyan-300/5 px-4 py-4 text-sm sm:grid-cols-[1fr_auto] sm:items-center">
+          <p className="font-semibold tracking-tight text-cyan-100">
+            Kvasir knows. Odin decides and executes. Heimdall proves.
+          </p>
+          <p className="text-slate-300">
+            Context → Control → Evidence
+          </p>
+        </div>
+      </div>
     </div>
-  )
+  );
+}
+
+function EvidenceRecordPreview() {
+  return (
+    <div className="glow-card rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-3">
+          <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-2.5">
+            <FileCheck2 className="h-4 w-4 text-cyan-200" />
+          </div>
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
+            Sample evidence record
+          </p>
+        </div>
+        <span className="w-fit rounded-full border border-amber-200/20 bg-amber-200/10 px-3 py-1 text-xs font-semibold text-amber-100">
+          Illustrative structure
+        </span>
+      </div>
+      <p className="mt-4 text-sm font-semibold text-white">
+        {sampleEvidenceRecord.action}
+      </p>
+      <dl className="mt-4 divide-y divide-white/10 border-t border-white/10">
+        {sampleEvidenceRecord.fields.map((field) => (
+          <div key={field.label} className="grid grid-cols-[0.8fr_1.2fr] gap-3 py-2.5 text-sm">
+            <dt className="text-slate-400">{field.label}</dt>
+            <dd className="text-slate-200">{field.value}</dd>
+          </div>
+        ))}
+      </dl>
+      <p className="mt-4 truncate font-mono text-xs text-slate-500">
+        {sampleEvidenceRecord.hash}
+      </p>
+      <p className="mt-4 rounded-2xl border border-white/10 bg-[#07111f]/60 px-3 py-2 text-xs leading-5 text-slate-400">
+        Illustrative example only. This shows the kind of record the platform direction is designed around, not live product output.
+      </p>
+    </div>
+  );
+}
+
+function ContactForm() {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    company: "",
+    interest: "",
+    message: "",
+    website: "",
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState("");
+
+  function handleChange(event) {
+    setForm({ ...form, [event.target.name]: event.target.value });
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setSubmitting(true);
+    setStatus("");
+
+    try {
+      const formData = new FormData(event.currentTarget);
+      const turnstileToken = formData.get("cf-turnstile-response") || "";
+
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          "cf-turnstile-response": turnstileToken,
+        }),
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Something went wrong.");
+      }
+
+      setStatus("Thanks. The NuvaHive team received your request.");
+      setForm({
+        name: "",
+        email: "",
+        company: "",
+        interest: "",
+        message: "",
+        website: "",
+      });
+    } catch (error) {
+      setStatus(error.message || "Something went wrong. Please try again.");
+    } finally {
+      window.turnstile?.reset();
+      setSubmitting(false);
+    }
+  }
+
+  const inputClass =
+    "w-full rounded-2xl border border-white/10 bg-[#081523] px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-300/60";
+
+  return (
+    <form onSubmit={handleSubmit} className="grid gap-4">
+      <input type="text" name="website" value={form.website} onChange={handleChange} className="hidden" tabIndex="-1" autoComplete="off" />
+      <div className="grid gap-4 sm:grid-cols-2">
+        <label className="sr-only" htmlFor="name">Name</label>
+        <input id="name" name="name" value={form.name} onChange={handleChange} placeholder="Name" required className={inputClass} />
+        <label className="sr-only" htmlFor="email">Email</label>
+        <input id="email" name="email" type="email" value={form.email} onChange={handleChange} placeholder="Email" required className={inputClass} />
+      </div>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <label className="sr-only" htmlFor="company">Company</label>
+        <input id="company" name="company" value={form.company} onChange={handleChange} placeholder="Company" className={inputClass} />
+        <label className="sr-only" htmlFor="interest">Interest</label>
+        <select id="interest" name="interest" value={form.interest} onChange={handleChange} className={inputClass}>
+          <option value="">What are you exploring?</option>
+          <option value="post-hoc-observe">Post-hoc agent observation</option>
+          <option value="real-time-observe">Real-time agent observation</option>
+          <option value="attestation">Agent evidence attestation</option>
+          <option value="enforcement">Policy gates and enforcement</option>
+        </select>
+      </div>
+      <label className="sr-only" htmlFor="message">Message</label>
+      <textarea
+        id="message"
+        name="message"
+        value={form.message}
+        onChange={handleChange}
+        placeholder="Tell us what your agents touch, change, review, or publish."
+        required
+        rows="5"
+        className={inputClass}
+      />
+      <div
+        className="cf-turnstile"
+        data-sitekey={TURNSTILE_SITE_KEY}
+        data-action="turnstile-spin-v2"
+      />
+      <Button
+        type="submit"
+        disabled={submitting}
+        className="bg-cyan-300 text-slate-950 hover:bg-cyan-200 disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        {submitting ? "Sending..." : "Start a conversation"}
+        <ArrowRight className="ml-2 h-4 w-4" />
+      </Button>
+      {status ? <p className="text-sm text-slate-300">{status}</p> : null}
+    </form>
+  );
 }
 
 function NuvaHiveHomepage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [form, setForm] = useState({
-  name: "",
-  email: "",
-  company: "",
-  interest: "",
-  message: "",
-  website: "",
-});
 
-const [submitting, setSubmitting] = useState(false);
-const [status, setStatus] = useState("");
-
-function handleChange(e) {
-  setForm({ ...form, [e.target.name]: e.target.value });
-}
-
-async function handleSubmit(e) {
-  e.preventDefault();
-  setSubmitting(true);
-  setStatus("");
-
-  try {
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(form),
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.error || "Something went wrong.");
-    }
-
-    setStatus("Thanks. Angie received your request and will get back to you shortly.");
-    setForm({
-      name: "",
-      email: "",
-      company: "",
-      interest: "",
-      message: "",
-      website: "",
-    });
-  } catch (err) {
-    setStatus(err.message || "Something went wrong. Please try again.");
-  } finally {
-    setSubmitting(false);
-  }
-}
   return (
-    <div className="relative min-h-screen bg-[#07111f] text-white">
-
-      <GlobalNeuralBackground />
-
-      <div className="relative isolate overflow-hidden">
-        <GridGlow />
-        <NeuralBackground />
-
-        <header className="sticky top-0 z-40 border-b border-white/10 bg-[#07111f]/75 backdrop-blur-xl">
-          <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-6 sm:py-4 lg:px-8">
-            <a href="#" className="flex items-center gap-3">
-              <LogoMark />
+    <PageShell>
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#07111f]/85 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-6 lg:px-8">
+          <a href="#" aria-label="NuvaHive home">
+            <LogoMark />
+          </a>
+          <nav className="hidden items-center gap-7 lg:flex">
+            {nav.map((item) => (
+              <a key={item.label} href={item.href} className="text-sm font-medium text-slate-300 transition hover:text-white">
+                {item.label}
+              </a>
+            ))}
+          </nav>
+          <div className="flex items-center gap-3">
+            <a href="#contact" className="hidden sm:block">
+              <Button className="border border-cyan-300/30 bg-cyan-300 text-slate-950 hover:bg-cyan-200">
+                Work with us
+              </Button>
             </a>
-
-            <nav className="hidden items-center gap-7 lg:flex">
+            <button
+              type="button"
+              aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={mobileMenuOpen}
+              onClick={() => setMobileMenuOpen((open) => !open)}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-slate-200 lg:hidden"
+            >
+              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
+        </div>
+        {mobileMenuOpen ? (
+          <div className="border-t border-white/10 bg-[#07111f]/95 px-5 py-4 lg:hidden">
+            <nav className="flex flex-col gap-2">
               {nav.map((item) => (
-                <a key={item.label} href={item.href} className="text-[0.95rem] font-medium text-slate-300 transition hover:text-white">
+                <a
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-medium text-slate-200"
+                >
                   {item.label}
                 </a>
               ))}
             </nav>
-            <div className="flex items-center gap-2 sm:gap-3">
-              <button
-                type="button"
-                aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-                aria-expanded={mobileMenuOpen}
-                onClick={() => setMobileMenuOpen((open) => !open)}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-slate-200 transition hover:bg-white/[0.1] lg:hidden"
-              >
-                {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              </button>
-
-              <a href="#contact" className="hidden sm:block">
-                <Button className="rounded-full bg-cyan-400 px-4 text-[0.9rem] font-semibold text-slate-950 hover:bg-cyan-300 sm:px-5 sm:text-[0.95rem] md:px-7 md:text-[0.98rem]">
-                  Request Demo
-                </Button>
-              </a>
-            </div>
           </div>
-          {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className="border-t border-white/10 bg-[#07111f]/95 px-5 py-4 backdrop-blur-xl sm:px-6 lg:hidden"
-            >
-              <nav className="flex flex-col gap-2">
-                {nav.map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="rounded-2xl border border-white/8 bg-white/[0.04] px-4 py-3 text-[0.98rem] font-medium text-slate-200 transition hover:bg-white/[0.08] hover:text-white"
-                  >
-                    {item.label}
-                  </a>
-                ))}
+        ) : null}
+      </header>
 
-                <a
-                  href="#contact"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="sm:hidden"
-                >
-                  <Button className="mt-2 w-full rounded-full bg-cyan-400 px-6 text-[0.95rem] font-semibold text-slate-950 hover:bg-cyan-300">
-                    Request Demo
-                  </Button>
-                </a>
-              </nav>
-            </motion.div>
-          )}
-        </header>
-
-        <section className="relative mx-auto grid max-w-7xl items-start gap-12 px-5 pb-16 pt-14 sm:gap-14 sm:px-6 sm:pb-20 sm:pt-16 xl:grid-cols-[1.08fr_0.92fr] xl:gap-16 xl:px-8 xl:pb-32 xl:pt-24">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55 }}
-            className="relative z-10 lg:-mt-8"
+      <main>
+        <section className="mx-auto grid max-w-7xl gap-12 px-5 py-20 sm:px-6 md:py-24 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:px-8 lg:py-32">
+          <MotionDiv
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.65, ease: "easeOut" }}
           >
-            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] hover:bg-white/[0.08] transition-colors duration-300 px-4 py-1.5 text-[0.92rem] font-medium text-slate-300 backdrop-blur">
-              <Network className="h-4 w-4 text-cyan-300" />
-              Private AI infrastructure for real organizations
-            </div>
-
-            <div className="mb-6 inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/15 px-4 py-1 text-xs font-medium uppercase tracking-[0.25em] text-cyan-300">
-              Operational Intelligence Platform
-            </div>
-
-            <h1 className="max-w-[11ch] text-[2.6rem] font-semibold leading-[0.96] tracking-[-0.05em] text-white sm:text-5xl md:max-w-[10ch] md:text-[5.25rem] md:leading-[1.05]">
-              <span className="block text-slate-300">Operational</span>
-              <span className="block bg-gradient-to-r from-cyan-300 via-sky-300 to-blue-400 bg-clip-text text-transparent">
-                AI infrastructure
-              </span>
-              <span className="block text-white">for real organizations.</span>
-            </h1>
-
-            <p className="mt-6 max-w-xl text-[0.98rem] leading-7 text-slate-300 sm:mt-7 sm:text-base sm:leading-8 md:mt-8 md:max-w-3xl md:text-[1.28rem] md:leading-9">
-              NuvaHive connects enterprise knowledge, conversations, and operational systems into a private intelligence layer powering decisions, automation, and AI assistants.
+            <p className="inline-flex rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200">
+              Built for controlled AI operations
             </p>
-
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
-              <a href="#platform" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full rounded-full bg-cyan-400 px-6 text-[0.95rem] font-semibold text-slate-950 hover:bg-cyan-300 sm:w-auto sm:px-7 sm:text-[0.98rem]">
-                  Explore Platform <ArrowRight className="ml-2 h-4 w-4" />
+            <h1 className="mt-7 max-w-4xl text-4xl font-semibold leading-[1.02] tracking-tight text-white sm:text-6xl lg:text-7xl">
+              Infrastructure for{" "}
+              <span className="bg-gradient-to-r from-cyan-300 via-sky-300 to-blue-400 bg-clip-text text-transparent">
+                trustworthy AI systems
+              </span>
+              .
+            </h1>
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300 md:text-xl md:leading-9">
+              NuvaHive helps teams see what AI agents were allowed to do, what they actually did, what changed, and whether the resulting evidence supports acceptance.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a href="#evidence">
+                <Button className="w-full bg-cyan-300 text-slate-950 hover:bg-cyan-200 sm:w-auto">
+                  Explore agent evidence
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </a>
-              <a href="#contact" className="w-full sm:w-auto">
-                <Button size="lg" variant="outline" className="w-full rounded-full border-white/15 bg-white/[0.06] px-6 text-[0.95rem] font-medium text-white transition-colors duration-300 hover:bg-white/10 sm:w-auto sm:px-7 sm:text-[0.98rem]">
-                  Contact Enterprise Sales
+              <a href="#contact">
+                <Button className="w-full border border-white/15 bg-white/[0.06] text-white hover:bg-white/[0.1] sm:w-auto">
+                  Map a workflow
                 </Button>
               </a>
             </div>
-
-            <div className="mt-8 grid gap-3 sm:mt-10 sm:grid-cols-3 sm:gap-4">
+            <div className="mt-10 grid gap-3 sm:grid-cols-3">
               {[
-                ["Private AI", "Deploy with control"],
-                ["RAG + Retrieval", "Source-aware intelligence"],
-                ["Conversation Intelligence", "Insight inside conversations"],
+                ["Observe", "Reconstruct or capture what happened across agent work."],
+                ["Attest", "Turn activity, changes, reviews, and tests into portable evidence."],
+                ["Enforce", "Move controlled workflows toward approvals and policy gates."],
               ].map(([title, text]) => (
-                <div
-                  key={title}
-                  className="rounded-[1.35rem] border border-white/10 bg-white/[0.06] p-3.5 backdrop-blur-sm transition-colors duration-300 hover:bg-white/[0.08] hover:shadow-[0_0_35px_rgba(34,211,238,0.18)] sm:rounded-3xl sm:p-4"
-                >
-                  <div className="text-[0.92rem] font-medium leading-5 text-white sm:text-sm">{title}</div>
-                  <div className="mt-1 text-[0.88rem] leading-5 text-slate-400 sm:text-sm">{text}</div>
+                <div key={title} className="glow-card rounded-2xl border border-white/10 bg-white/[0.045] p-4">
+                  <p className="font-semibold text-white">{title}</p>
+                  <p className="mt-2 text-sm leading-6 text-slate-400">{text}</p>
                 </div>
               ))}
             </div>
-          </motion.div>
+          </MotionDiv>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.08 }}
-            className="relative z-10"
+          <MotionDiv
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.75, delay: 0.12, ease: "easeOut" }}
           >
-            <div className="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-[linear-gradient(180deg,rgba(10,21,39,0.95),rgba(8,15,27,0.96))] p-4 shadow-2xl shadow-cyan-950/30 sm:rounded-[2rem] sm:p-5 md:p-6">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(34,211,238,0.18),transparent_35%),radial-gradient(circle_at_100%_20%,rgba(59,130,246,0.22),transparent_30%)]" />
-              <div className="relative space-y-4 sm:space-y-5">
-                <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.06] px-3 py-3 transition-colors duration-300 hover:bg-white/[0.08] sm:px-4">
-                  <div className="min-w-0">
-                    <div className="text-[0.68rem] font-medium uppercase tracking-[0.24em] text-slate-400 sm:text-[0.72rem] sm:tracking-[0.28em]">Platform</div>
-                    <div className="mt-1 text-base font-medium sm:text-lg">NuvaHive Intelligence Layer</div>
+            <PlatformPreview />
+          </MotionDiv>
+        </section>
+
+        <section className="border-y border-white/10 bg-[#08111d]">
+          <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
+            <div className="grid gap-5 md:grid-cols-3">
+              {businessOutcomes.map((outcome) => (
+                <div key={outcome} className="glow-card flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-cyan-200" />
+                  <p className="text-sm leading-6 text-slate-300">{outcome}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="evidence" className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
+          <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+            <div>
+              <SectionHeading
+                eyebrow="Governed agent evidence"
+                title="Start by observing. Grow toward attestation and enforcement."
+                description="The initial commercial product is intentionally narrower than the full platform: help teams understand agent activity, preserve evidence, and decide whether output should be accepted."
+              />
+              <div className="mt-8">
+                <EvidenceRecordPreview />
+              </div>
+            </div>
+            <div className="grid gap-4">
+              {evidenceLadder.map((item, index) => (
+                <div
+                  key={item.title}
+                  className="glow-card grid gap-4 rounded-3xl border border-white/10 bg-white/[0.045] p-5 md:grid-cols-[88px_0.7fr_1.3fr] md:items-start"
+                >
+                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cyan-200">
+                    {String(index + 1).padStart(2, "0")}
+                  </p>
+                  <div>
+                    <h3 className="text-xl font-semibold text-white">
+                      {item.title}
+                    </h3>
+                    <p className="mt-1 text-sm font-medium text-cyan-200">
+                      {item.status}
+                    </p>
                   </div>
-                  <div className="ml-3 shrink-0 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-1 text-[0.7rem] text-emerald-300 sm:px-3 sm:text-xs">
-                    Enterprise
+                  <p className="text-sm leading-7 text-slate-300">
+                    {item.text}
+                  </p>
+                </div>
+              ))}
+              <div className="rounded-3xl border border-amber-200/20 bg-amber-200/[0.06] p-5 text-sm leading-7 text-amber-50/85">
+                Post-hoc observation is reconstructed evidence. It is useful because it is low-friction, but it should not be presented as equivalent to real-time capture.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="pilot" className="border-y border-white/10 bg-[#08111d]">
+          <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-6 lg:grid-cols-[0.86fr_1.14fr] lg:items-start lg:px-8 lg:py-28">
+            <div>
+              <SectionHeading
+                eyebrow="First pilot"
+                title="Start with one post-hoc Observe workflow."
+                description="The first pilot should not require agents to change how they work. Reconstruct one completed workflow from the systems your team already uses, then decide where stronger capture or enforcement belongs."
+              />
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a href="#contact">
+                  <Button className="w-full bg-cyan-300 text-slate-950 hover:bg-cyan-200 sm:w-auto">
+                    Discuss a post-hoc pilot
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </a>
+              </div>
+            </div>
+
+            <div className="grid gap-5">
+              <div className="glow-card rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6">
+                <div className="flex items-center gap-3">
+                  <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-3">
+                    <Database className="h-5 w-5 text-cyan-200" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
+                      Inputs
+                    </p>
+                    <h3 className="text-xl font-semibold text-white">
+                      Existing evidence sources
+                    </h3>
                   </div>
                 </div>
-
-                <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
-                  {platformCards.map((card) => {
-                    const Icon = card.icon;
-                    return (
-                      <div key={card.title} className="rounded-[1.5rem] border border-white/10 bg-white/[0.06] p-4 transition-colors duration-300 hover:bg-white/[0.08] sm:rounded-3xl sm:p-5">
-                        <div className="flex items-center gap-3">
-                          <div className="rounded-2xl border border-cyan-400/20 bg-cyan-400/10 p-2">
-                            <Icon className="h-5 w-5 text-cyan-300" />
-                          </div>
-                          <div className="min-w-0">
-                            <div className="text-[0.68rem] font-medium uppercase tracking-[0.24em] text-slate-400 sm:text-[0.72rem] sm:tracking-[0.28em]">{card.eyebrow}</div>
-                            <div className="text-[1.3rem] font-semibold tracking-[-0.03em] sm:text-[1.7rem]">{card.title}</div>
-                          </div>
-                        </div>
-                        <div className="mt-4 space-y-2.5 sm:space-y-3">
-                          {card.bullets.slice(0, 3).map((bullet) => (
-                            <div key={bullet} className="flex items-start gap-2 text-[0.92rem] text-slate-300 sm:text-sm">
-                              <ChevronRight className="mt-0.5 h-4 w-4 shrink-0 text-cyan-300" />
-                              <span>{bullet}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })}
+                <div className="mt-5 grid gap-2 sm:grid-cols-2">
+                  {pilotInputs.map((item) => (
+                    <div key={item} className="rounded-xl border border-white/10 bg-[#07111f]/70 px-3 py-2 text-sm text-slate-300">
+                      {item}
+                    </div>
+                  ))}
                 </div>
+              </div>
 
-                <div className="relative py-1 sm:py-2">
-                  <div className="pointer-events-none absolute left-[8%] right-[8%] top-1/2 hidden -translate-y-1/2 md:block">
-                    <motion.div
-                      className="h-px w-full bg-gradient-to-r from-cyan-400/10 via-cyan-400/60 to-cyan-400/10"
-                      animate={{ opacity: [0.35, 0.8, 0.35] }}
-                      transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
-                    />
-                    <motion.div
-                      className="absolute top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-cyan-300 shadow-[0_0_16px_rgba(34,211,238,1)]"
-                      animate={{ left: ["0%", "100%"] }}
-                      transition={{ duration: 2.8, repeat: Infinity, ease: "linear" }}
-                    />
+              <div className="glow-card rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6">
+                <div className="flex items-center gap-3">
+                  <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-3">
+                    <FileCheck2 className="h-5 w-5 text-cyan-200" />
                   </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
+                      Outputs
+                    </p>
+                    <h3 className="text-xl font-semibold text-white">
+                      What the pilot produces
+                    </h3>
+                  </div>
+                </div>
+                <div className="mt-5 grid gap-3">
+                  {pilotDeliverables.map((item) => (
+                    <div key={item} className="flex items-start gap-3 rounded-xl border border-white/10 bg-[#07111f]/70 px-3 py-2.5">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-cyan-200" />
+                      <p className="text-sm leading-6 text-slate-300">{item}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
-                  <div className="relative z-10 grid gap-3 sm:gap-4 md:grid-cols-3">
-                    {architecture.map((block) => (
-                      <div key={block.title} className="rounded-[1.5rem] border border-white/10 bg-[#0b172a]/85 p-4 sm:rounded-3xl sm:p-5">
-                        <div className="text-sm font-medium text-cyan-300">{block.title}</div>
-                        <div className="mt-3 space-y-2 sm:mt-4">
-                          {block.items.map((item) => (
-                            <div
-                              key={item}
-                              className="rounded-xl px-3 py-2 text-[0.92rem] text-slate-300 transition hover:bg-white/[0.08] sm:text-sm"
-                            >
-                              {item}
-                            </div>
-                          ))}
-                        </div>
+        <section id="platform" className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
+          <SectionHeading
+            eyebrow="Platform"
+            title="One architecture for knowledge, decisions, execution, and proof."
+            description="The initial product is presented as one coherent platform. Internally, Kvasir, Odin, and Heimdall remain distinct systems with narrow versioned interfaces."
+          />
+          <div className="mt-12 grid gap-5 lg:grid-cols-3">
+            {architecture.map((component) => {
+              const Icon = component.icon;
+              return (
+                <div key={component.name} className="glow-card rounded-3xl border border-white/10 bg-white/[0.045] p-6">
+                  <div className="flex items-center gap-3">
+                    <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-3">
+                      <Icon className="h-5 w-5 text-cyan-200" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-semibold text-white">{component.name}</h3>
+                      <p className="text-sm text-cyan-200">{component.status}</p>
+                    </div>
+                  </div>
+                  <p className="mt-5 text-base font-semibold text-slate-100">{component.role}</p>
+                  <p className="mt-3 text-sm leading-7 text-slate-300">{component.description}</p>
+                  <div className="mt-6 grid gap-2">
+                    {component.capabilities.map((capability) => (
+                      <div key={capability} className="rounded-xl border border-white/10 bg-[#081523] px-3 py-2 text-sm text-slate-300">
+                        {capability}
                       </div>
                     ))}
                   </div>
                 </div>
-              </div>
-            </div>
-          </motion.div>
-        </section>
-      </div>
-
-      <main>
-        <section className="bg-[#08111d] border-b border-white/10">
-          <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-24 lg:px-8 lg:py-32">
-            <div className="max-w-3xl">
-              <div className="mb-3 inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-[0.68rem] font-medium uppercase tracking-[0.22em] text-cyan-300 sm:mb-4 sm:text-xs sm:tracking-[0.24em]">
-                How NuvaHive works
-              </div>
-
-              <h2 className="max-w-[11ch] text-[2.3rem] font-semibold leading-[0.98] tracking-[-0.04em] text-white sm:max-w-3xl sm:text-4xl md:text-6xl md:leading-[1.02]">
-                One intelligence layer across your operations.
-              </h2>
-
-              <p className="mt-5 max-w-xl text-[0.98rem] leading-7 text-slate-300 sm:mt-6 sm:max-w-2xl sm:text-base sm:leading-8 md:text-[1.15rem] md:leading-9">
-                NuvaHive connects enterprise knowledge, conversations, and operational systems into one intelligence layer for retrieval, context, and action.
-              </p>
-            </div>
-
-            <div className="mt-14 grid gap-6 sm:mt-16 sm:gap-8 lg:mt-20 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
-              <div className="grid gap-2.5 sm:grid-cols-2 sm:gap-4">
-                {[
-                  "Documents",
-                  "Meetings",
-                  "Internal systems",
-                  "Operations",
-                ].map((item) => (
-                  <div
-                    key={item}
-                    className="rounded-[1.35rem] border border-white/10 bg-white/[0.06] px-4 py-4.5 text-[0.95rem] font-medium text-slate-200 backdrop-blur-sm transition-colors duration-300 hover:border-cyan-400/30 hover:bg-white/[0.08] sm:rounded-3xl sm:px-5 sm:py-6 sm:text-base"
-                  >
-                    {item}
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex items-center justify-center">
-                <div className="hidden h-24 w-px bg-gradient-to-b from-transparent via-cyan-400/60 to-transparent lg:block" />
-                <div className="flex h-12 w-12 items-center justify-center rounded-full border border-cyan-400/25 bg-cyan-400/10 text-sm text-cyan-300 shadow-[0_0_24px_rgba(34,211,238,0.18)] lg:hidden">
-                  ↓
-                </div>
-              </div>
-
-              <div className="rounded-[1.75rem] border border-cyan-400/15 bg-[linear-gradient(180deg,rgba(14,26,45,0.96),rgba(8,15,27,0.98))] p-5 shadow-[0_0_40px_rgba(34,211,238,0.08)] sm:rounded-[2rem] sm:p-6 md:p-8">
-                <div className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-cyan-300 sm:text-xs sm:tracking-[0.28em]">
-                  NuvaHive intelligence layer
-                </div>
-
-                <div className="mt-5 grid gap-3 sm:mt-6 sm:gap-4 sm:grid-cols-2">
-                  <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.06] p-4 transition-colors duration-300 hover:bg-white/[0.08] sm:rounded-3xl sm:p-5">
-                    <div className="text-[0.78rem] uppercase tracking-[0.18em] text-slate-400 sm:text-sm sm:tracking-[0.22em]">
-                      Knowledge intelligence
-                    </div>
-                    <div className="mt-2 text-[1.55rem] font-semibold tracking-[-0.03em] text-white sm:text-2xl">
-                      Angie
-                    </div>
-                    <p className="mt-3 text-[0.92rem] leading-6 text-slate-300 sm:text-sm sm:leading-7">
-                      Ingests, structures, retrieves, and reasons over enterprise knowledge.
-                    </p>
-                  </div>
-
-                  <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.06] p-4 transition-colors duration-300 hover:bg-white/[0.08] sm:rounded-3xl sm:p-5">
-                    <div className="text-[0.78rem] uppercase tracking-[0.18em] text-slate-400 sm:text-sm sm:tracking-[0.22em]">
-                      Conversation intelligence
-                    </div>
-                    <div className="mt-2 text-[1.55rem] font-semibold tracking-[-0.03em] text-white sm:text-2xl">
-                      NuvaSignal
-                    </div>
-                    <p className="mt-3 text-[0.92rem] leading-6 text-slate-300 sm:text-sm sm:leading-7">
-                      Understands meetings and conversations in real time and feeds insight back into the system.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="my-5 flex items-center justify-center sm:my-8">
-                  <div className="h-8 w-px bg-gradient-to-b from-cyan-400/70 to-transparent sm:h-12" />
-                </div>
-
-                <div className="grid gap-2.5 sm:gap-4 sm:grid-cols-3">
-                  {[
-                    "AI assistants",
-                    "Operational automation",
-                    "Decision support",
-                  ].map((item) => (
-                    <div
-                      key={item}
-                      className="rounded-[1.1rem] border border-white/10 bg-[#0a1526]/85 px-3.5 py-3 text-center text-[0.88rem] font-medium leading-5 text-white sm:rounded-2xl sm:px-4 sm:py-4 sm:text-sm"
-                    >
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+              );
+            })}
           </div>
-        </section>
-
-        <section className="bg-[#08111d] border-b border-white/10">
-          <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-24 lg:px-8">
-            <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start lg:gap-12">
+          <div className="glow-card mt-6 rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6">
+            <div className="grid gap-5 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
               <div>
-                <div className="mb-3 inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-[0.68rem] font-medium uppercase tracking-[0.22em] text-cyan-300 sm:mb-4 sm:text-xs sm:tracking-[0.24em]">
-                  Deploy anywhere. Maintain control.
-                </div>
-
-                <h2 className="max-w-[11ch] text-[2.3rem] font-semibold leading-[0.98] tracking-[-0.04em] text-white sm:max-w-2xl sm:text-4xl md:text-6xl md:leading-[1.02]">
-                  NuvaHive runs where your data lives.
-                </h2>
-
-                <p className="mt-5 max-w-xl text-[0.98rem] leading-7 text-slate-300 sm:mt-6 sm:text-base sm:leading-8 md:text-[1.12rem] md:leading-9">
-                  Deploy NuvaHive in environments built for privacy, governance, and operational control. From private cloud to on-prem infrastructure, the platform runs where your data already lives.
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
+                  Relay boundary
+                </p>
+                <h3 className="mt-3 text-2xl font-semibold text-white">
+                  Controlled movement of evidence artifacts.
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-slate-300">
+                  Relay is the boundary for artifacts as they move from raw capture toward approved, transferable evidence.
                 </p>
               </div>
-
-              <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
-                {[
-                  {
-                    title: "Private cloud",
-                    text: "Deploy in isolated cloud environments with enterprise-grade control and network boundaries.",
-                  },
-                  {
-                    title: "On-premise",
-                    text: "Run close to sensitive systems and data sources inside your own infrastructure footprint.",
-                  },
-                  {
-                    title: "Hybrid deployment",
-                    text: "Connect cloud services, internal systems, and local intelligence layers without breaking architecture.",
-                  },
-                  {
-                    title: "Controlled environments",
-                    text: "Support operations where governance, reproducibility, and controlled access are not optional.",
-                  },
-                ].map((item) => (
-                  <div
-                    key={item.title}
-                    className="rounded-[1.45rem] border border-white/10 bg-white/[0.05] px-5 py-5 backdrop-blur-sm transition-colors duration-300 hover:border-cyan-400/30 hover:bg-white/[0.08] sm:rounded-[1.75rem] sm:px-6 sm:py-6"
+              <div className="flex flex-wrap gap-3">
+                {relayStates.map((state) => (
+                  <span
+                    key={state}
+                    className="rounded-full border border-cyan-300/15 bg-[#081523] px-4 py-2 text-sm font-medium text-slate-200"
                   >
-                    <div className="text-[1.05rem] font-semibold tracking-[-0.02em] text-white sm:text-lg">
-                      {item.title}
-                    </div>
-                    <p className="mt-3 text-[0.92rem] leading-6 text-slate-300 sm:text-sm sm:leading-7">
-                      {item.text}
-                    </p>
-                  </div>
+                    {state}
+                  </span>
                 ))}
-              </div>
-            </div>
-
-            <div className="mt-10 rounded-[1.75rem] border border-cyan-400/15 bg-[linear-gradient(180deg,rgba(14,26,45,0.85),rgba(8,15,27,0.92))] px-5 py-5 shadow-[0_0_32px_rgba(34,211,238,0.08)] sm:mt-12 sm:rounded-[2rem] sm:px-6 sm:py-6">
-              <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                <div>
-                  <div className="text-[0.78rem] font-medium uppercase tracking-[0.22em] text-cyan-300 sm:text-sm sm:tracking-[0.24em]">
-                    Private AI posture
-                  </div>
-                  <div className="mt-2 max-w-xl text-[1.1rem] font-semibold leading-7 tracking-[-0.03em] text-white sm:text-xl">
-                    Built for enterprise ownership, not shared-model guesswork.
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap gap-2.5 sm:gap-3">
-                  {["Private deployment", "Governed access", "Controlled data flow"].map((item) => (
-                    <div
-                      key={item}
-                      className="rounded-full border border-white/10 bg-white/5 px-3.5 py-2 text-[0.88rem] font-medium text-slate-200 sm:px-4 sm:text-sm"
-                    >
-                      {item}
-                    </div>
-                  ))}
-                </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section id="platform" className="mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-24 lg:px-8">
-          <div className="mb-12 sm:mb-14 md:mb-16">
+        <section id="how-it-works" className="border-y border-white/10 bg-[#08111d]">
+          <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
             <SectionHeading
-              eyebrow="The platform"
-              title="One platform for operational intelligence"
-              description="NuvaHive combines Angie’s knowledge intelligence with NuvaSignal’s conversation intelligence into one operational intelligence platform."
+              eyebrow="How it works"
+              title="What actually happens to a piece of agent work."
+              description="Independent of which stage of the ladder you're on, every piece of agent activity moves through the same five mechanical steps before it counts as evidence."
             />
+            <div className="mt-12 grid gap-4">
+              {operatingModel.map((item) => (
+                <div key={item.step} className="glow-card grid gap-4 rounded-3xl border border-white/10 bg-white/[0.045] p-5 md:grid-cols-[120px_0.8fr_1.2fr] md:items-start">
+                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cyan-200">{item.step}</p>
+                  <h3 className="text-xl font-semibold text-white">{item.title}</h3>
+                  <p className="text-sm leading-7 text-slate-300">{item.text}</p>
+                </div>
+              ))}
+            </div>
           </div>
+        </section>
 
-          <div className="mt-10 grid gap-4 sm:mt-12 sm:gap-5 lg:grid-cols-2 lg:gap-6">
-            {platformCards.map((card, index) => {
-              const Icon = card.icon;
+        <section id="use-cases" className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
+          <SectionHeading
+            eyebrow="Use cases"
+            title="For teams that hit a specific trigger."
+            description="NuvaHive tends to matter the moment agent work meets a real deadline or a real reviewer, not as a general-purpose adoption exercise."
+          />
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {useCases.map((item) => {
+              const Icon = item.icon;
               return (
-                <motion.div
-                  id={card.id}
-                  key={card.title}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.5, delay: index * 0.08 }}
-                >
-                  <Card className="h-full rounded-[1.6rem] border-white/10 bg-white/[0.06] text-white backdrop-blur-sm transition-colors duration-300 hover:bg-white/[0.08] sm:rounded-[2rem]">
-                    <CardContent className="p-5 sm:p-6 md:p-8">
-                      <div className="flex items-start gap-3 sm:items-center sm:gap-4">
-                        <div className="rounded-2xl border border-cyan-400/20 bg-cyan-400/10 p-2.5 sm:p-3">
-                          <Icon className="h-5 w-5 text-cyan-300 sm:h-6 sm:w-6" />
-                        </div>
-                        <div className="min-w-0">
-                          <div className="text-[0.68rem] uppercase tracking-[0.18em] text-slate-400 sm:text-xs sm:tracking-[0.22em]">{card.eyebrow}</div>
-                          <h3 className="mt-1 text-[1.55rem] font-semibold leading-tight sm:text-3xl">{card.title}</h3>
-                        </div>
-                      </div>
-
-                      <p className="mt-6 text-[0.98rem] leading-7 text-slate-300 sm:mt-8 sm:text-base md:mt-10">{card.description}</p>
-
-                      <div className="mt-6 grid gap-2.5 sm:mt-8 sm:gap-3 md:mt-10">
-                        {card.bullets.map((bullet) => (
-                          <div key={bullet} className="flex items-start gap-3 rounded-[1rem] border border-white/8 bg-[#0a1526]/80 px-3.5 py-3 text-[0.92rem] text-slate-300 sm:rounded-2xl sm:px-4 sm:text-sm">
-                            <ChevronRight className="mt-0.5 h-4 w-4 shrink-0 text-cyan-300" />
-                            <span>{bullet}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
+                <div key={item.title} className="glow-card rounded-2xl border border-white/10 bg-white/[0.045] p-5">
+                  <div className="inline-flex rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-2.5">
+                    <Icon className="h-5 w-5 text-cyan-200" />
+                  </div>
+                  <p className="mt-4 text-sm font-medium leading-6 text-slate-200">{item.title}</p>
+                  <p className="mt-2 text-xs leading-5 text-slate-400">{item.trigger}</p>
+                </div>
               );
             })}
           </div>
         </section>
 
-        <section className="relative bg-[#08111d] border-b border-white/10">
-          <div className="pointer-events-none absolute right-[10%] top-[28%] z-0 h-[420px] w-[420px] rounded-full bg-cyan-400/22 blur-[160px] animate-breathe-glow" />
-          <div className="relative z-10 mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-24 lg:px-8 lg:py-32">
-
-            <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-start lg:gap-16">
-
-              <div>
-                <div className="mb-3 inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-[0.68rem] font-medium uppercase tracking-[0.22em] text-cyan-300 sm:mb-4 sm:text-xs sm:tracking-[0.24em]">
-                  Angie: the operational knowledge engine
-                </div>
-
-                <h2 className="max-w-[11ch] text-[2.3rem] font-semibold leading-[0.98] tracking-[-0.04em] text-white sm:max-w-2xl sm:text-4xl md:text-6xl md:leading-[1.02]">
-                  How Angie turns knowledge into intelligence.
-                </h2>
-
-                <p className="mt-5 max-w-xl text-[0.98rem] leading-7 text-slate-300 sm:mt-6 sm:text-base sm:leading-8 md:text-[1.15rem] md:leading-9">
-                  Angie transforms enterprise documents and operational knowledge into a structured intelligence layer designed for retrieval, context, and reasoning.
-                </p>
-
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
-
+        <section id="company" className="border-y border-white/10 bg-[#08111d]">
+          <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:px-8 lg:py-28">
+              <SectionHeading
+                eyebrow="Company"
+                title="An independent deep technology company."
+                description="NuvaHive is focused on governed evidence infrastructure for AI agents and controlled automation."
+              />
+              <div className="space-y-5 text-base leading-8 text-slate-300">
+                <p>
+                The company direction is to build infrastructure that combines AI capability with policy, human oversight, evidence, and verifiable execution. Consulting remains a deployment and learning capability, not the public identity of the company.
+              </p>
+              <p>
+                We are building for organizations that want private, local, sovereign, or hybrid AI infrastructure and need clear control over what AI systems can know, decide, execute, and prove.
+              </p>
+              <div className="grid gap-3 sm:grid-cols-3">
                 {[
-                  {
-                    title: "Document ingestion",
-                    text: "Ingest contracts, reports, and operational files into a structured knowledge pipeline."
-                  },
-                  {
-                    title: "Semantic indexing",
-                    text: "Create vectorized knowledge structures optimized for retrieval and contextual reasoning."
-                  },
-                  {
-                    title: "Context retrieval",
-                    text: "Retrieve the right information at the right moment across large knowledge bases."
-                  },
-                  {
-                    title: "Reasoning layer",
-                    text: "Combine retrieved context with AI reasoning to generate precise operational insight."
-                  }
-                ].map((item) => (
-
-                  <div
-                    key={item.title}
-                    className="rounded-[1.45rem] border border-white/10 bg-white/[0.05] px-5 py-5 backdrop-blur-sm transition-colors duration-300 hover:border-cyan-400/30 hover:bg-white/[0.08] sm:rounded-[1.75rem] sm:px-6 sm:py-6"
-                  >
-                    <div className="flex items-start gap-3 text-[1.05rem] font-semibold tracking-[-0.02em] text-white sm:items-center sm:text-lg">
-                      <div className="mt-1 h-2 w-2 shrink-0 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.8)] sm:mt-0" />
-                      <span>{item.title}</span>
-                    </div>
-
-                    <p className="mt-3 text-[0.92rem] leading-6 text-slate-300 sm:text-sm sm:leading-7">
-                      {item.text}
-                    </p>
-                  </div>
-
-                ))}
-
-              </div>
-
-            </div>
-
-            <div className="mt-12 rounded-[1.75rem] border border-cyan-400/15 bg-[linear-gradient(180deg,rgba(14,26,45,0.85),rgba(8,15,27,0.92))] p-5 shadow-[0_0_32px_rgba(34,211,238,0.08)] sm:mt-16 sm:rounded-[2rem] sm:p-6 md:p-8">
-
-              <div className="text-[0.68rem] uppercase tracking-[0.22em] text-cyan-300 sm:text-xs sm:tracking-[0.28em]">
-                Angie intelligence engine
-              </div>
-
-              <div className="mt-5 grid gap-3 sm:mt-6 sm:gap-4 sm:grid-cols-3">
-
-                {[
-                  "Knowledge ingestion",
-                  "Structured intelligence",
-                  "Enterprise RAG"
-                ].map((item) => (
-
-                  <div
-                    key={item}
-                    className="rounded-[1.1rem] border border-white/10 bg-[#0a1526]/85 px-4 py-3 text-[0.9rem] font-medium text-white sm:rounded-2xl sm:px-5 sm:py-4 sm:text-sm"
-                  >
-                    {item}
-                  </div>
-
-                ))}
-
-              </div>
-
-            </div>
-
-            <div className="mt-8 text-[0.68rem] uppercase tracking-[0.22em] text-cyan-300 sm:mt-10 sm:text-xs sm:tracking-[0.25em]">
-              Angie pipeline
-            </div>
-
-            <div className="relative mt-8 sm:mt-10">
-              <div className="pointer-events-none absolute left-[6%] right-[6%] top-1/2 hidden h-px -translate-y-1/2 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent lg:block" />
-
-              <div className="relative grid gap-4 sm:gap-5 lg:grid-cols-4 lg:gap-8">
-
-                {[
-                  {
-                    step: "01",
-                    title: "Ingest",
-                    text: "Collect documents, operational records, and institutional knowledge from across the organization.",
-                  },
-                  {
-                    step: "02",
-                    title: "Structure",
-                    text: "Transform raw information into indexed, contextualized knowledge that can be searched and related.",
-                  },
-                  {
-                    step: "03",
-                    title: "Retrieve",
-                    text: "Find relevant operational context quickly using semantic retrieval and knowledge-aware search.",
-                  },
-                  {
-                    step: "04",
-                    title: "Reason",
-                    text: "Generate grounded answers, insights, and support actions using retrieved organizational context.",
-                  },
-                ].map((item) => (
-                  <div
-                    key={item.step}
-                    className="relative rounded-[1.45rem] border border-white/10 bg-white/[0.05] p-5 transition-all duration-300 hover:border-cyan-400/30 hover:bg-white/[0.08] sm:rounded-[1.75rem] sm:p-6"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="text-[0.78rem] font-medium uppercase tracking-[0.22em] text-cyan-300 sm:text-sm sm:tracking-[0.24em]">
-                        {item.step}
-                      </div>
-
-                      <div className="h-2 w-2 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
-                    </div>
-
-                    <div className="mt-4 text-[1.5rem] font-semibold tracking-[-0.03em] text-white sm:mt-5 sm:text-2xl">
-                      {item.title}
-                    </div>
-
-                    <p className="mt-3 text-[0.92rem] leading-6 text-slate-300 sm:mt-4 sm:text-sm sm:leading-7">
-                      {item.text}
-                    </p>
-
+                  ["Practical", "Built around real operational constraints."],
+                  ["Inspectable", "Designed for visibility and accountability."],
+                  ["Controlled", "Human oversight and policy boundaries remain central."],
+                ].map(([title, text]) => (
+                  <div key={title} className="glow-card rounded-2xl border border-white/10 bg-white/[0.045] p-4">
+                    <p className="font-semibold text-white">{title}</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-400">{text}</p>
                   </div>
                 ))}
-
               </div>
             </div>
-
-          </div>
-
-        </section>
-
-        <section className="relative border-b border-white/10 bg-[#08111d]">
-          <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-24 lg:px-8">
-
-            <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-16">
-
-              <div>
-                <div className="mb-3 inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-[0.68rem] font-medium uppercase tracking-[0.22em] text-cyan-300 sm:mb-4 sm:text-xs sm:tracking-[0.24em]">
-                  The NuvaHive intelligence pipeline
-                </div>
-
-                <h2 className="max-w-[11ch] text-[2.3rem] font-semibold leading-[0.98] tracking-[-0.04em] text-white sm:max-w-2xl sm:text-4xl md:text-6xl">
-                  Conversation <span className="text-cyan-300">intelligence</span> in real time.
-                </h2>
-
-                <p className="mt-5 max-w-xl text-[0.98rem] leading-7 text-slate-300 sm:mt-6 sm:text-base sm:leading-8 md:text-[1.15rem] md:leading-9">
-                  NuvaSignal listens to meetings, calls, and operational conversations, transforming spoken information into structured intelligence inside the NuvaHive platform.
-                </p>
-
-              </div>
-
-              <div className="relative flex items-center justify-center">
-
-                <div className="absolute h-[240px] w-[240px] rounded-full bg-blue-500/15 blur-[120px] sm:h-[280px] sm:w-[280px] sm:blur-[140px] md:h-[320px] md:w-[320px] md:blur-[160px]" />
-
-                <div className="rounded-[1.6rem] border border-white/10 bg-[#0a1526]/80 px-5 py-5 text-slate-300 backdrop-blur sm:rounded-3xl sm:px-6 sm:py-6 md:px-8 md:py-8">
-
-                  <div className="text-[0.85rem] text-slate-400 sm:text-sm">Example</div>
-
-                  <div className="mt-3 text-[1.05rem] leading-7 text-white sm:text-[1.12rem]">
-                    “Summarize the key risks mentioned in this meeting.”
-                  </div>
-
-                  <div className="mt-4 text-[0.92rem] leading-6 text-slate-400 sm:text-sm sm:leading-7">
-                    NuvaSignal detects discussion topics, extracts insights,
-                    and feeds them into Angie’s knowledge layer.
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-
-            <div className="mt-14 grid gap-6 sm:mt-16 sm:gap-8 lg:mt-20 lg:grid-cols-3 lg:items-center lg:gap-10">
-
-              <div className="space-y-4 sm:space-y-6">
-                <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.05] px-5 py-5 sm:rounded-3xl sm:px-6 sm:py-6">
-                  <div className="text-[0.78rem] uppercase tracking-[0.18em] text-slate-400 sm:text-sm sm:tracking-[0.22em]">
-                    Knowledge intelligence
-                  </div>
-
-                  <div className="mt-2 text-[1.55rem] font-semibold text-white sm:text-2xl">
-                    Angie
-                  </div>
-
-                  <p className="mt-3 text-[0.92rem] leading-6 text-slate-300 sm:text-sm sm:leading-7">
-                    Ingests documents, operational knowledge, and institutional memory
-                    into a structured intelligence layer.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex justify-center">
-                <div className="relative flex h-28 w-28 items-center justify-center sm:h-32 sm:w-32 md:h-40 md:w-40">
-
-                  <motion.div
-                    className="absolute left-[-72px] top-1/2 h-[2px] w-[58px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent sm:left-[-96px] sm:w-[80px] md:left-[-140px] md:w-[120px]"
-                    animate={{ x: [0, 12, 0], opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
-                  />
-
-                  <motion.div
-                    className="absolute right-[-72px] top-1/2 h-[2px] w-[58px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent sm:right-[-96px] sm:w-[80px] md:right-[-140px] md:w-[120px]"
-                    animate={{ x: [0, -12, 0], opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                  />
-
-                  <div className="absolute h-full w-full rounded-full border border-cyan-400/20 animate-ping" />
-
-                  <div className="absolute h-20 w-20 rounded-full border border-cyan-400/30 sm:h-24 sm:w-24 md:h-28 md:w-28" />
-
-                  <div className="relative h-12 w-12 rounded-full bg-gradient-to-br from-cyan-300 to-sky-400 shadow-[0_0_32px_rgba(34,211,238,0.7)] ring-1 ring-cyan-300/30 animate-pulse sm:h-14 sm:w-14 md:h-16 md:w-16">
-                    <div className="absolute inset-0 rounded-full bg-cyan-400/30 blur-xl" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-4 sm:space-y-6">
-                <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.05] px-5 py-5 sm:rounded-3xl sm:px-6 sm:py-6">
-                  <div className="text-[0.78rem] uppercase tracking-[0.18em] text-slate-400 sm:text-sm sm:tracking-[0.22em]">
-                    Conversation intelligence
-                  </div>
-
-                  <div className="mt-2 text-[1.55rem] font-semibold text-white sm:text-2xl">
-                    NuvaSignal
-                  </div>
-
-                  <p className="mt-3 text-[0.92rem] leading-6 text-slate-300 sm:text-sm sm:leading-7">
-                    Interprets conversations, meetings, and live interactions,
-                    feeding insights back into the intelligence layer.
-                  </p>
-                </div>
-              </div>
-
-            </div>
-
-            <div className="mt-12 grid gap-2.5 sm:mt-14 sm:gap-4 sm:grid-cols-3 md:mt-16">
-
-              {[
-                "Operational assistants",
-                "Automated workflows",
-                "Decision support",
-              ].map((item) => (
-                <div
-                  key={item}
-                  className="rounded-[1.1rem] border border-white/10 bg-[#0a1526]/85 px-4 py-3 text-center text-[0.9rem] font-medium leading-5 text-white sm:rounded-2xl sm:px-5 sm:py-4 sm:text-sm"
-                >
-                  {item}
-                </div>
-              ))}
-
-            </div>
-
           </div>
         </section>
 
-        <section className="relative border-b border-white/10 bg-[#07111f]">
-          <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-24 lg:px-8 lg:py-32">
-
-            <div className="max-w-3xl">
-              <div className="mb-3 inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-[0.68rem] font-medium uppercase tracking-[0.22em] text-cyan-300 sm:mb-4 sm:text-xs sm:tracking-[0.24em]">
-                Ask Angie
+        <section id="contact" className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <div>
+              <SectionHeading
+                eyebrow="Work with us"
+                title="Start with a governed agent evidence workflow."
+                description="We work with teams that need to reconstruct, review, attest, or eventually enforce AI agent activity without treating agent output as automatically acceptable."
+              />
+              <div className="mt-10 grid gap-4">
+                {engagementOptions.map((item) => (
+                  <div key={item.title} className="glow-card rounded-2xl border border-white/10 bg-white/[0.045] p-5">
+                    <p className="font-semibold text-white">{item.title}</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-300">{item.text}</p>
+                  </div>
+                ))}
               </div>
-
-              <h2 className="max-w-[11ch] text-[2.3rem] font-semibold leading-[0.98] tracking-[-0.04em] text-white sm:max-w-3xl sm:text-4xl md:text-6xl">
-                Ask questions across your organization’s knowledge.
-              </h2>
-
-              <p className="mt-5 max-w-xl text-[0.98rem] leading-7 text-slate-300 sm:mt-6 sm:max-w-2xl sm:text-base sm:leading-8 md:text-[1.15rem] md:leading-9">
-                Angie retrieves knowledge across documents, operations, and conversations to deliver precise answers grounded in your organization's data.
+            </div>
+            <div className="glow-card rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6 lg:p-8">
+              <div className="mb-6 flex items-center gap-3">
+                <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-3">
+                  <GitBranch className="h-5 w-5 text-cyan-200" />
+                </div>
+                <div>
+                  <p className="font-semibold text-white">Map an evidence workflow.</p>
+                  <p className="text-sm text-slate-400">Tell us what your agents touch, change, and publish.</p>
+                </div>
+              </div>
+              <ContactForm />
+            </div>
+          </div>
+          <div className="mt-12">
+            <div className="mb-6 grid gap-3 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
+                  Fit filter
+                </p>
+                <h3 className="mt-3 text-2xl font-semibold text-white">
+                  Best when agent work already needs review.
+                </h3>
+              </div>
+              <p className="max-w-3xl text-sm leading-7 text-slate-400 lg:justify-self-end">
+                The strongest starting point is an existing workflow with real artifacts, real reviewers, and a clear reason to preserve evidence.
               </p>
             </div>
-
-            <div className="mt-12 rounded-[1.6rem] border border-white/10 bg-[#0a1526]/80 p-5 backdrop-blur sm:mt-14 sm:rounded-3xl sm:p-6 md:mt-16 md:p-8">
-
-              <div className="text-[0.85rem] text-slate-400 sm:text-sm">Example query</div>
-
-              <div className="mt-3 rounded-xl border border-white/10 bg-[#07111f] px-4 py-3.5 text-[0.98rem] leading-7 text-white sm:mt-4 sm:px-5 sm:py-4 sm:text-base">
-                What were the main safety risks identified in the last operational review?
-              </div>
-
-              <div className="mt-5 text-[0.85rem] text-slate-400 sm:mt-6 sm:text-sm">Angie response</div>
-
-              <div className="mt-3 rounded-xl border border-cyan-400/20 bg-[#07111f] px-4 py-3.5 text-[0.95rem] leading-7 text-slate-200 sm:mt-4 sm:px-5 sm:py-4 sm:text-base">
-                The review identified three key risks: incomplete maintenance documentation,
-                delayed equipment inspection schedules, and inconsistent safety reporting
-                across operational teams.
-              </div>
-
-            </div>
-
-          </div>
-        </section>
-
-        <section className="relative border-b border-white/10 bg-[#07111f]">
-          <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-24 lg:px-8">
-
-            <div className="max-w-3xl">
-              <div className="mb-3 inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-[0.68rem] font-medium uppercase tracking-[0.22em] text-cyan-300 sm:mb-4 sm:text-xs sm:tracking-[0.24em]">
-                Use cases
-              </div>
-
-              <h2 className="max-w-[11ch] text-[2.3rem] font-semibold leading-[0.98] tracking-[-0.04em] text-white sm:max-w-3xl sm:text-4xl md:text-6xl md:leading-[1.02]">
-                Where operational intelligence creates impact.
-              </h2>
-
-              <p className="mt-5 max-w-xl text-[0.98rem] leading-7 text-slate-300 sm:mt-6 sm:max-w-2xl sm:text-base sm:leading-8 md:text-[1.15rem] md:leading-9">
-                NuvaHive turns organizational knowledge, conversations, and operational signals into usable intelligence across teams.
-              </p>
-            </div>
-
-            <div className="mt-14 grid gap-4 sm:mt-16 sm:gap-5 md:grid-cols-2 lg:mt-20 lg:grid-cols-3 lg:gap-6">
-
-              {[
-                {
-                  title: "Operations intelligence",
-                  text: "Access institutional knowledge across documents, processes, and operational systems.",
-                },
-                {
-                  title: "Meeting intelligence",
-                  text: "Extract insights and decisions from meetings and operational conversations.",
-                },
-                {
-                  title: "Risk and compliance",
-                  text: "Surface safety risks, compliance gaps, and operational inconsistencies.",
-                },
-                {
-                  title: "Knowledge management",
-                  text: "Turn fragmented institutional knowledge into structured intelligence.",
-                },
-                {
-                  title: "Decision support",
-                  text: "Provide leadership with contextual insights grounded in real operational data.",
-                },
-                {
-                  title: "Automation enablement",
-                  text: "Power assistants, workflows, and AI-driven operational automation.",
-                },
-              ].map((item) => (
-                <div
-                  key={item.title}
-                  className="rounded-[1.5rem] border border-white/10 bg-white/[0.05] p-5 transition-all duration-300 hover:border-cyan-400/30 hover:bg-white/[0.08] sm:rounded-3xl sm:p-6"
-                >
-                  <div className="flex items-start gap-3 text-white sm:items-center">
-                    <div className="mt-1 h-2 w-2 shrink-0 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.8)] sm:mt-0" />
-                    <div className="text-[1.05rem] font-semibold tracking-[-0.02em] sm:text-lg">
-                      {item.title}
-                    </div>
-                  </div>
-
-                  <p className="mt-3 text-[0.92rem] leading-6 text-slate-300 sm:mt-4 sm:text-sm sm:leading-7">
-                    {item.text}
-                  </p>
-                </div>
-              ))}
-
-            </div>
-          </div>
-        </section>
-
-        <section id="architecture" className="border-y border-white/10 bg-[radial-gradient(circle_at_50%_0%,rgba(34,211,238,0.1),transparent_50%),#08111d]">
-          <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-24 lg:px-8">
-            <SectionHeading
-              eyebrow="Built like infrastructure"
-              title="Designed for reliability, scalability, and enterprise control."
-              description="NuvaHive is designed as an intelligence layer between enterprise inputs and operational outputs. It can ingest, structure, retrieve, reason, and assist without forcing teams into a fragile patchwork of disconnected AI tools."
-              className="max-w-3xl"
-            />
-
-            <div className="mt-10 grid gap-4 sm:mt-12 sm:gap-5 lg:mt-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-6">
-              <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.06] p-5 transition-colors duration-300 hover:bg-white/[0.08] sm:rounded-[2rem] sm:p-6 md:p-8">
-                <div className="flex items-center gap-3 text-cyan-300">
-                  <Building2 className="h-5 w-5" />
-                  <span className="text-[0.78rem] uppercase tracking-[0.18em] sm:text-sm sm:tracking-[0.22em]">Enterprise flow</span>
-                </div>
-                <div className="mt-6 space-y-4 sm:mt-8 sm:space-y-6">
-                  {architecture.map((block, idx) => (
-                    <div key={block.title} className="relative rounded-[1.4rem] border border-white/10 bg-[#0a1526]/80 p-4 sm:rounded-3xl sm:p-5">
-                      <div className="text-[1.02rem] font-medium text-white sm:text-lg">{block.title}</div>
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {block.items.map((item) => (
-                          <span key={item} className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1 text-[0.88rem] text-slate-300 transition-colors duration-300 hover:bg-white/[0.08] sm:text-sm">
-                            {item}
-                          </span>
-                        ))}
-                      </div>
-                      {idx < architecture.length - 1 ? (
-                        <div className="pointer-events-none absolute left-1/2 top-full h-6 w-px -translate-x-1/2 bg-gradient-to-b from-cyan-400/60 to-transparent sm:h-8" />
-                      ) : null}
+            <div className="grid gap-5 lg:grid-cols-[1.08fr_0.92fr]">
+              <div className="glow-card rounded-3xl border border-cyan-300/15 bg-cyan-300/[0.045] p-5 sm:p-6">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
+                  Good fit
+                </p>
+                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                  {fitSignals.map((item) => (
+                    <div key={item} className="flex items-start gap-3 rounded-2xl border border-cyan-300/10 bg-[#07111f]/50 p-3">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-cyan-200" />
+                      <p className="text-sm leading-6 text-slate-300">{item}</p>
                     </div>
                   ))}
                 </div>
               </div>
-
-              <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:gap-6">
-                {useCases.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <div key={item.title} className="rounded-[1.6rem] border border-white/10 bg-white/[0.06] p-5 transition-colors duration-300 hover:bg-white/[0.08] sm:rounded-[2rem] sm:p-6">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-cyan-400/20 bg-cyan-400/10 sm:h-12 sm:w-12">
-                        <Icon className="h-5 w-5 text-cyan-300" />
-                      </div>
-                      <h3 className="mt-4 text-[1.08rem] font-semibold leading-6 text-white sm:mt-5 sm:text-xl">{item.title}</h3>
-                      <p className="mt-3 text-[0.92rem] leading-6 text-slate-300 sm:text-sm sm:leading-7">{item.text}</p>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="security" className="mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-24 lg:px-8">
-          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-10">
-            <SectionHeading
-              eyebrow="Enterprise security and governance"
-              title="AI without handing away the keys"
-              description="Enterprise AI only becomes useful when security teams and operators can trust the system underneath it. NuvaHive is built for ownership, control, and deployment flexibility."
-              className="max-w-3xl"
-            />
-
-            <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.06] p-5 transition-colors duration-300 hover:bg-white/[0.08] sm:rounded-[2rem] sm:p-6 md:p-8">
-              <div className="flex items-center gap-3 text-cyan-300">
-                <Lock className="h-5 w-5" />
-                <span className="text-[0.78rem] uppercase tracking-[0.18em] sm:text-sm sm:tracking-[0.22em]">Private AI posture</span>
-              </div>
-              <div className="mt-5 grid gap-2.5 sm:mt-6 sm:gap-3">
-                {securityPoints.map((point) => (
-                  <div key={point} className="flex items-start gap-3 rounded-[1rem] border border-white/10 bg-[#0a1526]/80 px-4 py-3.5 sm:rounded-2xl sm:py-4">
-                    <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-cyan-300" />
-                    <span className="text-[0.92rem] leading-6 text-slate-300 sm:text-sm">{point}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <div className="mx-auto max-w-5xl px-5 py-16 text-center sm:px-6 sm:py-20 md:py-24">
-
-          <p className="text-[1.02rem] leading-8 text-slate-400 sm:text-lg md:text-xl">
-            Designed for organizations that require 
-            <span className="font-medium text-white"> private, controlled AI infrastructure </span>
-            with full ownership of their operational knowledge.
-          </p>
-
-        </div>
-
-        <div className="mx-auto max-w-4xl px-5 py-6 text-center sm:px-6 sm:py-8 md:py-12"></div>
-
-        <section className="border-y border-white/10 bg-[#091423]">
-          <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-24 lg:px-8 lg:py-32">
-            <div className="grid gap-5 sm:gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-              <div className="rounded-[1.6rem] border border-cyan-400/15 bg-[linear-gradient(180deg,rgba(20,33,56,0.94),rgba(9,20,35,0.98))] p-5 shadow-[0_0_60px_rgba(34,211,238,0.08)] sm:rounded-[2rem] sm:p-6 md:p-8">
-                <div className="text-[0.68rem] uppercase tracking-[0.22em] text-cyan-300 sm:text-xs sm:tracking-[0.24em]">Pricing</div>
-                <h3 className="mt-3 text-[2rem] font-semibold tracking-tight text-white sm:mt-4 sm:text-4xl">Enterprise</h3>
-                <p className="mt-3 max-w-xl text-[0.98rem] leading-7 text-slate-300 sm:mt-4 sm:text-base">
-                  NuvaHive is offered as an enterprise platform with private deployment options, tailored integrations, and a solution architecture aligned to your environment.
+              <div className="glow-card rounded-3xl border border-white/10 bg-white/[0.035] p-5 sm:p-6">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
+                  Not a fit yet
                 </p>
-                <div className="mt-6 grid gap-2.5 sm:mt-8 sm:grid-cols-2 sm:gap-3">
-                  {[
-                    "Angie knowledge system",
-                    "NuvaSignal assistant layer",
-                    "Enterprise integrations",
-                    "Private deployment options",
-                    "Security and governance alignment",
-                    "Dedicated support",
-                  ].map((item) => (
-                    <div key={item} className="rounded-[1.1rem] border border-white/10 bg-white/[0.06] px-4 py-3 text-[0.92rem] leading-6 text-white transition-colors duration-300 hover:bg-white/[0.08] sm:rounded-2xl sm:text-sm">
-                      {item}
+                <div className="mt-5 grid gap-3">
+                  {notFitSignals.map((item) => (
+                    <div key={item} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-[#07111f]/45 p-3">
+                      <X className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" />
+                      <p className="text-sm leading-6 text-slate-400">{item}</p>
                     </div>
                   ))}
                 </div>
-              </div>
-
-              <div id="contact" className="rounded-[1.6rem] border border-white/10 bg-white/[0.06] p-5 transition-colors duration-300 hover:bg-white/[0.08] sm:rounded-[2rem] sm:p-6 md:p-8">
-                <div className="text-[0.68rem] uppercase tracking-[0.22em] text-slate-400 sm:text-xs sm:tracking-[0.24em]">Contact</div>
-                <h3 className="mt-3 text-[1.75rem] font-semibold leading-tight text-white sm:mt-4 sm:text-3xl">Build the intelligence layer for your organization</h3>
-                <p className="mt-3 text-[0.98rem] leading-7 text-slate-300 sm:mt-4 sm:text-base">
-                  Let’s talk about the systems you want to understand better, automate safely, and turn into operational intelligence.
-                </p>
-                <form className="mt-6 space-y-3.5 sm:mt-8 sm:space-y-4" onSubmit={handleSubmit}>
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Full name"
-                    value={form.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full rounded-xl border border-white/10 bg-[#0a1526]/85 px-4 py-3 text-[0.98rem] text-white outline-none placeholder:text-slate-500 sm:text-base"
-                  />
-
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Work email"
-                    value={form.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full rounded-xl border border-white/10 bg-[#0a1526]/85 px-4 py-3 text-[0.98rem] text-white outline-none placeholder:text-slate-500 sm:text-base"
-                  />
-
-                  <input
-                    type="text"
-                    name="company"
-                    placeholder="Company"
-                    value={form.company}
-                    onChange={handleChange}
-                    className="w-full rounded-xl border border-white/10 bg-[#0a1526]/85 px-4 py-3 text-[0.98rem] text-white outline-none placeholder:text-slate-500 sm:text-base"
-                  />
-
-                  <select
-                    name="interest"
-                    value={form.interest}
-                    onChange={handleChange}
-                    className="w-full rounded-xl border border-white/10 bg-[#0a1526]/85 px-4 py-3 text-[0.98rem] text-white outline-none sm:text-base"
-                  >
-                    <option value="">What are you exploring?</option>
-                    <option value="Angie">Angie</option>
-                    <option value="NuvaSignal">NuvaSignal</option>
-                    <option value="Private AI deployment">Private AI deployment</option>
-                    <option value="Enterprise demo">Enterprise demo</option>
-                  </select>
-
-                  <textarea
-                    name="message"
-                    placeholder="Tell us what you're looking to solve"
-                    value={form.message}
-                    onChange={handleChange}
-                    rows={5}
-                    required
-                    className="w-full rounded-xl border border-white/10 bg-[#0a1526]/85 px-4 py-3 text-[0.98rem] text-white outline-none placeholder:text-slate-500 sm:text-base"
-                  />
-
-                  <input
-                    type="text"
-                    name="website"
-                    value={form.website}
-                    onChange={handleChange}
-                    className="hidden"
-                    tabIndex="-1"
-                    autoComplete="off"
-                  />
-
-                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-                    <button
-                      type="submit"
-                      disabled={submitting}
-                      className="w-full rounded-full bg-gradient-to-r from-cyan-400 to-sky-400 px-6 py-3 text-[0.95rem] font-semibold text-slate-950 transition hover:brightness-110 disabled:opacity-60 sm:w-auto sm:px-7 sm:text-[0.98rem]"
-                    >
-                      {submitting ? "Sending..." : "Request a Demo"}
-                    </button>
-
-                    {status && (
-                      <p className="text-sm text-cyan-300 sm:ml-2">
-                        {status}
-                      </p>
-                    )}
-                  </div>
-                </form>
               </div>
             </div>
           </div>
         </section>
       </main>
 
-      <footer className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-10 text-sm text-slate-400 md:flex-row md:items-center md:justify-between lg:px-8">
-
-        <div className="flex items-center gap-3">
+      <footer className="border-t border-white/10 bg-[#050b14]">
+        <div className="mx-auto flex max-w-7xl flex-col gap-5 px-5 py-8 text-sm text-slate-400 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
           <LogoMark />
-          <div>
-            <div className="font-medium text-white">NuvaHive</div>
-            <div>Operational intelligence platform</div>
+          <div className="flex flex-wrap items-center gap-5">
+            <Link to="/privacy" className="transition hover:text-white">Privacy</Link>
+            <a href="#contact" className="transition hover:text-white">Work with us</a>
+            <a
+              href="https://www.linkedin.com/company/nuvahive"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="NuvaHive on LinkedIn"
+              className="text-slate-400 transition hover:text-white"
+            >
+              <Linkedin className="h-4 w-4" />
+            </a>
+            <span>© {new Date().getFullYear()} NuvaHive</span>
           </div>
         </div>
-
-        <div className="flex flex-wrap items-center gap-5">
-          <a href="#platform" className="transition hover:text-white">Platform</a>
-          <a href="#architecture" className="transition hover:text-white">Architecture</a>
-          <a href="#security" className="transition hover:text-white">Security</a>
-          <a href="#contact" className="transition hover:text-white">Contact</a>
-          <Link to="/privacy" className="transition hover:text-white">
-            Privacy Policy
-          </Link>
-        </div>
-
-        <div className="text-slate-500">
-          © {new Date().getFullYear()} NuvaHive
-        </div>
-
       </footer>
-      </div>
-      );
-    }
-    export default function App() {
+    </PageShell>
+  );
+}
+
+export default function App() {
   return (
     <Routes>
       <Route path="/" element={<NuvaHiveHomepage />} />
