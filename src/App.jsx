@@ -429,7 +429,7 @@ function PlatformPreview() {
 
 function EvidenceRecordPreview() {
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6">
+    <div className="glow-card rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-2.5">
@@ -653,7 +653,7 @@ function NuvaHiveHomepage() {
                 ["Attest", "Turn activity, changes, reviews, and tests into portable evidence."],
                 ["Enforce", "Move controlled workflows toward approvals and policy gates."],
               ].map(([title, text]) => (
-                <div key={title} className="rounded-2xl border border-white/10 bg-white/[0.045] p-4">
+                <div key={title} className="glow-card rounded-2xl border border-white/10 bg-white/[0.045] p-4">
                   <p className="font-semibold text-white">{title}</p>
                   <p className="mt-2 text-sm leading-6 text-slate-400">{text}</p>
                 </div>
@@ -675,7 +675,7 @@ function NuvaHiveHomepage() {
           <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
             <div className="grid gap-5 md:grid-cols-3">
               {businessOutcomes.map((outcome) => (
-                <div key={outcome} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                <div key={outcome} className="glow-card flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
                   <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-cyan-200" />
                   <p className="text-sm leading-6 text-slate-300">{outcome}</p>
                 </div>
@@ -700,7 +700,7 @@ function NuvaHiveHomepage() {
               {evidenceLadder.map((item, index) => (
                 <div
                   key={item.title}
-                  className="grid gap-4 rounded-3xl border border-white/10 bg-white/[0.045] p-5 md:grid-cols-[88px_0.7fr_1.3fr] md:items-start"
+                  className="glow-card grid gap-4 rounded-3xl border border-white/10 bg-white/[0.045] p-5 md:grid-cols-[88px_0.7fr_1.3fr] md:items-start"
                 >
                   <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cyan-200">
                     {String(index + 1).padStart(2, "0")}
@@ -744,7 +744,7 @@ function NuvaHiveHomepage() {
             </div>
 
             <div className="grid gap-5">
-              <div className="rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6">
+              <div className="glow-card rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6">
                 <div className="flex items-center gap-3">
                   <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-3">
                     <Database className="h-5 w-5 text-cyan-200" />
@@ -767,7 +767,7 @@ function NuvaHiveHomepage() {
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6">
+              <div className="glow-card rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6">
                 <div className="flex items-center gap-3">
                   <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-3">
                     <FileCheck2 className="h-5 w-5 text-cyan-200" />
@@ -804,7 +804,7 @@ function NuvaHiveHomepage() {
             {architecture.map((component) => {
               const Icon = component.icon;
               return (
-                <div key={component.name} className="rounded-3xl border border-white/10 bg-white/[0.045] p-6">
+                <div key={component.name} className="glow-card rounded-3xl border border-white/10 bg-white/[0.045] p-6">
                   <div className="flex items-center gap-3">
                     <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-3">
                       <Icon className="h-5 w-5 text-cyan-200" />
@@ -827,7 +827,7 @@ function NuvaHiveHomepage() {
               );
             })}
           </div>
-          <div className="mt-6 rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6">
+          <div className="glow-card mt-6 rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6">
             <div className="grid gap-5 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
@@ -863,7 +863,7 @@ function NuvaHiveHomepage() {
             />
             <div className="mt-12 grid gap-4">
               {operatingModel.map((item) => (
-                <div key={item.step} className="grid gap-4 rounded-3xl border border-white/10 bg-white/[0.045] p-5 md:grid-cols-[120px_0.8fr_1.2fr] md:items-start">
+                <div key={item.step} className="glow-card grid gap-4 rounded-3xl border border-white/10 bg-white/[0.045] p-5 md:grid-cols-[120px_0.8fr_1.2fr] md:items-start">
                   <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cyan-200">{item.step}</p>
                   <h3 className="text-xl font-semibold text-white">{item.title}</h3>
                   <p className="text-sm leading-7 text-slate-300">{item.text}</p>
@@ -883,7 +883,7 @@ function NuvaHiveHomepage() {
             {useCases.map((item) => {
               const Icon = item.icon;
               return (
-                <div key={item.title} className="rounded-2xl border border-white/10 bg-white/[0.045] p-5">
+                <div key={item.title} className="glow-card rounded-2xl border border-white/10 bg-white/[0.045] p-5">
                   <div className="inline-flex rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-2.5">
                     <Icon className="h-5 w-5 text-cyan-200" />
                   </div>
@@ -915,7 +915,7 @@ function NuvaHiveHomepage() {
                   ["Inspectable", "Designed for visibility and accountability."],
                   ["Controlled", "Human oversight and policy boundaries remain central."],
                 ].map(([title, text]) => (
-                  <div key={title} className="rounded-2xl border border-white/10 bg-white/[0.045] p-4">
+                  <div key={title} className="glow-card rounded-2xl border border-white/10 bg-white/[0.045] p-4">
                     <p className="font-semibold text-white">{title}</p>
                     <p className="mt-2 text-sm leading-6 text-slate-400">{text}</p>
                   </div>
@@ -935,14 +935,14 @@ function NuvaHiveHomepage() {
               />
               <div className="mt-10 grid gap-4">
                 {engagementOptions.map((item) => (
-                  <div key={item.title} className="rounded-2xl border border-white/10 bg-white/[0.045] p-5">
+                  <div key={item.title} className="glow-card rounded-2xl border border-white/10 bg-white/[0.045] p-5">
                     <p className="font-semibold text-white">{item.title}</p>
                     <p className="mt-2 text-sm leading-6 text-slate-300">{item.text}</p>
                   </div>
                 ))}
               </div>
               <div className="mt-6 grid gap-4 md:grid-cols-2">
-                <div className="rounded-3xl border border-cyan-300/15 bg-cyan-300/[0.045] p-5">
+                <div className="glow-card rounded-3xl border border-cyan-300/15 bg-cyan-300/[0.045] p-5">
                   <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
                     Good fit
                   </p>
@@ -955,7 +955,7 @@ function NuvaHiveHomepage() {
                     ))}
                   </div>
                 </div>
-                <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-5">
+                <div className="glow-card rounded-3xl border border-white/10 bg-white/[0.035] p-5">
                   <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
                     Not a fit yet
                   </p>
@@ -970,7 +970,7 @@ function NuvaHiveHomepage() {
                 </div>
               </div>
             </div>
-            <div className="rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6 lg:p-8">
+            <div className="glow-card rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6 lg:p-8">
               <div className="mb-6 flex items-center gap-3">
                 <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-3">
                   <GitBranch className="h-5 w-5 text-cyan-200" />
