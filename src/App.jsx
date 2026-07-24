@@ -30,6 +30,7 @@ const nav = [
   { label: "Platform", href: "#platform" },
   { label: "How it works", href: "#how-it-works" },
   { label: "Use cases", href: "#use-cases" },
+  { label: "Company", href: "#company" },
   { label: "Work with us", href: "#contact" },
 ];
 
@@ -103,27 +104,27 @@ const operatingModel = [
   {
     step: "01",
     title: "Reconstruct agent activity",
-    text: "Start with Git history, pull requests, CI logs, agent logs, telemetry, tests, and review comments.",
+    text: "Pull together commit history, pull requests, CI runs, and review threads into one timeline.",
   },
   {
     step: "02",
     title: "Capture execution context",
-    text: "Record model identity, repository state, commands, tools, process boundaries, and file changes.",
+    text: "Record the model in use, the repository state, and the exact commands and files touched.",
   },
   {
     step: "03",
     title: "Preserve evidence",
-    text: "Bind artifacts to hashes, source identity, review state, verification output, and release evidence.",
+    text: "Hash every artifact and bind it to its source, so nothing can be edited after the fact without detection.",
   },
   {
     step: "04",
     title: "Review acceptance",
-    text: "Show what happened, what changed, which controls applied, and whether the evidence supports acceptance.",
+    text: "A human reviewer checks the record against policy and decides whether the output is accepted.",
   },
   {
     step: "05",
     title: "Enforce boundaries",
-    text: "Move toward approvals, provider restrictions, policy gates, single-use authority, and fail-closed publication.",
+    text: "Once trust is established, move consequential actions behind required approval and provider restrictions.",
   },
 ];
 
@@ -758,8 +759,8 @@ function NuvaHiveHomepage() {
           <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
             <SectionHeading
               eyebrow="How it works"
-              title="A practical operating model for agent evidence."
-              description="The path starts with reconstructed evidence from existing systems, then moves toward real-time capture, attestation, and enforcement where the workflow requires it."
+              title="What actually happens to a piece of agent work."
+              description="Independent of which stage of the ladder you're on, every piece of agent activity moves through the same five mechanical steps before it counts as evidence."
             />
             <div className="mt-12 grid gap-4">
               {operatingModel.map((item) => (
