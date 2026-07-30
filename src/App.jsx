@@ -15,8 +15,6 @@ import {
   Linkedin,
   Menu,
   PackageCheck,
-  Route as RouteIcon,
-  ShieldCheck,
   SlidersHorizontal,
   TestTube2,
   UserCheck,
@@ -38,68 +36,103 @@ const nav = [
 
 const architecture = [
   {
-    name: "Kvasir",
-    role: "Knowledge and evidence",
-    status: "Platform direction",
-    icon: Database,
+    name: "BIFRÖST",
+    role: "The trust gateway",
+    status: "Governed ingress",
+    icon: "/bifrost.png",
     description:
-      "Designed to collect operational context, preserve source evidence, and maintain memory that AI systems can use without losing grounding.",
+      "Examines and governs what enters the system. It identifies provenance, classifies content, assigns trust and sensitivity labels, and applies policy before information can enter the trusted architecture.",
+    flowLabel: "Controls what enters",
+    capabilities: [
+      "Provenance and classification",
+      "Trust and sensitivity labels",
+      "Admit, sanitize, quarantine, or reject",
+      "Evidence for every routing decision",
+    ],
+  },
+  {
+    name: "KVASIR",
+    role: "Knowledge and provenance layer",
+    status: "Trusted knowledge",
+    icon: "/kvasir.png",
+    description:
+      "Ingests, structures, retrieves, and contextualizes trusted information while preserving its source, classification, restrictions, and evidence lineage.",
     flowLabel: "Knows",
     capabilities: [
-      "Operational knowledge",
-      "Context and memory",
-      "Evidence-aware retrieval",
+      "Structured trusted knowledge",
+      "Source and provenance context",
+      "Restriction-aware retrieval",
+      "Evidence-linked memory",
     ],
   },
   {
-    name: "Odin",
-    role: "Governed decisions and execution",
-    status: "In development",
-    icon: RouteIcon,
+    name: "ODIN",
+    role: "Decision and execution layer",
+    status: "Governed authority",
+    icon: "/odin.png",
     description:
-      "Designed to build plans, apply policy boundaries, route approvals, and execute workflows with explicit control over what AI systems can do.",
+      "Evaluates policy, plans actions, authorizes capabilities, and performs governed execution. Only ODIN may create authority for an execution workflow.",
     flowLabel: "Decides and executes",
     capabilities: [
-      "Planning and orchestration",
-      "Approval boundaries",
-      "Governed workflow execution",
+      "Policy evaluation and planning",
+      "Capability authorization",
+      "Approval and execution boundaries",
+      "Governed action",
     ],
   },
   {
-    name: "Heimdall",
-    role: "Verification and assurance",
-    status: "Reserved trust subsystem",
-    icon: ShieldCheck,
+    name: "HEIMDALL",
+    role: "Verification and proof layer",
+    status: "Cross-system assurance",
+    icon: "/heimdall.png",
     description:
-      "Reserved for verification, integrity checks, audit trails, and assurance evidence that can show what happened and why.",
+      "Validates claims, actions, evidence, and system integrity across every component. It verifies what occurred without creating execution authority.",
     flowLabel: "Proves",
     capabilities: [
-      "Execution evidence",
-      "Integrity checks",
-      "Audit-ready records",
+      "Claim and evidence validation",
+      "Execution verification",
+      "Integrity and lineage checks",
+      "Audit-ready proof",
     ],
   },
 ];
 
 const platformPreviewInputs = [
-  "Git history",
-  "Pull requests",
-  "CI and test logs",
-  "Agent activity",
+  "Documents and prompts",
+  "APIs, web, and messages",
+  "Tool and model outputs",
+  "Retrieved knowledge",
 ];
 
 const platformPreviewLayers = [
-  "Kvasir",
-  "Odin",
-  "Heimdall (reserved)",
-  "Approval and policy rules",
+  "BIFRÖST — governed ingress",
+  "KVASIR — trusted knowledge",
+  "ODIN — governed authority",
+  "HEIMDALL — verification",
 ];
 
 const platformPreviewOutputs = [
-  "Evidence records",
-  "Disposition outcomes",
-  "Audit-ready trail",
-  "Approval history",
+  "Admitted and labeled content",
+  "Authorized actions",
+  "Execution receipts",
+  "Verified evidence",
+];
+
+const bifrostInputs = [
+  "Documents and user prompts",
+  "API responses and web content",
+  "Tool and model outputs",
+  "Retrieved knowledge",
+  "External events and messages",
+];
+
+const bifrostControls = [
+  "Source identity and provenance",
+  "Deterministic normalization and classification",
+  "Trust, sensitivity, tenant, and access-scope labels",
+  "Hostile or embedded instruction detection",
+  "Policy-based admission, redaction, quarantine, or rejection",
+  "Evidence records for classification and routing decisions",
 ];
 
 const operatingModel = [
@@ -234,12 +267,15 @@ const pilotDeliverables = [
   "Attestation and enforcement roadmap",
 ];
 
-const relayStates = [
-  "Raw",
-  "Sanitized",
-  "Approved",
-  "Quarantined",
-  "Externally transferable",
+const relayPreserves = [
+  "Artifact identity",
+  "Origin and destination",
+  "Authorization references",
+  "Correlation and causation",
+  "Trust-zone transitions",
+  "Delivery and failure records",
+  "Execution receipts",
+  "Evidence lineage",
 ];
 
 const engagementOptions = [
@@ -350,7 +386,7 @@ function PlatformPreview() {
               Platform
             </p>
             <p className="mt-2 text-lg font-semibold text-white">
-              NuvaHive evidence layer
+              NuvaHive governed architecture
             </p>
           </div>
           <div className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100">
@@ -359,13 +395,16 @@ function PlatformPreview() {
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2">
-          {architecture.slice(0, 2).map((component) => {
-            const Icon = component.icon;
+          {architecture.map((component) => {
             return (
               <div key={component.name} className="rounded-2xl border border-white/10 bg-white/[0.055] p-4">
                 <div className="flex items-center gap-2.5">
-                  <div className="rounded-xl border border-cyan-300/20 bg-cyan-300/10 p-2">
-                    <Icon className="h-4 w-4 text-cyan-200" />
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-cyan-300/20 bg-cyan-300/10">
+                    <img
+                      src={component.icon}
+                      alt=""
+                      className="h-10 w-10 object-contain drop-shadow-[0_0_10px_rgba(103,232,249,0.2)]"
+                    />
                   </div>
                   <div>
                     <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-slate-400">
@@ -387,6 +426,26 @@ function PlatformPreview() {
           })}
         </div>
 
+        <div className="mt-3 rounded-2xl border border-white/10 bg-[#07111f]/70 p-4">
+          <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-slate-400">
+            Primary information path
+          </p>
+          <div className="mt-3 flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-200">
+            {["External sources", "BIFRÖST", "KVASIR", "ODIN", "HEIMDALL"].map((item, index) => (
+              <React.Fragment key={item}>
+                {index > 0 ? <ArrowRight className="h-3.5 w-3.5 text-cyan-300" /> : null}
+                <span className={item === "BIFRÖST" ? "rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-1.5 text-cyan-100" : ""}>
+                  {item}
+                </span>
+              </React.Fragment>
+            ))}
+          </div>
+          <div className="mt-3 grid gap-2 border-t border-white/10 pt-3 text-xs leading-5 text-slate-400 sm:grid-cols-2">
+            <p>HEIMDALL verifies evidence across every component.</p>
+            <p>ODIN may authorize governed actions through the Relay.</p>
+          </div>
+        </div>
+
         <div className="mt-3 grid gap-3 sm:grid-cols-[1fr_auto_1fr_auto_1fr] sm:items-center">
           <div className="rounded-2xl border border-white/10 bg-[#07111f]/70 p-4">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Inputs</p>
@@ -398,7 +457,7 @@ function PlatformPreview() {
           </div>
           <div className="mx-auto hidden h-6 w-px bg-cyan-300/40 sm:block" />
           <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.06] p-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200">Evidence layer</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200">Governed system</p>
             <ul className="mt-3 space-y-1.5 text-xs leading-5 text-slate-200">
               {platformPreviewLayers.map((item) => (
                 <li key={item}>{item}</li>
@@ -418,10 +477,10 @@ function PlatformPreview() {
 
         <div className="mt-5 grid gap-3 rounded-2xl border border-cyan-300/15 bg-cyan-300/5 px-4 py-4 text-sm sm:grid-cols-[1fr_auto] sm:items-center">
           <p className="font-semibold tracking-tight text-cyan-100">
-            Kvasir knows. Odin decides and executes. Heimdall proves.
+            BIFRÖST controls what enters. KVASIR knows. ODIN decides and executes. HEIMDALL proves.
           </p>
           <p className="text-slate-300">
-            Context → Control → Evidence
+            Admission → Knowledge → Authority → Proof
           </p>
         </div>
       </div>
@@ -811,17 +870,40 @@ function NuvaHiveHomepage() {
         <section id="platform" className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
           <SectionHeading
             eyebrow="Platform"
-            title="One architecture for knowledge, decisions, execution, and proof."
-            description="The initial product is presented as one coherent platform. Internally, Kvasir, Odin, and Heimdall remain distinct systems with narrow versioned interfaces."
+            title="Governed admission, knowledge, execution, and proof."
+            description="BIFRÖST, KVASIR, ODIN, and HEIMDALL are distinct systems with narrow, versioned interfaces. Together they control what the architecture may see, know, authorize, execute, and prove."
           />
-          <div className="mt-12 grid gap-5 lg:grid-cols-3">
+          <div className="mt-8 rounded-3xl border border-cyan-300/15 bg-cyan-300/[0.045] p-5 sm:p-6">
+            <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-slate-100">
+              {["External sources", "BIFRÖST", "KVASIR", "ODIN", "HEIMDALL"].map((item, index) => (
+                <React.Fragment key={item}>
+                  {index > 0 ? <ArrowRight className="h-4 w-4 text-cyan-300" /> : null}
+                  <span className={item === "BIFRÖST" ? "rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-2 text-cyan-100" : "px-1 py-2"}>
+                    {item}
+                  </span>
+                </React.Fragment>
+              ))}
+            </div>
+            <div className="mt-5 grid gap-3 border-t border-white/10 pt-5 md:grid-cols-2">
+              <p className="text-sm leading-6 text-slate-300">
+                HEIMDALL verifies claims, decisions, execution evidence, and integrity across the architecture—not only at the end of a flow.
+              </p>
+              <p className="text-sm leading-6 text-slate-300">
+                ODIN may authorize external capabilities through the Relay. Information entering the trusted system still passes through BIFRÖST.
+              </p>
+            </div>
+          </div>
+          <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {architecture.map((component) => {
-              const Icon = component.icon;
               return (
                 <div key={component.name} className="glow-card rounded-3xl border border-white/10 bg-white/[0.045] p-6">
                   <div className="flex items-center gap-3">
-                    <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-3">
-                      <Icon className="h-5 w-5 text-cyan-200" />
+                    <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.07]">
+                      <img
+                        src={component.icon}
+                        alt=""
+                        className="h-14 w-14 object-contain drop-shadow-[0_0_16px_rgba(103,232,249,0.24)]"
+                      />
                     </div>
                     <div>
                       <h3 className="text-2xl font-semibold text-white">{component.name}</h3>
@@ -841,31 +923,116 @@ function NuvaHiveHomepage() {
               );
             })}
           </div>
+          <div className="mt-6 grid gap-5 rounded-3xl border border-cyan-300/15 bg-cyan-300/[0.04] p-5 sm:p-6 lg:grid-cols-[0.72fr_1.28fr]">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
+                BIFRÖST admission boundary
+              </p>
+              <h3 className="mt-3 text-2xl font-semibold text-white">
+                May this information enter, and under what conditions?
+              </h3>
+              <p className="mt-3 text-sm leading-7 text-slate-300">
+                BIFRÖST is an evidence-producing, policy-governed trust boundary—not a generic firewall or a single-purpose prompt-injection filter. It may admit information without authorizing any action.
+              </p>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-2xl border border-white/10 bg-[#081523] p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+                  Examines
+                </p>
+                <ul className="mt-3 space-y-2">
+                  {bifrostInputs.map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-sm leading-6 text-slate-300">
+                      <ChevronRight className="mt-1 h-3.5 w-3.5 shrink-0 text-cyan-300" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="rounded-2xl border border-white/10 bg-[#081523] p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+                  Governs
+                </p>
+                <ul className="mt-3 space-y-2">
+                  {bifrostControls.map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-sm leading-6 text-slate-300">
+                      <ChevronRight className="mt-1 h-3.5 w-3.5 shrink-0 text-cyan-300" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
           <div className="glow-card mt-6 rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6">
-            <div className="grid gap-5 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+            <div className="grid gap-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
-                  Relay boundary
+                  Governed transport
                 </p>
                 <h3 className="mt-3 text-2xl font-semibold text-white">
-                  Controlled movement of evidence artifacts.
+                  The Relay moves authorized artifacts between trust zones.
                 </h3>
                 <p className="mt-3 text-sm leading-7 text-slate-300">
-                  Relay is the boundary for artifacts as they move from raw capture toward approved, transferable evidence.
+                  The Relay preserves identity, authority, destination, and evidence while an artifact travels. It does not decide whether raw external information is safe to ingest, and it does not create execution authority.
                 </p>
               </div>
-              <div className="flex flex-wrap gap-3">
-                {relayStates.map((state) => (
-                  <span
-                    key={state}
-                    className="rounded-full border border-cyan-300/15 bg-[#081523] px-4 py-2 text-sm font-medium text-slate-200"
-                  >
-                    {state}
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="rounded-2xl border border-cyan-300/15 bg-[#081523] p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300">
+                    HUGINN · Outbound
+                  </p>
+                  <h4 className="mt-3 font-semibold text-white">Carries governed intent outward.</h4>
+                  <p className="mt-2 text-sm leading-6 text-slate-300">
+                    Transports ODIN-authorized requests, commands, capability invocations, and execution instructions to tools, models, providers, services, and execution environments.
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-blue-300/15 bg-[#081523] p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-300">
+                    MUNINN · Inbound
+                  </p>
+                  <h4 className="mt-3 font-semibold text-white">Carries governed evidence home.</h4>
+                  <p className="mt-2 text-sm leading-6 text-slate-300">
+                    Returns results, receipts, observations, provider responses, failures, status changes, and evidence from external capabilities.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="mt-6 rounded-2xl border border-white/10 bg-[#07111f]/70 p-4">
+              <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-slate-400">
+                Governed execution loop
+              </p>
+              <div className="mt-3 flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-200">
+                {["ODIN authority", "HUGINN", "External capability", "MUNINN", "Results and receipts", "HEIMDALL"].map((item, index) => (
+                  <React.Fragment key={item}>
+                    {index > 0 ? <ArrowRight className="h-3.5 w-3.5 text-cyan-300" /> : null}
+                    <span>{item}</span>
+                  </React.Fragment>
+                ))}
+              </div>
+              <p className="mt-3 border-t border-white/10 pt-3 text-xs leading-5 text-slate-400">
+                Returned information still carries its external origin and must satisfy BIFRÖST admission policy before it can become trusted internal knowledge or influence another action.
+              </p>
+            </div>
+            <div className="mt-6 border-t border-white/10 pt-5">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+                The Relay preserves
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {relayPreserves.map((item) => (
+                  <span key={item} className="rounded-full border border-white/10 bg-[#081523] px-3 py-1.5 text-xs font-medium text-slate-300">
+                    {item}
                   </span>
                 ))}
               </div>
             </div>
+            <p className="mt-5 rounded-2xl border border-amber-200/15 bg-amber-200/[0.05] px-4 py-3 text-sm leading-6 text-amber-50/85">
+              BIFRÖST asks whether information may enter and under what conditions. The Relay asks whether an authorized artifact may move from here to there. Neither HUGINN nor MUNINN creates execution authority; only ODIN may authorize governed execution.
+            </p>
           </div>
+          <p className="mt-6 text-center text-sm font-semibold leading-7 text-cyan-100">
+            BIFRÖST admits. KVASIR knows. ODIN decides and executes. HUGINN carries intent outward. MUNINN carries evidence home. HEIMDALL proves.
+          </p>
         </section>
 
         <section id="how-it-works" className="border-y border-white/10 bg-[#08111d]">
