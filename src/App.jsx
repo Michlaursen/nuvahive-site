@@ -36,10 +36,10 @@ const nav = [
 
 const architecture = [
   {
-    name: "BIFRÖST",
+    name: "Intake",
     role: "The trust gateway",
     status: "Governed ingress",
-    icon: "/bifrost.png",
+    icon: "/intake.png",
     description:
       "Examines and governs what enters the system. It identifies provenance, classifies content, assigns trust and sensitivity labels, and applies policy before information can enter the trusted architecture.",
     flowLabel: "Controls what enters",
@@ -51,10 +51,10 @@ const architecture = [
     ],
   },
   {
-    name: "KVASIR",
+    name: "Provenance",
     role: "Knowledge and provenance layer",
     status: "Trusted knowledge",
-    icon: "/kvasir.png",
+    icon: "/provenance.png",
     description:
       "Ingests, structures, retrieves, and contextualizes trusted information while preserving its source, classification, restrictions, and evidence lineage.",
     flowLabel: "Knows",
@@ -66,12 +66,12 @@ const architecture = [
     ],
   },
   {
-    name: "ODIN",
+    name: "Mandate",
     role: "Decision and execution layer",
     status: "Governed authority",
-    icon: "/odin.png",
+    icon: "/mandate.png",
     description:
-      "Evaluates policy, plans actions, authorizes capabilities, and performs governed execution. Only ODIN may create authority for an execution workflow.",
+      "Evaluates policy, plans actions, authorizes capabilities, and performs governed execution. Only Mandate may create authority for an execution workflow.",
     flowLabel: "Decides and executes",
     capabilities: [
       "Policy evaluation and planning",
@@ -81,18 +81,19 @@ const architecture = [
     ],
   },
   {
-    name: "HEIMDALL",
+    name: "Audit",
     role: "Verification and proof layer",
     status: "Cross-system assurance",
-    icon: "/heimdall.png",
+    icon: "/audit.png",
+    planned: true,
     description:
-      "Validates claims, actions, evidence, and system integrity across every component. It verifies what occurred without creating execution authority.",
+      "Audit is designed to verify claims, actions, evidence and system integrity across every component. It verifies what occurred without creating execution authority.",
     flowLabel: "Proves",
     capabilities: [
       "Claim and evidence validation",
       "Execution verification",
       "Integrity and lineage checks",
-      "Audit-ready proof",
+      "Evidence validation records",
     ],
   },
 ];
@@ -105,10 +106,10 @@ const platformPreviewInputs = [
 ];
 
 const platformPreviewLayers = [
-  "BIFRÖST — governed ingress",
-  "KVASIR — trusted knowledge",
-  "ODIN — governed authority",
-  "HEIMDALL — verification",
+  "Intake — governed ingress",
+  "Provenance — trusted knowledge",
+  "Mandate — governed authority",
+  "Audit — verification",
 ];
 
 const platformPreviewOutputs = [
@@ -149,7 +150,7 @@ const operatingModel = [
   {
     step: "03",
     title: "Preserve evidence",
-    text: "Hash every artifact and bind it to its source, so nothing can be edited after the fact without detection.",
+    text: "Hash every artifact and bind it to its source, so modification relative to the preserved record is detectable.",
   },
   {
     step: "04",
@@ -229,7 +230,7 @@ const evidenceLadder = [
   {
     title: "Attest",
     status: "Portable evidence",
-    text: "Produce tamper-evident records showing who authorized work, what executed, what changed, what verification ran, and what review concluded.",
+    text: "Produce records bound to their exact source, showing who authorized work, what executed, what changed, what verification ran, and what review concluded.",
   },
   {
     title: "Enforce",
@@ -265,17 +266,6 @@ const pilotDeliverables = [
   "Acceptance and review gaps",
   "Recommended real-time capture points",
   "Attestation and enforcement roadmap",
-];
-
-const relayPreserves = [
-  "Artifact identity",
-  "Origin and destination",
-  "Authorization references",
-  "Correlation and causation",
-  "Trust-zone transitions",
-  "Delivery and failure records",
-  "Execution receipts",
-  "Evidence lineage",
 ];
 
 const engagementOptions = [
@@ -431,18 +421,18 @@ function PlatformPreview() {
             Primary information path
           </p>
           <div className="mt-3 flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-200">
-            {["External sources", "BIFRÖST", "KVASIR", "ODIN", "HEIMDALL"].map((item, index) => (
+            {["External sources", "Intake", "Provenance", "Mandate", "Audit"].map((item, index) => (
               <React.Fragment key={item}>
                 {index > 0 ? <ArrowRight className="h-3.5 w-3.5 text-cyan-300" /> : null}
-                <span className={item === "BIFRÖST" ? "rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-1.5 text-cyan-100" : ""}>
+                <span className={item === "Intake" ? "rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-1.5 text-cyan-100" : ""}>
                   {item}
                 </span>
               </React.Fragment>
             ))}
           </div>
           <div className="mt-3 grid gap-2 border-t border-white/10 pt-3 text-xs leading-5 text-slate-400 sm:grid-cols-2">
-            <p>HEIMDALL verifies evidence across every component.</p>
-            <p>ODIN may authorize governed actions through the Relay.</p>
+            <p>Audit verifies evidence across every component.</p>
+            <p>Mandate may authorize governed actions.</p>
           </div>
         </div>
 
@@ -477,7 +467,7 @@ function PlatformPreview() {
 
         <div className="mt-5 grid gap-3 rounded-2xl border border-cyan-300/15 bg-cyan-300/5 px-4 py-4 text-sm sm:grid-cols-[1fr_auto] sm:items-center">
           <p className="font-semibold tracking-tight text-cyan-100">
-            BIFRÖST controls what enters. KVASIR knows. ODIN decides and executes. HEIMDALL proves.
+            Intake admits. Provenance remembers. Mandate authorizes. Audit verifies.
           </p>
           <p className="text-slate-300">
             Admission → Knowledge → Authority → Proof
@@ -707,6 +697,9 @@ function NuvaHiveHomepage() {
             <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300 md:text-xl md:leading-9">
               NuvaHive helps teams see what AI agents were allowed to do, what they actually did, what changed, and whether the resulting evidence supports acceptance.
             </p>
+            <p className="mt-5 border-l border-cyan-300/40 pl-4 text-sm font-medium leading-6 text-cyan-100/85">
+              The agent cannot author the evidence that grants it authority.
+            </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a href="#evidence">
                 <Button className="w-full bg-cyan-300 text-slate-950 hover:bg-cyan-200 sm:w-auto">
@@ -871,14 +864,14 @@ function NuvaHiveHomepage() {
           <SectionHeading
             eyebrow="Platform"
             title="Governed admission, knowledge, execution, and proof."
-            description="BIFRÖST, KVASIR, ODIN, and HEIMDALL are distinct systems with narrow, versioned interfaces. Together they control what the architecture may see, know, authorize, execute, and prove."
+            description="Intake, Provenance, Mandate and Audit are distinct systems with narrow, versioned interfaces. Together they control what the architecture may see, know, authorize, execute, and prove."
           />
           <div className="mt-8 rounded-3xl border border-cyan-300/15 bg-cyan-300/[0.045] p-5 sm:p-6">
             <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-slate-100">
-              {["External sources", "BIFRÖST", "KVASIR", "ODIN", "HEIMDALL"].map((item, index) => (
+              {["External sources", "Intake", "Provenance", "Mandate", "Audit"].map((item, index) => (
                 <React.Fragment key={item}>
                   {index > 0 ? <ArrowRight className="h-4 w-4 text-cyan-300" /> : null}
-                  <span className={item === "BIFRÖST" ? "rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-2 text-cyan-100" : "px-1 py-2"}>
+                  <span className={item === "Intake" ? "rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-2 text-cyan-100" : "px-1 py-2"}>
                     {item}
                   </span>
                 </React.Fragment>
@@ -886,10 +879,10 @@ function NuvaHiveHomepage() {
             </div>
             <div className="mt-5 grid gap-3 border-t border-white/10 pt-5 md:grid-cols-2">
               <p className="text-sm leading-6 text-slate-300">
-                HEIMDALL verifies claims, decisions, execution evidence, and integrity across the architecture—not only at the end of a flow.
+                Audit verifies claims, decisions, execution evidence, and integrity across the architecture—not only at the end of a flow.
               </p>
               <p className="text-sm leading-6 text-slate-300">
-                ODIN may authorize external capabilities through the Relay. Information entering the trusted system still passes through BIFRÖST.
+                Mandate may authorize external capabilities. Information entering the trusted system still passes through Intake.
               </p>
             </div>
           </div>
@@ -906,7 +899,14 @@ function NuvaHiveHomepage() {
                       />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-semibold text-white">{component.name}</h3>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="text-2xl font-semibold text-white">{component.name}</h3>
+                        {component.planned ? (
+                          <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100">
+                            Planned
+                          </span>
+                        ) : null}
+                      </div>
                       <p className="text-sm text-cyan-200">{component.status}</p>
                     </div>
                   </div>
@@ -926,13 +926,13 @@ function NuvaHiveHomepage() {
           <div className="mt-6 grid gap-5 rounded-3xl border border-cyan-300/15 bg-cyan-300/[0.04] p-5 sm:p-6 lg:grid-cols-[0.72fr_1.28fr]">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
-                BIFRÖST admission boundary
+                The admission boundary
               </p>
               <h3 className="mt-3 text-2xl font-semibold text-white">
                 May this information enter, and under what conditions?
               </h3>
               <p className="mt-3 text-sm leading-7 text-slate-300">
-                BIFRÖST is an evidence-producing, policy-governed trust boundary—not a generic firewall or a single-purpose prompt-injection filter. It may admit information without authorizing any action.
+                Intake is an evidence-producing, policy-governed trust boundary—not a generic firewall or a single-purpose prompt-injection filter. It may admit information without authorizing any action.
               </p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
@@ -964,74 +964,8 @@ function NuvaHiveHomepage() {
               </div>
             </div>
           </div>
-          <div className="glow-card mt-6 rounded-3xl border border-white/10 bg-white/[0.045] p-5 sm:p-6">
-            <div className="grid gap-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300">
-                  Governed transport
-                </p>
-                <h3 className="mt-3 text-2xl font-semibold text-white">
-                  The Relay moves authorized artifacts between trust zones.
-                </h3>
-                <p className="mt-3 text-sm leading-7 text-slate-300">
-                  The Relay preserves identity, authority, destination, and evidence while an artifact travels. It does not decide whether raw external information is safe to ingest, and it does not create execution authority.
-                </p>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-2xl border border-cyan-300/15 bg-[#081523] p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300">
-                    HUGINN · Outbound
-                  </p>
-                  <h4 className="mt-3 font-semibold text-white">Carries governed intent outward.</h4>
-                  <p className="mt-2 text-sm leading-6 text-slate-300">
-                    Transports ODIN-authorized requests, commands, capability invocations, and execution instructions to tools, models, providers, services, and execution environments.
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-blue-300/15 bg-[#081523] p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-300">
-                    MUNINN · Inbound
-                  </p>
-                  <h4 className="mt-3 font-semibold text-white">Carries governed evidence home.</h4>
-                  <p className="mt-2 text-sm leading-6 text-slate-300">
-                    Returns results, receipts, observations, provider responses, failures, status changes, and evidence from external capabilities.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="mt-6 rounded-2xl border border-white/10 bg-[#07111f]/70 p-4">
-              <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-slate-400">
-                Governed execution loop
-              </p>
-              <div className="mt-3 flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-200">
-                {["ODIN authority", "HUGINN", "External capability", "MUNINN", "Results and receipts", "HEIMDALL"].map((item, index) => (
-                  <React.Fragment key={item}>
-                    {index > 0 ? <ArrowRight className="h-3.5 w-3.5 text-cyan-300" /> : null}
-                    <span>{item}</span>
-                  </React.Fragment>
-                ))}
-              </div>
-              <p className="mt-3 border-t border-white/10 pt-3 text-xs leading-5 text-slate-400">
-                Returned information still carries its external origin and must satisfy BIFRÖST admission policy before it can become trusted internal knowledge or influence another action.
-              </p>
-            </div>
-            <div className="mt-6 border-t border-white/10 pt-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-                The Relay preserves
-              </p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {relayPreserves.map((item) => (
-                  <span key={item} className="rounded-full border border-white/10 bg-[#081523] px-3 py-1.5 text-xs font-medium text-slate-300">
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <p className="mt-5 rounded-2xl border border-amber-200/15 bg-amber-200/[0.05] px-4 py-3 text-sm leading-6 text-amber-50/85">
-              BIFRÖST asks whether information may enter and under what conditions. The Relay asks whether an authorized artifact may move from here to there. Neither HUGINN nor MUNINN creates execution authority; only ODIN may authorize governed execution.
-            </p>
-          </div>
           <p className="mt-6 text-center text-sm font-semibold leading-7 text-cyan-100">
-            BIFRÖST admits. KVASIR knows. ODIN decides and executes. HUGINN carries intent outward. MUNINN carries evidence home. HEIMDALL proves.
+            Intake admits. Provenance remembers. Mandate authorizes. Audit verifies.
           </p>
         </section>
 
